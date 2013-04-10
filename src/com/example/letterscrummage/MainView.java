@@ -2,6 +2,7 @@ package com.example.letterscrummage;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -61,6 +62,7 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	@Override
 	protected void onDraw(Canvas canvas){
+		canvas.drawBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.letter_tile_a), 50, 50, null);
 	}
 
 }

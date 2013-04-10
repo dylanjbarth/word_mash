@@ -1,5 +1,6 @@
 package com.example.letterscrummage;
 
+import android.graphics.Canvas;
 import android.view.SurfaceHolder;
 
 public class MainThread extends Thread {
@@ -10,11 +11,11 @@ public class MainThread extends Thread {
 	private SurfaceHolder surfaceHolder;
 	// flag to hold game state
 	private boolean running;
-	
+
 	public void setRunning(boolean running) {
 		this.running = running;
 	}
-	
+
 	public MainThread(SurfaceHolder surfaceHolder, MainView mainView){
 		super();
 		this.surfaceHolder = surfaceHolder;
@@ -23,13 +24,22 @@ public class MainThread extends Thread {
 
 	@Override
 	public void run() {
-		long tickCount = 0L;
+		Canvas canvas;
 		System.out.println("Starting Game Loop");
 		while (running) {
-			tickCount ++;
-			// update game state
-			// render state to the screen
+			canvas=null;
+			try {
+				canvas = this.surfaceHolder.lockCanvas();
+				synchronized(surfaceHolder){
+					// update game state
+					// render state to the screen
+					this.mainView.onDraw(canvas);
+				} 
+			} finally {
+				if (canvas != null){
+					surfaceHolder.unlockCanvasAndPost(canvas);
+				}
+			}
 		}
-		System.out.println("Exiting. Game loop exectuted " + tickCount + " times.");
 	}
 }
