@@ -90,21 +90,16 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	public void prepGame(){
 		// first, create game board, specifying x, y, and size 
-//		instantiateBoard(0, 0, 36);
-		
-		Object[][] hope = instantiateTileSpaces(6, 6);
-		System.out.println("*********************");
-		System.out.println("Hope: " + ((TileSpace) hope[0][0]).isOccupied());
-		System.out.println("*********************");
-		
+		instantiateBoard(0, 0, 36);
 		
 		// Finally, create tiles
 		instantiateLetterTiles();
 	}
 
 	public void instantiateBoard(int x, int y, int size){
+		// Create tileSpaces that make up board grid
 		Object[][] tileSpaces = instantiateTileSpaces(6, 6);
-//		board = new Board(x, y, size, tileSpaces);
+		board = new Board(x, y, size, tileSpaces);
 	}
 	
 	public Object[][] instantiateTileSpaces(int rows, int columns){
