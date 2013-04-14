@@ -12,7 +12,6 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		// probably going to pass in the objects below to the view, board and user
-		System.out.println("Setting to custom view");
 		setContentView(new MainView(this));
 	}
 

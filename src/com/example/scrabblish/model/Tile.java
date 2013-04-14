@@ -8,11 +8,13 @@ public class Tile {
 	private int x;
 	private int y;
 	private boolean touched;
+	private char letter;
 	
-	public Tile(Bitmap bitmap, int x, int y){
+	public Tile(Bitmap bitmap, int x, int y, char letter){
 		this.bitmap = bitmap;
 		this.x = x;
 		this.y = y;
+		this.letter = letter;
 	}
 	
 	public Bitmap getBitmap(){
@@ -37,6 +39,14 @@ public class Tile {
 	
 	public void setY(int y){
 		this.y = y;
+	}
+	
+	public int getLetter(){
+		return letter;
+	}
+	
+	public void setLetter(char letter){
+		this.letter = letter;
 	}
 	
 	public boolean isTouched(){

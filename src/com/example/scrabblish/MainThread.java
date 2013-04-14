@@ -5,8 +5,6 @@ import android.view.SurfaceHolder;
 
 public class MainThread extends Thread {
 
-	private static final String TAG = MainThread.class.getSimpleName();
-
 	private MainView mainView;
 	private SurfaceHolder surfaceHolder;
 	// flag to hold game state
