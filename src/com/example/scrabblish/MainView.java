@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -23,12 +24,18 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 	private MainThread thread;
 	private Tile tile1, tile2, tile3, tile4, tile5, tile6;
 	private Board board;
+	private int BOARD_SIZE = 6;
+	private int screenWidth;
+	private int screenHeight;
 	
 	
 	public MainView(Context context){
 		super(context);
 		getHolder().addCallback(this);
 		thread = new MainThread(getHolder(), this);
+		DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+		screenWidth = metrics.widthPixels;
+		screenHeight = metrics.heightPixels;
 		prepGame(); // instantiates game objects
 		setFocusable(true);
 	}
@@ -39,7 +46,6 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	@Override 
 	public void surfaceCreated(SurfaceHolder holder){
-		System.out.println("Starting thread");
 		thread.setRunning(true);
 		thread.start();
 	}
@@ -86,11 +92,17 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 	protected void onDraw(Canvas canvas){
 		canvas.drawColor(Color.BLACK);
 		tile1.draw(canvas);
+		for(int r=0; r < BOARD_SIZE; r++){
+			for (int c=0; c < BOARD_SIZE; c++){
+				Object tileSpace = board.getTileSpace(r, c);
+				((TileSpace) tileSpace).draw(canvas);
+			}
+		}
 	}
 	
 	public void prepGame(){
 		// first, create game board, specifying x, y, and size 
-		instantiateBoard(0, 0, 36);
+		instantiateBoard(0, 0, BOARD_SIZE*BOARD_SIZE);
 		
 		// Finally, create tiles
 		instantiateLetterTiles();
@@ -98,16 +110,23 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 
 	public void instantiateBoard(int x, int y, int size){
 		// Create tileSpaces that make up board grid
-		Object[][] tileSpaces = instantiateTileSpaces(6, 6);
+		Object[][] tileSpaces = instantiateTileSpaces(BOARD_SIZE);
 		board = new Board(x, y, size, tileSpaces);
 	}
 	
-	public Object[][] instantiateTileSpaces(int rows, int columns){
+	public Object[][] instantiateTileSpaces(int size){
 		// returns an object array of tileSpaces 
-		Object[][] tileSpaces = new Object[rows][columns];
-		for(int r=0; r < rows; r++){
-			for (int c=0; c < columns; c++){
-				TileSpace tile = new TileSpace(r, c, false, 1);
+		Object[][] tileSpaces = new Object[size][size];
+		for(int r=0; r < size; r++){
+			for (int c=0; c < size; c++){
+				Bitmap tileSpaceImage = BitmapFactory.decodeResource(getResources(), R.drawable.tile_space);
+//				System.out.println("Screen height: " + screenHeight);
+//				System.out.println("Screen width: " + screenWidth);
+//				System.out.println("size: " + size);
+				int imgHeight = screenHeight/size;
+				int imgWidth = (screenWidth/2)/size;
+				Bitmap resizedBitmap=Bitmap.createScaledBitmap(tileSpaceImage, imgWidth, imgHeight, true);
+				TileSpace tile = new TileSpace(resizedBitmap, r, c, false, 1);
 				tileSpaces[r][c] = tile;
 			}
 		}

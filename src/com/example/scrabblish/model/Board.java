@@ -39,7 +39,13 @@ public class Board {
 	}
 	 
 	public Object getTileSpace(int row, int col){
-		return tileSpaces[row][col];
+		Object tileSpace = tileSpaces[row][col];
+//		System.out.println(((TileSpace) tileSpace).getRow());
+		return tileSpace;
+	}
+	
+	public Object[][] getAllTileSpaces(){
+		return tileSpaces;
 	}
 	
 	public void setTileSpace(int row, int col, TileSpace tile){
