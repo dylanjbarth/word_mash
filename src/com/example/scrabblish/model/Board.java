@@ -1,5 +1,7 @@
 package com.example.scrabblish.model;
 
+import android.graphics.Canvas;
+
 
 public class Board {
 	private int x;
@@ -50,5 +52,14 @@ public class Board {
 	
 	public void setTileSpace(int row, int col, TileSpace tile){
 		this.tileSpaces[row][col] = tile;
+	}
+	
+	public void draw(Canvas canvas){
+		for(int r=0; r < Math.sqrt(size); r++){
+			for (int c=0; c < Math.sqrt(size); c++){
+				Object tileSpace = this.getTileSpace(r, c);
+				((TileSpace) tileSpace).draw(canvas);
+			}
+		}
 	}
 }

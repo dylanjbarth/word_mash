@@ -7,13 +7,17 @@ public class TileSpace {
 	private Bitmap bitmap;
 	private int row;
 	private int col;
+	private int x;
+	private int y;
 	private boolean occupied;
 	private int multiplier;
 	
-	public TileSpace(Bitmap bitmap, int row, int col, boolean occupied, int multiplier){
+	public TileSpace(Bitmap bitmap, int row, int col, int x, int y, boolean occupied, int multiplier){
 		this.bitmap = bitmap;
 		this.row = row;
 		this.col = col;
+		this.x = x;
+		this.y = y;
 		this.occupied = false;
 		this.multiplier = 1;
 	}
@@ -42,6 +46,22 @@ public class TileSpace {
 		this.col = col;
 	}
 	
+	public int getx(){
+		return x;
+	}
+	
+	public void setX(int x){
+		this.x = x;
+	}
+	
+	public int getY(){
+		return y;
+	}
+	
+	public void setY(int y){
+		this.y = y;
+	}
+	
 	public boolean isOccupied(){
 		return occupied;
 	}
@@ -59,7 +79,6 @@ public class TileSpace {
 	}
 	
 	public void draw(Canvas canvas){
-//		System.out.println("Inside onDraw");
-		canvas.drawBitmap(bitmap, row - (bitmap.getWidth()/2), col - (bitmap.getHeight()/2), null);
+		canvas.drawBitmap(bitmap, x, y, null);
 	}
 }

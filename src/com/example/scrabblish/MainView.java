@@ -24,10 +24,9 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 	private MainThread thread;
 	private Tile tile1, tile2, tile3, tile4, tile5, tile6;
 	private Board board;
-	private int BOARD_SIZE = 6;
+	private int BOARD_SIZE = 7;
 	private int screenWidth;
-	private int screenHeight;
-	
+	private int screenHeight;	
 	
 	public MainView(Context context){
 		super(context);
@@ -36,18 +35,19 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 		DisplayMetrics metrics = context.getResources().getDisplayMetrics();
 		screenWidth = metrics.widthPixels;
 		screenHeight = metrics.heightPixels;
-		prepGame(); // instantiates game objects
+		prepGame(); // creates game objects
 		setFocusable(true);
-	}
-	
-	@Override
-	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height){
 	}
 	
 	@Override 
 	public void surfaceCreated(SurfaceHolder holder){
 		thread.setRunning(true);
 		thread.start();
+	}
+	
+	@Override
+	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height){
+		// necessary for MainView
 	}
 	
 	@Override
@@ -92,50 +92,55 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 	protected void onDraw(Canvas canvas){
 		canvas.drawColor(Color.BLACK);
 		tile1.draw(canvas);
-		for(int r=0; r < BOARD_SIZE; r++){
-			for (int c=0; c < BOARD_SIZE; c++){
-				Object tileSpace = board.getTileSpace(r, c);
-				((TileSpace) tileSpace).draw(canvas);
-			}
-		}
+		board.draw(canvas);
 	}
 	
 	public void prepGame(){
 		// first, create game board, specifying x, y, and size 
-		instantiateBoard(0, 0, BOARD_SIZE*BOARD_SIZE);
+		createBoard(0, 0, BOARD_SIZE*BOARD_SIZE);
 		
-		// Finally, create tiles
-		instantiateLetterTiles();
+		// Next, create letter tiles
+		createLetterTiles();
 	}
 
-	public void instantiateBoard(int x, int y, int size){
+	public void createBoard(int x, int y, int size){
 		// Create tileSpaces that make up board grid
-		Object[][] tileSpaces = instantiateTileSpaces(BOARD_SIZE);
+		Object[][] tileSpaces = createTileSpaces(BOARD_SIZE);
 		board = new Board(x, y, size, tileSpaces);
 	}
 	
-	public Object[][] instantiateTileSpaces(int size){
+	public Object[][] createTileSpaces(int size){
 		// returns an object array of tileSpaces 
 		Object[][] tileSpaces = new Object[size][size];
+		int imgWidth = screenWidth/(size*2);
+		int imgHeight = screenHeight/size;
 		for(int r=0; r < size; r++){
 			for (int c=0; c < size; c++){
-				Bitmap tileSpaceImage = BitmapFactory.decodeResource(getResources(), R.drawable.tile_space);
-//				System.out.println("Screen height: " + screenHeight);
-//				System.out.println("Screen width: " + screenWidth);
-//				System.out.println("size: " + size);
-				int imgHeight = screenHeight/size;
-				int imgWidth = (screenWidth/2)/size;
-				Bitmap resizedBitmap=Bitmap.createScaledBitmap(tileSpaceImage, imgWidth, imgHeight, true);
-				TileSpace tile = new TileSpace(resizedBitmap, r, c, false, 1);
+				Bitmap tileSpaceImage = scaleBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.tile_space), imgWidth, imgHeight);
+				int[] tilePos = positionTile(r, c, imgWidth, imgHeight);
+				TileSpace tile = new TileSpace(tileSpaceImage, r, c, tilePos[0], tilePos[1], false, 1);
 				tileSpaces[r][c] = tile;
 			}
 		}
 		return tileSpaces;
 	}
 	
-	public void instantiateLetterTiles(){
+	public Bitmap scaleBitmap(Bitmap tileSpaceImage, int imgWidth, int imgHeight){
+		Bitmap resizedBitmap=Bitmap.createScaledBitmap(tileSpaceImage, imgWidth, imgHeight, true);
+		return resizedBitmap;
+	}
+	
+	public int[] positionTile(int row, int col, int imgWidth, int imgHeight){
+		// gives center of tile in x, y coordinates
+		int x = imgWidth*row;
+		int y = imgHeight*col;
+		int[] position = {x, y};
+		return position;
+	}
+	
+	public void createLetterTiles(){
 		Bitmap tileImage = BitmapFactory.decodeResource(getResources(), R.drawable.letter_tile_a);
-		tile1 = new Tile(tileImage, 50, 50, 'c');
+		tile1 = new Tile(tileImage, 500, 500, 'c');
 //		tile2 = new Tile(tileImage, 50, 50, 'c');
 //		tile3 = new Tile(tileImage, 50, 50, 'c');
 //		tile4 = new Tile(tileImage, 50, 50, 'c');
