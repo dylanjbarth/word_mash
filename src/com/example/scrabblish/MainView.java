@@ -91,8 +91,8 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 	@Override
 	protected void onDraw(Canvas canvas){
 		canvas.drawColor(Color.BLACK);
-		tile1.draw(canvas);
 		board.draw(canvas);
+		tile1.draw(canvas);
 	}
 	
 	public void prepGame(){
@@ -140,7 +140,7 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	public void createLetterTiles(){
 		Bitmap tileImage = BitmapFactory.decodeResource(getResources(), R.drawable.letter_tile_a);
-		tile1 = new Tile(tileImage, 500, 500, 'c');
+		tile1 = new Tile(tileImage, 500, 300, 'c');
 //		tile2 = new Tile(tileImage, 50, 50, 'c');
 //		tile3 = new Tile(tileImage, 50, 50, 'c');
 //		tile4 = new Tile(tileImage, 50, 50, 'c');
