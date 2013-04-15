@@ -9,17 +9,21 @@ public class TileSpace {
 	private int col;
 	private int x;
 	private int y;
+	private int width;
+	private int height;
 	private boolean occupied;
 	private int multiplier;
 	
-	public TileSpace(Bitmap bitmap, int row, int col, int x, int y, boolean occupied, int multiplier){
-		this.bitmap = bitmap;
+	public TileSpace(Bitmap passedBitmap, int row, int col, int width, int height){
+		this.bitmap = scaleBitmap(passedBitmap, width, height);
 		this.row = row;
 		this.col = col;
-		this.x = x;
-		this.y = y;
+		this.width = width;
+		this.height = height;
 		this.occupied = false;
 		this.multiplier = 1;
+		this.x = positionTileX(row, width);
+		this.y = positionTileY(col, height);
 	}
 	
 	public Bitmap getBitmap(){
@@ -62,6 +66,22 @@ public class TileSpace {
 		this.y = y;
 	}
 	
+	public int getWidth(){
+		return width;
+	}
+	
+	public void setWidth(int width){
+		this.width = width;
+	}
+	
+	public int getHeight(){
+		return height;
+	}
+	
+	public void setHeight(int height){
+		this.height = height;
+	}
+	
 	public boolean isOccupied(){
 		return occupied;
 	}
@@ -76,6 +96,23 @@ public class TileSpace {
 	
 	public void setMultiplier(int multiplier){
 		this.multiplier = multiplier;
+	}
+	
+	public int positionTileX(int row, int imgWidth){
+		// gives top left x of tile
+		int x = imgWidth*row;
+		return x;
+	}
+	
+	public int positionTileY(int col, int imgHeight){
+		// gives center of tile in x, y coordinates
+		int y = imgHeight*col;
+		return y;
+	}
+	
+	public Bitmap scaleBitmap(Bitmap tileSpaceImage, int imgWidth, int imgHeight){
+		Bitmap resizedBitmap=Bitmap.createScaledBitmap(tileSpaceImage, imgWidth, imgHeight, true);
+		return resizedBitmap;
 	}
 	
 	public void draw(Canvas canvas){

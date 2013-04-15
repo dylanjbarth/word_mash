@@ -110,15 +110,14 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 	}
 	
 	public Object[][] createTileSpaces(int size){
-		// returns an object array of tileSpaces 
+		// returns an 2D object array of tileSpaces 
 		Object[][] tileSpaces = new Object[size][size];
 		int imgWidth = screenWidth/(size*2);
 		int imgHeight = screenHeight/size;
 		for(int r=0; r < size; r++){
 			for (int c=0; c < size; c++){
-				Bitmap tileSpaceImage = scaleBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.tile_space), imgWidth, imgHeight);
-				int[] tilePos = positionTile(r, c, imgWidth, imgHeight);
-				TileSpace tile = new TileSpace(tileSpaceImage, r, c, tilePos[0], tilePos[1], false, 1);
+				Bitmap tileSpaceImage = BitmapFactory.decodeResource(getResources(), R.drawable.tile_space);
+				TileSpace tile = new TileSpace(tileSpaceImage, r, c, imgWidth, imgHeight);
 				tileSpaces[r][c] = tile;
 			}
 		}
@@ -130,16 +129,10 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 		return resizedBitmap;
 	}
 	
-	public int[] positionTile(int row, int col, int imgWidth, int imgHeight){
-		// gives center of tile in x, y coordinates
-		int x = imgWidth*row;
-		int y = imgHeight*col;
-		int[] position = {x, y};
-		return position;
-	}
-	
 	public void createLetterTiles(){
-		Bitmap tileImage = BitmapFactory.decodeResource(getResources(), R.drawable.letter_tile_a);
+		int imgWidth = screenWidth/(BOARD_SIZE*2);
+		int imgHeight = screenHeight/BOARD_SIZE;
+		Bitmap tileImage = scaleBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.letter_tile), imgWidth, imgHeight);
 		tile1 = new Tile(tileImage, 500, 300, 'c');
 //		tile2 = new Tile(tileImage, 50, 50, 'c');
 //		tile3 = new Tile(tileImage, 50, 50, 'c');
