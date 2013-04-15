@@ -7,14 +7,20 @@ public class Tile {
 	private Bitmap bitmap;
 	private int x;
 	private int y;
+	private int width;
+	private int height;
+	private int index;
 	private boolean touched;
 	private char letter;
 	
-	public Tile(Bitmap bitmap, int x, int y, char letter){
-		this.bitmap = bitmap;
-		this.x = x;
-		this.y = y;
-		this.letter = letter;
+	public Tile(Bitmap passedBitmap, int width, int height, int index, int startX){
+		this.bitmap = scaleBitmap(passedBitmap, width, height);
+		this.x = startX; // b/c tiles are vertical column, X is constant
+		this.y = positionTileY(index, height); // positionY
+		this.index = index;
+		this.width = width;
+		this.height = height;
+		this.letter = letter; // generate rando 
 	}
 	
 	public Bitmap getBitmap(){
@@ -57,8 +63,18 @@ public class Tile {
 		this.touched = touched;
 	}
 	
+	public int positionTileY(int index, int height){
+		int y = index*height;
+		return y;
+	}
+	
+	public Bitmap scaleBitmap(Bitmap tileSpaceImage, int imgWidth, int imgHeight){
+		Bitmap resizedBitmap=Bitmap.createScaledBitmap(tileSpaceImage, imgWidth, imgHeight, true);
+		return resizedBitmap;
+	}
+	
 	public void draw(Canvas canvas){
-		canvas.drawBitmap(bitmap, x - (bitmap.getWidth()/2), y - (bitmap.getHeight()/2), null);
+		canvas.drawBitmap(bitmap, x, y, null);
 	}
 	
 	public void handleActionDown(int eventX, int eventY){

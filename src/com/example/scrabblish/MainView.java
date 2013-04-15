@@ -1,6 +1,5 @@
 package com.example.scrabblish;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -8,12 +7,12 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import com.example.letterscrummage.R;
 import com.example.scrabblish.model.Board;
+import com.example.scrabblish.model.LetterTray;
 import com.example.scrabblish.model.Tile;
 import com.example.scrabblish.model.TileSpace;
 
@@ -24,7 +23,9 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 	private MainThread thread;
 	private Tile tile1, tile2, tile3, tile4, tile5, tile6;
 	private Board board;
+	private LetterTray letterTray;
 	private int BOARD_SIZE = 7;
+	private int LETTER_TRAY_SIZE = 6;
 	private int screenWidth;
 	private int screenHeight;	
 	
@@ -37,6 +38,7 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 		screenHeight = metrics.heightPixels;
 		prepGame(); // creates game objects
 		setFocusable(true);
+		Log.d(TAG, "Hey Dylan, I'm in line 41 in case you forget the syntax for message logging :D");
 	}
 	
 	@Override 
@@ -63,44 +65,44 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 		}
 	}
 	
-	@Override
-	public boolean onTouchEvent(MotionEvent event){
-		if(event.getAction() == MotionEvent.ACTION_DOWN){
-			// tile handles action down to see if it's touched 
-			tile1.handleActionDown((int)event.getX(), (int)event.getY());
-			// exit if touch bottom of screen
-			if (event.getY() > getHeight() - 50){
-				thread.setRunning(false);
-				((Activity)getContext()).finish();
-			} else {
-				Log.d(TAG, "Coords: x=" + event.getX() + ", y=" + event.getY());
-			}
-		} if (event.getAction() == MotionEvent.ACTION_MOVE){
-			if(tile1.isTouched()){
-				tile1.setX((int)event.getX());
-				tile1.setY((int)event.getY());
-			}
-		} if (event.getAction() == MotionEvent.ACTION_UP){
-			if(tile1.isTouched()){
-				tile1.setTouched(false);
-			}
-		}
-		return true;
-	}
+//	@Override
+//	public boolean onTouchEvent(MotionEvent event){
+//		if(event.getAction() == MotionEvent.ACTION_DOWN){
+//			// tile handles action down to see if it's touched 
+//			tile1.handleActionDown((int)event.getX(), (int)event.getY());
+//			// exit if touch bottom of screen
+//			if (event.getY() > getHeight() - 50){
+//				thread.setRunning(false);
+//				((Activity)getContext()).finish();
+//			} else {
+//				Log.d(TAG, "Coords: x=" + event.getX() + ", y=" + event.getY());
+//			}
+//		} if (event.getAction() == MotionEvent.ACTION_MOVE){
+//			if(tile1.isTouched()){
+//				tile1.setX((int)event.getX());
+//				tile1.setY((int)event.getY());
+//			}
+//		} if (event.getAction() == MotionEvent.ACTION_UP){
+//			if(tile1.isTouched()){
+//				tile1.setTouched(false);
+//			}
+//		}
+//		return true;
+//	}
 	
 	@Override
 	protected void onDraw(Canvas canvas){
 		canvas.drawColor(Color.BLACK);
 		board.draw(canvas);
-		tile1.draw(canvas);
+		letterTray.draw(canvas);
 	}
 	
 	public void prepGame(){
 		// first, create game board, specifying x, y, and size 
 		createBoard(0, 0, BOARD_SIZE*BOARD_SIZE);
 		
-		// Next, create letter tiles
-		createLetterTiles();
+		// Next, create letter tray
+		createLetterTray();
 	}
 
 	public void createBoard(int x, int y, int size){
@@ -129,16 +131,20 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 		return resizedBitmap;
 	}
 	
-	public void createLetterTiles(){
+	public void createLetterTray(){
+		int boardWidth = board.getWidth();
+		Object[] tray = new Object[LETTER_TRAY_SIZE];
+		for(int i=0; i < LETTER_TRAY_SIZE; i++){
+			tray[i] = ((Tile) createTile(i, boardWidth));
+		}
+		letterTray = new LetterTray(boardWidth, 0, LETTER_TRAY_SIZE, tray);
+	}
+	
+	public Tile createTile(int index, int startX) {
 		int imgWidth = screenWidth/(BOARD_SIZE*2);
 		int imgHeight = screenHeight/BOARD_SIZE;
-		Bitmap tileImage = scaleBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.letter_tile), imgWidth, imgHeight);
-		tile1 = new Tile(tileImage, 500, 300, 'c');
-//		tile2 = new Tile(tileImage, 50, 50, 'c');
-//		tile3 = new Tile(tileImage, 50, 50, 'c');
-//		tile4 = new Tile(tileImage, 50, 50, 'c');
-//		tile5 = new Tile(tileImage, 50, 50, 'c');
-//		tile6 = new Tile(tileImage, 50, 50, 'c');
+		Bitmap tileImage = BitmapFactory.decodeResource(getResources(), R.drawable.letter_tile);
+		Tile tile = new Tile(tileImage, imgWidth, imgHeight, index, startX);
+		return tile;
 	}
-
 }
