@@ -43,7 +43,6 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 		Log.d(TAG, "Hey Dylan, I exist in case you forget the syntax for message logging :D");
 		Log.d(TAG, "ScreenWidth: " + screenWidth);
 		Log.d(TAG, "ScreenHeight: " + screenHeight);
-		
 	}
 	
 	@Override 
@@ -72,6 +71,7 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	@Override
 	public boolean onTouchEvent(MotionEvent event){
+		Log.d(TAG, "Touch: x=" + event.getX() + ", y=" + event.getY());
 		if(event.getAction() == MotionEvent.ACTION_DOWN){
 			// letter tray checks each tile to see if it has been touched
 			letterTray.handleActionDown((int)event.getX(), (int)event.getY());
@@ -79,8 +79,6 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 //			if (event.getY() > getHeight() - 50){
 //				thread.setRunning(false);
 //				((Activity)getContext()).finish();
-//			} else {
-//				Log.d(TAG, "Coords: x=" + event.getX() + ", y=" + event.getY());
 //			}
 		} if (event.getAction() == MotionEvent.ACTION_MOVE){
 			// Get touched tile, if it exists, and reset X & Y based on event
@@ -157,6 +155,7 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 		int imgHeight = screenHeight/BOARD_SIZE;
 		Bitmap tileImage = BitmapFactory.decodeResource(getResources(), R.drawable.letter_tile);
 		Tile tile = new Tile(tileImage, imgWidth, imgHeight, index, startX);
+		Log.d(TAG, "Creating new tile with index: " + index + ", width: " + imgWidth + "height: " + imgHeight);
 		return tile;
 	}
 }
