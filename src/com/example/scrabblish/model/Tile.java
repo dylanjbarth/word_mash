@@ -1,7 +1,10 @@
 package com.example.scrabblish.model;
 
+import com.example.scrabblish.MainView;
+
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.util.Log;
 
 public class Tile {
 	private Bitmap bitmap;
@@ -12,7 +15,8 @@ public class Tile {
 	private int index;
 	private boolean touched;
 	private char letter;
-	
+	private static final String TAG = MainView.class.getSimpleName();
+
 	public Tile(Bitmap passedBitmap, int width, int height, int index, int startX){
 		this.bitmap = scaleBitmap(passedBitmap, width, height);
 		this.x = startX; // b/c tiles are vertical column, X is constant
@@ -21,6 +25,10 @@ public class Tile {
 		this.width = width;
 		this.height = height;
 		this.letter = letter; // generate rando 
+	}
+	
+	public int getIndex(){
+		return index;
 	}
 	
 	public Bitmap getBitmap(){
@@ -75,6 +83,7 @@ public class Tile {
 	
 	public void draw(Canvas canvas){
 		canvas.drawBitmap(bitmap, x, y, null);
+//		Log.d(TAG, "Just drew Tile index: " + index + "x=" + x + " y=" + y);
 	}
 	
 	public void handleActionDown(int eventX, int eventY){

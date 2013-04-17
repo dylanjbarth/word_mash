@@ -1,5 +1,6 @@
 package com.example.scrabblish;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -7,6 +8,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
@@ -38,7 +40,10 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 		screenHeight = metrics.heightPixels;
 		prepGame(); // creates game objects
 		setFocusable(true);
-		Log.d(TAG, "Hey Dylan, I'm in line 41 in case you forget the syntax for message logging :D");
+		Log.d(TAG, "Hey Dylan, I exist in case you forget the syntax for message logging :D");
+		Log.d(TAG, "ScreenWidth: " + screenWidth);
+		Log.d(TAG, "ScreenHeight: " + screenHeight);
+		
 	}
 	
 	@Override 
@@ -65,30 +70,37 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 		}
 	}
 	
-//	@Override
-//	public boolean onTouchEvent(MotionEvent event){
-//		if(event.getAction() == MotionEvent.ACTION_DOWN){
-//			// tile handles action down to see if it's touched 
-//			tile1.handleActionDown((int)event.getX(), (int)event.getY());
-//			// exit if touch bottom of screen
+	@Override
+	public boolean onTouchEvent(MotionEvent event){
+		if(event.getAction() == MotionEvent.ACTION_DOWN){
+			// letter tray checks each tile to see if it has been touched
+			letterTray.handleActionDown((int)event.getX(), (int)event.getY());
+			// exit if touch bottom of screen
 //			if (event.getY() > getHeight() - 50){
 //				thread.setRunning(false);
 //				((Activity)getContext()).finish();
 //			} else {
 //				Log.d(TAG, "Coords: x=" + event.getX() + ", y=" + event.getY());
 //			}
-//		} if (event.getAction() == MotionEvent.ACTION_MOVE){
-//			if(tile1.isTouched()){
-//				tile1.setX((int)event.getX());
-//				tile1.setY((int)event.getY());
-//			}
-//		} if (event.getAction() == MotionEvent.ACTION_UP){
-//			if(tile1.isTouched()){
-//				tile1.setTouched(false);
-//			}
-//		}
-//		return true;
-//	}
+		} if (event.getAction() == MotionEvent.ACTION_MOVE){
+			// Get touched tile, if it exists, and reset X & Y based on event
+			Object tile = letterTray.tileTouched();
+			if(tile != null){
+				((Tile) tile).setX((int)event.getX());
+				((Tile) tile).setY((int)event.getY());
+				Log.d(TAG, "Moving tile index: " + ((Tile) tile).getIndex());
+			}
+		} if (event.getAction() == MotionEvent.ACTION_UP){
+			// first check location of touched tiles to see if it should snap into place
+			Object tile = letterTray.tileTouched();
+			if(tile != null){
+				((Tile) tile).setTouched(false);
+			}
+			// next set touched to false
+
+		}
+		return true;
+	}
 	
 	@Override
 	protected void onDraw(Canvas canvas){
@@ -101,7 +113,7 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 		// first, create game board, specifying x, y, and size 
 		createBoard(0, 0, BOARD_SIZE*BOARD_SIZE);
 		
-		// Next, create letter tray
+		// Next, create letter tray (Size based on board size)
 		createLetterTray();
 	}
 

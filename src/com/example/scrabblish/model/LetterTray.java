@@ -1,5 +1,7 @@
 package com.example.scrabblish.model;
 
+import com.example.scrabblish.MainView;
+
 import android.graphics.Canvas;
 
 public class LetterTray {
@@ -7,6 +9,7 @@ public class LetterTray {
 	private int y;
 	private int size;
 	private Object[] tray;
+	private static final String TAG = MainView.class.getSimpleName();
 
 	public LetterTray(int x, int y, int size, Object[] tray){
 		this.x = x;
@@ -48,9 +51,29 @@ public class LetterTray {
 	}
 
 	public void draw(Canvas canvas){
+		// iterates through all tile objects and draws them 
 		for(int r=0; r < size; r++){
 			Object tile = this.getTileFromTray(r);
 			((Tile) tile).draw(canvas);
 		}
+	}
+	
+	public void handleActionDown(int eventX, int eventY){
+		// iterates through all tile objects and asks them to handle the individual action down event
+		for(int r=0; r < size; r++){
+			Object tile = this.getTileFromTray(r);
+			((Tile) tile).handleActionDown(eventX, eventY);
+		}
+	}
+	
+	public Object tileTouched(){
+		// iterates through all tile objects and returns the object that is currently touched
+		for(int r=0; r < size; r++){
+			Object tile = this.getTileFromTray(r);
+			if (((Tile) tile).isTouched()){
+				return tile;
+			}
+		}
+		return null;
 	}
 }
