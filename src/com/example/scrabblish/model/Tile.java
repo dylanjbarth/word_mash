@@ -8,6 +8,7 @@ import android.util.Log;
 
 public class Tile {
 	private Bitmap bitmap;
+	private int resetX;
 	private int x;
 	private int y;
 	private int width;
@@ -19,12 +20,14 @@ public class Tile {
 
 	public Tile(Bitmap passedBitmap, int width, int height, int index, int startX){
 		this.bitmap = scaleBitmap(passedBitmap, width, height);
+		this.resetX = startX;
 		this.x = startX; // b/c tiles are vertical column, X is constant
 		this.y = positionTileY(index, height); // positionY
 		this.index = index;
 		this.width = width;
 		this.height = height;
 		this.letter = letter; // generate rando 
+		Log.d(TAG, "Created tile index: " + index + ", x:" + x + ", y:" + y);
 	}
 
 	public int getIndex(){
@@ -87,21 +90,27 @@ public class Tile {
 	}
 
 	public void handleActionDown(int eventX, int eventY){
-		Log.d(TAG, "*****************************************");
-		Log.d(TAG, "Index: " + index + ", x: " + x + ", y: " + y + ", width: " + width + ", height: " + height);
-		Log.d(TAG, "*****************************************");
+//		Log.d(TAG, "*****************************************");
+//		Log.d(TAG, "Index: " + index + ", x: " + x + ", y: " + y + ", width: " + width + ", height: " + height);
+//		Log.d(TAG, "*****************************************");
 		if ((eventX >= x) && (eventX <= (x + width))) {
 			if ((eventY >= y) && (eventY <= (y + height))) {
 				setTouched(true);
-				Log.d(TAG, "Setting touch! Tile index: " + index);
-				Log.d(TAG, "EventX=" + eventX + " which should be between TileX coords: " + x + ", " + (x + width));
-				Log.d(TAG, "EventY=" + eventY + " which should be between TileY coords: " + y + ", " + (y + height));
+//				Log.d(TAG, "Setting touch! Tile index: " + index);
+//				Log.d(TAG, "EventX=" + eventX + " which should be between TileX coords: " + x + ", " + (x + width));
+//				Log.d(TAG, "EventY=" + eventY + " which should be between TileY coords: " + y + ", " + (y + height));
 			} else {
 				setTouched(false);
 			}
 		} else {
 			setTouched(false);
 		}
+	}
+	
+	public void resetPosition(){
+		this.x = resetX;
+		this.y = positionTileY(index, height);
+		Log.d(TAG, "Resetting pos, index:" + index + ", x:" + resetX + " y:" + y);
 	}
 
 }

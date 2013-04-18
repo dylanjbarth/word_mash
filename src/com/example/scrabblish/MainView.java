@@ -90,12 +90,12 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 			}
 		} if (event.getAction() == MotionEvent.ACTION_UP){
 			// first check location of touched tiles to see if it should snap into place
+			// next set touched to false
 			Object tile = letterTray.tileTouched();
 			if(tile != null){
+				board.snapTileIntoPlace(tile);
 				((Tile) tile).setTouched(false);
 			}
-			// next set touched to false
-
 		}
 		return true;
 	}

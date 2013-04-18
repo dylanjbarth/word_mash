@@ -84,10 +84,21 @@ public class Board {
 	}
 
 	public void draw(Canvas canvas){
+		// iterates through tileSpaces and draws them
 		for(int r=0; r < Math.sqrt(size); r++){
 			for (int c=0; c < Math.sqrt(size); c++){
 				Object tileSpace = this.getTileSpace(r, c);
 				((TileSpace) tileSpace).draw(canvas);
+			}
+		}
+	}
+	
+	public void snapTileIntoPlace(Object tile){
+		// snaps tile into place or resets it's position
+		for(int r=0; r < Math.sqrt(size); r++){
+			for (int c=0; c < Math.sqrt(size); c++){
+				Object tileSpace = this.getTileSpace(r, c);
+				((TileSpace) tileSpace).handleTileSnapping(tile);
 			}
 		}
 	}

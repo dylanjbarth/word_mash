@@ -13,7 +13,7 @@ public class TileSpace {
 	private int height;
 	private boolean occupied;
 	private int multiplier;
-	
+
 	public TileSpace(Bitmap passedBitmap, int row, int col, int width, int height){
 		this.bitmap = scaleBitmap(passedBitmap, width, height);
 		this.row = row;
@@ -25,97 +25,113 @@ public class TileSpace {
 		this.x = positionTileX(row, width);
 		this.y = positionTileY(col, height);
 	}
-	
+
 	public Bitmap getBitmap(){
 		return bitmap;
 	}
-	
+
 	public void setBitmap(Bitmap bitmap){
 		this.bitmap = bitmap;
 	}
-	
+
 	public int getRow(){
 		return row;
 	}
-	
+
 	public void setRow(int row){
 		this.row = row;
 	}
-	
+
 	public int getCol(){
 		return col;
 	}
-	
+
 	public void setCol(int col){
 		this.col = col;
 	}
-	
+
 	public int getx(){
 		return x;
 	}
-	
+
 	public void setX(int x){
 		this.x = x;
 	}
-	
+
 	public int getY(){
 		return y;
 	}
-	
+
 	public void setY(int y){
 		this.y = y;
 	}
-	
+
 	public int getWidth(){
 		return width;
 	}
-	
+
 	public void setWidth(int width){
 		this.width = width;
 	}
-	
+
 	public int getHeight(){
 		return height;
 	}
-	
+
 	public void setHeight(int height){
 		this.height = height;
 	}
-	
+
 	public boolean isOccupied(){
 		return occupied;
 	}
-	
+
 	public void setOccupied(boolean occupied){
 		this.occupied = occupied;
 	}
-	
+
 	public int getMultiplier(){
 		return multiplier;
 	}
-	
+
 	public void setMultiplier(int multiplier){
 		this.multiplier = multiplier;
 	}
-	
+
 	public int positionTileX(int row, int imgWidth){
 		// gives top left x of tile
 		int x = imgWidth*row;
 		return x;
 	}
-	
+
 	public int positionTileY(int col, int imgHeight){
 		// gives center of tile in x, y coordinates
 		int y = imgHeight*col;
 		return y;
 	}
-	
+
 	public Bitmap scaleBitmap(Bitmap tileSpaceImage, int imgWidth, int imgHeight){
 		Bitmap resizedBitmap=Bitmap.createScaledBitmap(tileSpaceImage, imgWidth, imgHeight, true);
 		return resizedBitmap;
 	}
-	
+
 	public void draw(Canvas canvas){
 		canvas.drawBitmap(bitmap, x, y, null);
+	}
+
+	public void handleTileSnapping(Object tile){
+		// 1/10 of width & height buffer zone
+		int xBuffer = (width/10)*9;
+		int yBuffer = (height/10)*9;
+		int tileX = ((Tile) tile).getX();
+		int tileY = ((Tile) tile).getY();
+		if ((tileX >= x-xBuffer) && (tileX <= (x + width + xBuffer))) {
+			if ((tileY >= y-yBuffer) && (tileY <= (y + height + yBuffer))) {
+				((Tile) tile).setX(x);
+				((Tile) tile).setY(y);
+			} else {
+				((Tile) tile).resetPosition();
+			}
+		}
 	}
 }
