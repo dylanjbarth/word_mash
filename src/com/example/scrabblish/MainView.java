@@ -84,8 +84,8 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 			// Get touched tile, if it exists, and reset X & Y based on event
 			Object tile = letterTray.tileTouched();
 			if(tile != null){
-				((Tile) tile).setX((int)event.getX());
-				((Tile) tile).setY((int)event.getY());
+				((Tile) tile).dragSetX((int)event.getX());
+				((Tile) tile).dragSetY((int)event.getY());
 				Log.d(TAG, "Moving tile index: " + ((Tile) tile).getIndex());
 			}
 		} if (event.getAction() == MotionEvent.ACTION_UP){

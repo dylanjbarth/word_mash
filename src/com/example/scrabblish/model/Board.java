@@ -94,12 +94,19 @@ public class Board {
 	}
 	
 	public void snapTileIntoPlace(Object tile){
-		// snaps tile into place or resets it's position
+		// snaps tile into place
+		boolean snapped = false;
 		for(int r=0; r < Math.sqrt(size); r++){
 			for (int c=0; c < Math.sqrt(size); c++){
 				Object tileSpace = this.getTileSpace(r, c);
-				((TileSpace) tileSpace).handleTileSnapping(tile);
+				if (((TileSpace) tileSpace).handleTileSnapping(tile)){
+					snapped = true;
+				}
 			}
+		}
+		// or resets its position
+		if (!snapped){
+			((Tile) tile).resetPosition();
 		}
 	}
 }

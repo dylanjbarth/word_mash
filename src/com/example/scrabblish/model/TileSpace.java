@@ -2,6 +2,9 @@ package com.example.scrabblish.model;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.util.Log;
+
+import com.example.scrabblish.MainView;
 
 public class TileSpace {
 	private Bitmap bitmap;
@@ -13,6 +16,7 @@ public class TileSpace {
 	private int height;
 	private boolean occupied;
 	private int multiplier;
+	private static final String TAG = MainView.class.getSimpleName();
 
 	public TileSpace(Bitmap passedBitmap, int row, int col, int width, int height){
 		this.bitmap = scaleBitmap(passedBitmap, width, height);
@@ -119,19 +123,22 @@ public class TileSpace {
 		canvas.drawBitmap(bitmap, x, y, null);
 	}
 
-	public void handleTileSnapping(Object tile){
+	public boolean handleTileSnapping(Object tile){
 		// 1/10 of width & height buffer zone
-		int xBuffer = (width/10)*9;
-		int yBuffer = (height/10)*9;
+		int xBuffer = (width/10)*10;
+		int yBuffer = (height/10)*10;
+		int tileW = ((Tile) tile).getWidth();
+		int tileH = ((Tile) tile).getHeight();	
 		int tileX = ((Tile) tile).getX();
 		int tileY = ((Tile) tile).getY();
-		if ((tileX >= x-xBuffer) && (tileX <= (x + width + xBuffer))) {
-			if ((tileY >= y-yBuffer) && (tileY <= (y + height + yBuffer))) {
+		if ((tileX >= x-xBuffer) && (tileX + tileW <= (x + width + xBuffer))) {
+			if ((tileY >= y-yBuffer) && (tileY + tileH <= (y + height + yBuffer))) {
 				((Tile) tile).setX(x);
 				((Tile) tile).setY(y);
-			} else {
-				((Tile) tile).resetPosition();
-			}
-		}
+				Log.d(TAG, "Snapped to tile! row:" + row + ", col:" + col);
+				return true;
+			} 
+		} 
+		return false;
 	}
 }
