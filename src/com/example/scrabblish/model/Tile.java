@@ -30,8 +30,8 @@ public class Tile {
 		this.index = index;
 		this.width = width;
 		this.height = height;
-		this.centerX = x+width/2;
-		this.centerY = y+height/2;
+		this.centerX = updateCenterX(x);
+		this.centerY = updateCenterY(y);
 //		this.letter = letter; // generate rando 
 		Log.d(TAG, "Created tile index: " + index + ", x:" + x + ", y:" + y);
 	}
@@ -88,12 +88,12 @@ public class Tile {
 	
 	public void setX(int x){
 		this.x = x;
-		updateCenterX();
+		this.centerX = updateCenterX(x);
 	}
 	
 	public void setY(int y){
 		this.y = y;
-		updateCenterY();
+		this.centerY = updateCenterY(y);
 	}
 
 	public void dragSetX(int x){
@@ -104,12 +104,12 @@ public class Tile {
 		setY(y-height/2);
 	}
 	
-	public void updateCenterX(){
-		this.centerX = x+width/2;
+	public int updateCenterX(int x){
+		return x+width/2;
 	}
 	
-	public void updateCenterY(){
-		this.centerY = y+height/2;
+	public int updateCenterY(int y){
+		return y+height/2;
 	}
 
 	public void setLetter(char letter){
