@@ -1,6 +1,5 @@
 package com.example.scrabblish;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -23,10 +22,9 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 	private static final String TAG = MainView.class.getSimpleName();
 	
 	private MainThread thread;
-	private Tile tile1, tile2, tile3, tile4, tile5, tile6;
 	private Board board;
 	private LetterTray letterTray;
-	private int BOARD_SIZE = 7;
+	private int BOARD_SIZE = 7; // note that changing either of these may make it necessary to change buffer size in TileSpace.handleTileSnapping
 	private int LETTER_TRAY_SIZE = 6;
 	private int screenWidth;
 	private int screenHeight;	
@@ -69,43 +67,9 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 		}
 	}
 	
-	@Override
-	public boolean onTouchEvent(MotionEvent event){
-		Log.d(TAG, "Touch: x=" + event.getX() + ", y=" + event.getY());
-		if(event.getAction() == MotionEvent.ACTION_DOWN){
-			// letter tray checks each tile to see if it has been touched
-			letterTray.handleActionDown((int)event.getX(), (int)event.getY());
-			// exit if touch bottom of screen
-//			if (event.getY() > getHeight() - 50){
-//				thread.setRunning(false);
-//				((Activity)getContext()).finish();
-//			}
-		} if (event.getAction() == MotionEvent.ACTION_MOVE){
-			// Get touched tile, if it exists, and reset X & Y based on event
-			Object tile = letterTray.tileTouched();
-			if(tile != null){
-				((Tile) tile).dragSetX((int)event.getX());
-				((Tile) tile).dragSetY((int)event.getY());
-				Log.d(TAG, "Moving tile index: " + ((Tile) tile).getIndex());
-			}
-		} if (event.getAction() == MotionEvent.ACTION_UP){
-			// first check location of touched tiles to see if it should snap into place
-			// next set touched to false
-			Object tile = letterTray.tileTouched();
-			if(tile != null){
-				board.snapTileIntoPlace(tile);
-				((Tile) tile).setTouched(false);
-			}
-		}
-		return true;
-	}
-	
-	@Override
-	protected void onDraw(Canvas canvas){
-		canvas.drawColor(Color.BLACK);
-		board.draw(canvas);
-		letterTray.draw(canvas);
-	}
+	/*************************
+	 * Setup * 
+	 *************************/
 	
 	public void prepGame(){
 		// first, create game board, specifying x, y, and size 
@@ -126,8 +90,8 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 		Object[][] tileSpaces = new Object[size][size];
 		int imgWidth = screenWidth/(size*2);
 		int imgHeight = screenHeight/size;
-		for(int r=0; r < size; r++){
-			for (int c=0; c < size; c++){
+		for(int c=0; c < size; c++){
+			for (int r=0; r < size; r++){
 				Bitmap tileSpaceImage = BitmapFactory.decodeResource(getResources(), R.drawable.tile_space);
 				TileSpace tile = new TileSpace(tileSpaceImage, r, c, imgWidth, imgHeight);
 				tileSpaces[r][c] = tile;
@@ -157,5 +121,50 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 		Tile tile = new Tile(tileImage, imgWidth, imgHeight, index, startX);
 		Log.d(TAG, "Creating new tile with index: " + index + ", width: " + imgWidth + "height: " + imgHeight);
 		return tile;
+	}
+	
+	/*************************
+	 * Game moderation * 
+	 *************************/
+	
+	@Override
+	public boolean onTouchEvent(MotionEvent event){
+		Log.d(TAG, "Touch: x=" + event.getX() + ", y=" + event.getY());
+		if(event.getAction() == MotionEvent.ACTION_DOWN){
+			// Check for touches
+			letterTray.handleActionDown((int)event.getX(), (int)event.getY());
+			// exit if touch bottom of screen
+//			if (event.getY() > getHeight() - 50){
+//				thread.setRunning(false);
+//				((Activity)getContext()).finish();
+//			}
+		} if (event.getAction() == MotionEvent.ACTION_MOVE){
+			// Update for dragging
+			Object tile = letterTray.tileTouched();
+			if(tile != null){
+				((Tile) tile).dragSetX((int)event.getX());
+				((Tile) tile).dragSetY((int)event.getY());
+				Log.d(TAG, "Moving tile index: " + ((Tile) tile).getIndex());
+				Log.d(TAG, "tileX: " + ((Tile) tile).getX());
+				Log.d(TAG, "tileY: " + ((Tile) tile).getY());
+				Log.d(TAG, "tileCenterX: " + ((Tile) tile).getCenterX());
+				Log.d(TAG, "tilCenterY: " + ((Tile) tile).getCenterY());
+			}
+		} if (event.getAction() == MotionEvent.ACTION_UP){
+			// snap tile into place
+			Object tile = letterTray.tileTouched();
+			if(tile != null){
+				board.snapTileIntoPlace(tile);
+				((Tile) tile).setTouched(false);
+			}
+		}
+		return true;
+	}
+	
+	@Override
+	protected void onDraw(Canvas canvas){
+		canvas.drawColor(Color.BLACK);
+		board.draw(canvas);
+		letterTray.draw(canvas);
 	}
 }

@@ -124,18 +124,19 @@ public class TileSpace {
 	}
 
 	public boolean handleTileSnapping(Object tile){
-		// 1/10 of width & height buffer zone
-		int xBuffer = (width/10)*10;
-		int yBuffer = (height/10)*10;
-		int tileW = ((Tile) tile).getWidth();
-		int tileH = ((Tile) tile).getHeight();	
-		int tileX = ((Tile) tile).getX();
-		int tileY = ((Tile) tile).getY();
-		if ((tileX >= x-xBuffer) && (tileX + tileW <= (x + width + xBuffer))) {
-			if ((tileY >= y-yBuffer) && (tileY + tileH <= (y + height + yBuffer))) {
+		int tileCenterX = ((Tile) tile).getCenterX();
+		int tileCenterY = ((Tile) tile).getCenterY();
+		if ((tileCenterX >= x) && (tileCenterX < (x + width))) {
+			if ((tileCenterY > y) && (tileCenterY <= (y + height))) {
+				Log.d(TAG, "*************");
+				Log.d(TAG, "Snapped to tile!");
+				Log.d(TAG, "tileSpaceX range:" + x + " - " + (x+width));
+				Log.d(TAG, "tileSpaceY range:" + y + " - " + (y+height));
+				Log.d(TAG, "tileCenterX:" + tileCenterX + ", tileCenterY:" + tileCenterY);
 				((Tile) tile).setX(x);
 				((Tile) tile).setY(y);
 				Log.d(TAG, "Snapped to tile! row:" + row + ", col:" + col);
+				Log.d(TAG, "*************");
 				return true;
 			} 
 		} 
