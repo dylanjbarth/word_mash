@@ -8,10 +8,10 @@ public class LetterTray {
 	private int x;
 	private int y;
 	private int size;
-	private Object[] tray;
+	private Tile[] tray;
 	private static final String TAG = MainView.class.getSimpleName();
 
-	public LetterTray(int x, int y, int size, Object[] tray){
+	public LetterTray(int x, int y, int size, Tile[] tray){
 		this.x = x;
 		this.y = y;
 		this.size = size;
@@ -46,7 +46,7 @@ public class LetterTray {
 		return this.tray;
 	}
 
-	public Object getTileFromTray(int index){
+	public Tile getTileFromTray(int index){
 		return this.tray[index];
 	}
 
@@ -66,10 +66,10 @@ public class LetterTray {
 		}
 	}
 	
-	public Object tileTouched(){
+	public Tile tileTouched(){
 		// iterates through all tile objects and returns the object that is currently touched
 		for(int r=0; r < size; r++){
-			Object tile = this.getTileFromTray(r);
+			Tile tile = this.getTileFromTray(r);
 			if (((Tile) tile).isTouched()){
 				return tile;
 			}

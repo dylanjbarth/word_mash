@@ -128,18 +128,22 @@ public class TileSpace {
 		int tileCenterY = ((Tile) tile).getCenterY();
 		if ((tileCenterX >= x) && (tileCenterX < (x + width))) {
 			if ((tileCenterY > y) && (tileCenterY <= (y + height))) {
-				Log.d(TAG, "*************");
-				Log.d(TAG, "Snapped to tile!");
-				Log.d(TAG, "tileSpaceX range:" + x + " - " + (x+width));
-				Log.d(TAG, "tileSpaceY range:" + y + " - " + (y+height));
-				Log.d(TAG, "tileCenterX:" + tileCenterX + ", tileCenterY:" + tileCenterY);
-				((Tile) tile).setX(x);
-				((Tile) tile).setY(y);
-				Log.d(TAG, "Snapped to tile! row:" + row + ", col:" + col);
-				Log.d(TAG, "*************");
+				if (isOccupied()){
+					TileSpace freeSpace = findNearestAvailableTileSpace();
+					// somehow calculate nearest tile to snap to
+					// could have method returning nearest open tile in the direction of the off-center
+				} else {
+					((Tile) tile).setX(x);
+					((Tile) tile).setY(y);
+					setOccupied(true);
+				}
 				return true;
 			} 
 		} 
 		return false;
+	}
+	
+	public Object findNearestAvailableTileSpace(){
+		
 	}
 }

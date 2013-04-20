@@ -81,13 +81,13 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 
 	public void createBoard(int x, int y, int size){
 		// Create tileSpaces that make up board grid
-		Object[][] tileSpaces = createTileSpaces(BOARD_SIZE);
+		TileSpace[][] tileSpaces = createTileSpaces(BOARD_SIZE);
 		board = new Board(x, y, size, tileSpaces);
 	}
 	
-	public Object[][] createTileSpaces(int size){
+	public TileSpace[][] createTileSpaces(int size){
 		// returns an 2D object array of tileSpaces 
-		Object[][] tileSpaces = new Object[size][size];
+		TileSpace[][] tileSpaces = new TileSpace[size][size];
 		int imgWidth = screenWidth/(size*2);
 		int imgHeight = screenHeight/size;
 		for(int c=0; c < size; c++){
@@ -107,7 +107,7 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	public void createLetterTray(){
 		int boardWidth = board.getWidth();
-		Object[] tray = new Object[LETTER_TRAY_SIZE];
+		Tile[] tray = new Tile[LETTER_TRAY_SIZE];
 		for(int i=0; i < LETTER_TRAY_SIZE; i++){
 			tray[i] = ((Tile) createTile(i, boardWidth));
 		}
@@ -129,10 +129,12 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 	
 	@Override
 	public boolean onTouchEvent(MotionEvent event){
-		Log.d(TAG, "Touch: x=" + event.getX() + ", y=" + event.getY());
+		float eventX = event.getX();
+		float eventY = event.getY();
+		Log.d(TAG, "Touch: x=" + eventX + ", y=" + eventY);
 		if(event.getAction() == MotionEvent.ACTION_DOWN){
 			// Check for touches
-			letterTray.handleActionDown((int)event.getX(), (int)event.getY());
+			letterTray.handleActionDown((int)eventX, (int)eventY);
 			// exit if touch bottom of screen
 //			if (event.getY() > getHeight() - 50){
 //				thread.setRunning(false);
@@ -140,22 +142,22 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 //			}
 		} if (event.getAction() == MotionEvent.ACTION_MOVE){
 			// Update for dragging
-			Object tile = letterTray.tileTouched();
+			Tile tile = letterTray.tileTouched();
 			if(tile != null){
-				((Tile) tile).dragSetX((int)event.getX());
-				((Tile) tile).dragSetY((int)event.getY());
-				Log.d(TAG, "Moving tile index: " + ((Tile) tile).getIndex());
-				Log.d(TAG, "tileX: " + ((Tile) tile).getX());
-				Log.d(TAG, "tileY: " + ((Tile) tile).getY());
-				Log.d(TAG, "tileCenterX: " + ((Tile) tile).getCenterX());
-				Log.d(TAG, "tilCenterY: " + ((Tile) tile).getCenterY());
+				tile.dragSetX((int)event.getX());
+				tile.dragSetY((int)event.getY());
+				Log.d(TAG, "Moving tile index: " + tile.getIndex());
+				Log.d(TAG, "tileX: " + tile.getX());
+				Log.d(TAG, "tileY: " + tile.getY());
+				Log.d(TAG, "tileCenterX: " + tile.getCenterX());
+				Log.d(TAG, "tilCenterY: " + tile.getCenterY());
 			}
 		} if (event.getAction() == MotionEvent.ACTION_UP){
 			// snap tile into place
-			Object tile = letterTray.tileTouched();
+			Tile tile = letterTray.tileTouched();
 			if(tile != null){
 				board.snapTileIntoPlace(tile);
-				((Tile) tile).setTouched(false);
+				tile.setTouched(false);
 			}
 		}
 		return true;

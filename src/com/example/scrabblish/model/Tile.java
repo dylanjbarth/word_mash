@@ -141,6 +141,7 @@ public class Tile {
 		if ((eventX >= x) && (eventX <= (x + width))) {
 			if ((eventY >= y) && (eventY <= (y + height))) {
 				setTouched(true);
+				// here, a function that quickly checks to see if it was on a tileSpace, and if it was, set occupied back to false.
 				// probably here, draw large bitmap
 //				Log.d(TAG, "Setting touch! Tile index: " + index);
 //				Log.d(TAG, "EventX=" + eventX + " which should be between TileX coords: " + x + ", " + (x + width));
