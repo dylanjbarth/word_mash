@@ -1,8 +1,13 @@
 package com.example.scrabblish.model;
 
+import java.util.Map.Entry;
+import java.util.TreeMap;
+
+import android.annotation.SuppressLint;
 import android.graphics.Canvas;
 
 
+@SuppressLint("NewApi")
 public class Board {
 	private int x;
 	private int y;
@@ -108,5 +113,27 @@ public class Board {
 		if (!snapped){
 			tile.resetPosition();
 		}
+	}
+	
+	public TileSpace getClosestAvailableTileSpace(int tileCenterX, int tileCenterY){
+		// Return the closest unoccupied tileSpace
+		TreeMap freeSpaces = new TreeMap(); // { distance : {row, col} }, naturally ordered
+		TileSpace[][] tileSpaces = this.getAllTileSpaces(); 
+		// create tree map 
+		for(int r=0; r < Math.sqrt(size); r++){
+			for (int c=0; c < Math.sqrt(size); c++){
+				TileSpace tileSpace = tileSpaces[r][c];
+				if(!tileSpace.isOccupied()){
+					int tileSpaceX = tileSpaces[r][c].getX();
+					int tileSpaceY = tileSpaces[r][c].getY();
+					int distanceBetween = (int) Math.sqrt((Math.pow(Math.abs(tileCenterX-tileSpaceX), 2)) + (Math.pow(Math.abs(tileCenterY-tileSpaceY), 2)));
+					int[] coords = {r, c};
+					freeSpaces.put(distanceBetween, coords);
+				}
+			}
+		}
+		int[] coords = (int[]) freeSpaces.firstEntry().getValue();
+		TileSpace freedom = tileSpaces[coords[0]][coords[1]];
+		return freedom;
 	}
 }

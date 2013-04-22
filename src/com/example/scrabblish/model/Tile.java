@@ -131,21 +131,12 @@ public class Tile {
 
 	public void draw(Canvas canvas){
 		canvas.drawBitmap(bitmap, x, y, null);
-		//		Log.d(TAG, "Just drew Tile index: " + index + "x=" + x + " y=" + y);
 	}
 
 	public void handleActionDown(int eventX, int eventY){
-//		Log.d(TAG, "*****************************************");
-//		Log.d(TAG, "Index: " + index + ", x: " + x + ", y: " + y + ", width: " + width + ", height: " + height);
-//		Log.d(TAG, "*****************************************");
 		if ((eventX >= x) && (eventX <= (x + width))) {
 			if ((eventY >= y) && (eventY <= (y + height))) {
 				setTouched(true);
-				// here, a function that quickly checks to see if it was on a tileSpace, and if it was, set occupied back to false.
-				// probably here, draw large bitmap
-//				Log.d(TAG, "Setting touch! Tile index: " + index);
-//				Log.d(TAG, "EventX=" + eventX + " which should be between TileX coords: " + x + ", " + (x + width));
-//				Log.d(TAG, "EventY=" + eventY + " which should be between TileY coords: " + y + ", " + (y + height));
 			} else {
 				setTouched(false);
 			}
