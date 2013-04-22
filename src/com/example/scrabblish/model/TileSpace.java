@@ -2,7 +2,6 @@ package com.example.scrabblish.model;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.util.Log;
 
 import com.example.scrabblish.MainView;
 
@@ -12,6 +11,8 @@ public class TileSpace {
 	private int col;
 	private int x;
 	private int y;
+	private int centerX;
+	private int centerY;
 	private int width;
 	private int height;
 	private boolean occupied;
@@ -28,6 +29,8 @@ public class TileSpace {
 		this.multiplier = 1;
 		this.x = positionTileX(row, width);
 		this.y = positionTileY(col, height);
+		this.centerX = x+width/2;
+		this.centerY = y+height/2;
 	}
 
 	public Bitmap getBitmap(){
@@ -123,27 +126,17 @@ public class TileSpace {
 		canvas.drawBitmap(bitmap, x, y, null);
 	}
 
-	public boolean handleTileSnapping(Object tile){
+	public boolean handleTileSnapping(Board board, Object tile){
 		int tileCenterX = ((Tile) tile).getCenterX();
 		int tileCenterY = ((Tile) tile).getCenterY();
 		if ((tileCenterX >= x) && (tileCenterX < (x + width))) {
 			if ((tileCenterY > y) && (tileCenterY <= (y + height))) {
-				if (isOccupied()){
-					TileSpace freeSpace = findNearestAvailableTileSpace();
-					// somehow calculate nearest tile to snap to
-					// could have method returning nearest open tile in the direction of the off-center
-				} else {
-					((Tile) tile).setX(x);
-					((Tile) tile).setY(y);
-					setOccupied(true);
-				}
+				((Tile) tile).setX(x);
+				((Tile) tile).setY(y);
+				setOccupied(true);
 				return true;
 			} 
 		} 
 		return false;
-	}
-	
-	public Object findNearestAvailableTileSpace(){
-		
 	}
 }
