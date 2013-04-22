@@ -9,9 +9,9 @@ public class Board {
 	private int size;
 	private int width;
 	private int height;
-	private Object[][] tileSpaces;
+	private TileSpace[][] tileSpaces;
 
-	public Board(int x, int y, int size, Object[][] tileSpaces){
+	public Board(int x, int y, int size, TileSpace[][] tileSpaces){
 		this.x = x;
 		this.y = y;
 		this.size = size;
@@ -52,12 +52,12 @@ public class Board {
 		return width;
 	}
 
-	public Object getTileSpace(int row, int col){
-		Object tileSpace = tileSpaces[row][col];
+	public TileSpace getTileSpace(int row, int col){
+		TileSpace tileSpace = tileSpaces[row][col];
 		return tileSpace;
 	}
 
-	public Object[][] getAllTileSpaces(){
+	public TileSpace[][] getAllTileSpaces(){
 		return tileSpaces;
 	}
 
@@ -87,26 +87,26 @@ public class Board {
 		// iterates through tileSpaces and draws them
 		for(int r=0; r < Math.sqrt(size); r++){
 			for (int c=0; c < Math.sqrt(size); c++){
-				Object tileSpace = this.getTileSpace(r, c);
-				((TileSpace) tileSpace).draw(canvas);
+				TileSpace tileSpace = this.getTileSpace(r, c);
+				tileSpace.draw(canvas);
 			}
 		}
 	}
 	
-	public void snapTileIntoPlace(Object tile){
+	public void snapTileIntoPlace(Tile tile){
 		// snaps tile into place
 		boolean snapped = false;
 		for(int r=0; r < Math.sqrt(size); r++){
 			for (int c=0; c < Math.sqrt(size); c++){
-				Object tileSpace = this.getTileSpace(r, c);
-				if (((TileSpace) tileSpace).handleTileSnapping(tile)){
+				TileSpace tileSpace = this.getTileSpace(r, c);
+				if (tileSpace.handleTileSnapping(this, tile)){
 					snapped = true;
 				}
 			}
 		}
 		// or resets its position
 		if (!snapped){
-			((Tile) tile).resetPosition();
+			tile.resetPosition();
 		}
 	}
 }
