@@ -133,7 +133,7 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 		float eventY = event.getY();
 		Log.d(TAG, "Touch: x=" + eventX + ", y=" + eventY);
 		if(event.getAction() == MotionEvent.ACTION_DOWN){
-			// Check for touches
+			board.checkForExports((int)eventX, (int)eventY);
 			letterTray.handleActionDown((int)eventX, (int)eventY);
 			// exit if touch bottom of screen
 //			if (event.getY() > getHeight() - 50){

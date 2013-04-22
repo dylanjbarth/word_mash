@@ -146,4 +146,13 @@ public class TileSpace {
 		} 
 		return false;
 	}
+	
+	public boolean coordsInside(int eventX, int eventY){
+		if ((eventX >= x) && (eventX < (x + width))) {
+			if ((eventY > y) && (eventY <= (y + height))) {
+				return true;
+			} 
+		}
+		return false;
+	}
 }
