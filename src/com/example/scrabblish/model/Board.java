@@ -104,12 +104,14 @@ public class Board {
 	
 	public void snapTileIntoPlace(Tile tile){
 		// snaps tile into place
+		Log.d(TAG, "attempting to snap tile into place for tile:" + tile.getIndex());
 		boolean snapped = false;
-		for(int r=0; r < Math.sqrt(size); r++){
+		A: for(int r=0; r < Math.sqrt(size); r++){
 			for (int c=0; c < Math.sqrt(size); c++){
 				TileSpace tileSpace = this.getTileSpace(r, c);
 				if (tileSpace.handleTileSnapping(this, tile)){
 					snapped = true;
+					break A;
 				}
 			}
 		}
@@ -121,7 +123,8 @@ public class Board {
 	
 	public TileSpace getClosestAvailableTileSpace(int tileCenterX, int tileCenterY){
 		// Return the closest unoccupied tileSpace
-		TreeMap freeSpaces = new TreeMap<Integer, int[]>(); // { distance : {row, col} }, naturally ordered
+		Log.d(TAG, "returning closest unoccupied tileSpace");
+		TreeMap<Integer, int[]> freeSpaces = new TreeMap<Integer, int[]>(); // { distance : {row, col} }, naturally ordered
 		TileSpace[][] tileSpaces = this.getAllTileSpaces(); 
 		// create tree map 
 		for(int r=0; r < Math.sqrt(size); r++){
@@ -135,6 +138,8 @@ public class Board {
 					freeSpaces.put(distanceBetween, coords);
 				}
 			}
+			int[] current_leader = (int[]) freeSpaces.firstEntry().getValue();
+			Log.d(TAG, "After row:" + r + " leader is (" + current_leader[0] + ", " + current_leader[1]+")");
 		}
 		int[] coords = (int[]) freeSpaces.firstEntry().getValue();
 		TileSpace freedom = tileSpaces[coords[0]][coords[1]];

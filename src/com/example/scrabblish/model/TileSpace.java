@@ -2,6 +2,7 @@ package com.example.scrabblish.model;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.util.Log;
 
 import com.example.scrabblish.MainView;
 
@@ -129,17 +130,19 @@ public class TileSpace {
 	public boolean handleTileSnapping(Board board, Tile tile){
 		int tileCenterX = tile.getCenterX();
 		int tileCenterY = tile.getCenterY();
-		if ((tileCenterX >= x) && (tileCenterX < (x + width))) {
-			if ((tileCenterY > y) && (tileCenterY <= (y + height))) {
-				if(isOccupied()){
+		if ((tileCenterX >= this.x) && (tileCenterX < (this.x + this.width))) {
+			if ((tileCenterY > this.y) && (tileCenterY <= (this.y + this.height))) {
+				if(this.occupied){
+					Log.d(TAG, "calling getClosestTileSpace for tile:" + tile.getIndex());
+					Log.d(TAG, "current tilespace: (" + row + ", " + col + ")");
 					TileSpace freeSpace = board.getClosestAvailableTileSpace(tileCenterX, tileCenterY);
 					tile.setX(freeSpace.getX());
 					tile.setY(freeSpace.getY());
 					freeSpace.setOccupied(true);
 				} else {
-					tile.setX(x);
-					tile.setY(y);
-					setOccupied(true);
+					tile.setX(this.x);
+					tile.setY(this.y);
+					this.setOccupied(true);
 				}
 				return true;
 			} 
