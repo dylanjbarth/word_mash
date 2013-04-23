@@ -3,6 +3,7 @@ package com.example.scrabblish.model;
 import com.example.scrabblish.MainView;
 
 import android.graphics.Canvas;
+import android.view.SurfaceView;
 
 public class LetterTray {
 	private int x;
@@ -52,10 +53,16 @@ public class LetterTray {
 
 	public void draw(Canvas canvas){
 		// iterates through all tile objects and draws them 
+		int touchedIndex = 0;
 		for(int r=0; r < size; r++){
-			Object tile = this.getTileFromTray(r);
-			((Tile) tile).draw(canvas);
+			Tile tile = this.getTileFromTray(r);
+			if(!tile.isTouched()){
+				tile.draw(canvas);
+			} else {
+				touchedIndex = r;
+			}
 		}
+		this.getTileFromTray(touchedIndex).draw(canvas);
 	}
 	
 	public void handleActionDown(int eventX, int eventY){
