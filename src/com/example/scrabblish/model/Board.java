@@ -1,10 +1,13 @@
 package com.example.scrabblish.model;
 
-import java.util.Map.Entry;
+import java.util.Arrays;
 import java.util.TreeMap;
+
+import com.example.scrabblish.MainView;
 
 import android.annotation.SuppressLint;
 import android.graphics.Canvas;
+import android.util.Log;
 
 
 @SuppressLint("NewApi")
@@ -15,6 +18,7 @@ public class Board {
 	private int width;
 	private int height;
 	private TileSpace[][] tileSpaces;
+	private static final String TAG = MainView.class.getSimpleName();
 
 	public Board(int x, int y, int size, TileSpace[][] tileSpaces){
 		this.x = x;
@@ -146,6 +150,18 @@ public class Board {
 					tileSpace.setOccupied(false);
 				}
 			}
+		}
+	}
+	
+	public void showOccupation(){
+		TileSpace[][] tileSpaces = this.getAllTileSpaces();
+		for(int r=0; r < Math.sqrt(size); r++){
+			boolean[] row = new boolean[(int) Math.sqrt(size)];
+			for (int c=0; c < Math.sqrt(size); c++){
+				TileSpace tileSpace = tileSpaces[r][c];
+				row[c] = tileSpace.isOccupied();
+			}
+			Log.d(TAG, "R" + r + ": " + Arrays.toString(row));
 		}
 	}
 }

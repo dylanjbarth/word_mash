@@ -167,6 +167,7 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 	protected void onDraw(Canvas canvas){
 		canvas.drawColor(Color.BLACK);
 		board.draw(canvas);
+		board.showOccupation();
 		letterTray.draw(canvas);
 	}
 }
