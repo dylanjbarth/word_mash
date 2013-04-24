@@ -1,5 +1,7 @@
 package com.example.scrabblish;
 
+import java.util.Arrays;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -20,9 +22,9 @@ import com.example.scrabblish.model.Tile;
 import com.example.scrabblish.model.TileSpace;
 
 public class MainView extends SurfaceView implements SurfaceHolder.Callback {
-	
+
 	private static final String TAG = MainView.class.getSimpleName();
-	
+
 	private MainThread thread;
 	private Board board;
 	private LetterTray letterTray;
@@ -34,7 +36,7 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 	private int boardWidth;
 	private int letterTrayWidth;
 	private int gameMenuWidth;
-	
+
 	public MainView(Context context){
 		super(context);
 		getHolder().addCallback(this);
@@ -48,18 +50,18 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 		Log.d(TAG, "ScreenWidth: " + screenWidth);
 		Log.d(TAG, "ScreenHeight: " + screenHeight);
 	}
-	
+
 	@Override 
 	public void surfaceCreated(SurfaceHolder holder){
 		thread.setRunning(true);
 		thread.start();
 	}
-	
+
 	@Override
 	public void surfaceChanged(SurfaceHolder holder, int format, int width, int height){
 		// necessary for MainView
 	}
-	
+
 	@Override
 	public void surfaceDestroyed(SurfaceHolder holder){
 		boolean retry = true;
@@ -72,11 +74,11 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 			}
 		}
 	}
-	
+
 	/*************************
 	 * Create Game Objects * 
 	 *************************/
-	
+
 	public void prepGame(){
 		createBoard(0, 0, BOARD_SIZE*BOARD_SIZE);
 		createLetterTray();
@@ -88,7 +90,7 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 		TileSpace[][] tileSpaces = createTileSpaces(BOARD_SIZE);
 		board = new Board(x, y, size, tileSpaces);
 	}
-	
+
 	public TileSpace[][] createTileSpaces(int size){
 		// return an 2D object array containing tileSpaces 
 		TileSpace[][] tileSpaces = new TileSpace[size][size];
@@ -103,7 +105,7 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 		}
 		return tileSpaces;
 	}
-	
+
 	public void createLetterTray(){
 		// Create tiles that make up letter tray array
 		boardWidth = board.getWidth();
@@ -114,58 +116,63 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 		letterTray = new LetterTray(boardWidth, 0, LETTER_TRAY_SIZE, tray);
 		letterTrayWidth = letterTray.getWidth();
 	}
-	
+
 	public Tile createTile(int index, int startX) {
 		// return a tile at the appropriate space and index
 		int imgWidth = screenWidth/(BOARD_SIZE*2);
 		int imgHeight = screenHeight/BOARD_SIZE;
 		Bitmap tileImage = BitmapFactory.decodeResource(getResources(), R.drawable.letter_tile);
 		Tile tile = new Tile(tileImage, imgWidth, imgHeight, index, startX);
-		Log.d(TAG, "Creating new tile with index: " + index + ", width: " + imgWidth + "height: " + imgHeight);
+		//		Log.d(TAG, "Creating new tile with index: " + index + ", width: " + imgWidth + "height: " + imgHeight);
 		return tile;
 	}
-	
+
 	public void createGameMenu(){
 		// Create components
 		gameMenuWidth = screenWidth - boardWidth - letterTrayWidth;
-		Component[] gameMenuComponents = createGameMenuComponents(gameMenuWidth);
 		int x = boardWidth+letterTrayWidth;
 		int y = 0;
-		GameMenu gameMenu = new GameMenu(x, y, gameMenuWidth, screenHeight, gameMenuComponents);
+		Component[] gameMenuComponents = createGameMenuComponents(x, gameMenuWidth);
+		gameMenu = new GameMenu(x, y, gameMenuWidth, screenHeight, gameMenuComponents);
 	}
-	
-	public Component[] createGameMenuComponents(int width){
+
+	public Component[] createGameMenuComponents(int startX, int width){
 		int NUMCOMPONENTS = 5;
 		Component[] components = new Component[NUMCOMPONENTS];
 		for (int i=0; i < NUMCOMPONENTS; i++){
 			String title = "";
-			int height = screenHeight/NUMCOMPONENTS, x = 0, y = height*i;
+			int height = screenHeight/NUMCOMPONENTS, x = startX, y = height*i;
 			boolean isButton = false;
 			switch(i){
 			case 0: 
 				title = "logo";
+				break;
 			case 1:
 				title = "score";
+				break;
 			case 2:
 				title = "shuffle";
 				isButton = true;
+				break;
 			case 3:
 				title = "newTiles";
 				isButton = true;
+				break;
 			case 4:
 				title = "menu";
 				isButton = true;
+				break;
 			}
 			Component component = new Component(title, x, y, width, height, isButton);
 			components[i] = component;
 		}
 		return components;
 	}
-	
+
 	/*************************
 	 * Game logic * 
 	 *************************/
-	
+
 	@Override
 	public boolean onTouchEvent(MotionEvent event){
 		float eventX = event.getX();
@@ -175,10 +182,10 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 			board.checkForExports((int)eventX, (int)eventY);
 			letterTray.handleActionDown((int)eventX, (int)eventY);
 			// exit if touch bottom of screen
-//			if (event.getY() > getHeight() - 50){
-//				thread.setRunning(false);
-//				((Activity)getContext()).finish();
-//			}
+			//			if (event.getY() > getHeight() - 50){
+			//				thread.setRunning(false);
+			//				((Activity)getContext()).finish();
+			//			}
 		} if (event.getAction() == MotionEvent.ACTION_MOVE){
 			// Update for dragging
 			Tile tile = letterTray.tileTouched();
@@ -196,12 +203,12 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 		}
 		return true;
 	}
-	
+
 	@Override
 	protected void onDraw(Canvas canvas){
 		canvas.drawColor(Color.BLACK);
 		board.draw(canvas);
-//		board.showOccupation();
+		gameMenu.draw(canvas);
 		letterTray.draw(canvas);
 	}
 }

@@ -19,29 +19,21 @@ public class LetterTray {
 		this.size = size;
 		this.tray = tray;
 	}
-
+	
+	/*************************
+	 * Getters * 
+	 *************************/
+	
 	public int getX(){
 		return x;
-	}
-
-	public void setX(int x){
-		this.x = x;
 	}
 
 	public int getY(){
 		return y;
 	}
 
-	public void setY(int y){
-		this.y = y;
-	}
-
 	public int getSize(){
 		return size;
-	}
-
-	public void setSize(int size){
-		this.size = size;
 	}
 	
 	public int getWidth(){
@@ -50,7 +42,7 @@ public class LetterTray {
 		return this.width;
 	}
 
-	public Object[] getTray(){
+	public Tile[] getTray(){
 		return this.tray;
 	}
 
@@ -58,6 +50,10 @@ public class LetterTray {
 		return this.tray[index];
 	}
 
+	/*************************
+	 * Helpers * 
+	 *************************/
+	
 	public void draw(Canvas canvas){
 		// iterates through all tile objects and draws them, touched tile last
 		int touchedIndex = 7;
