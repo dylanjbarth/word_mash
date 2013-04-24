@@ -126,8 +126,6 @@ public class TileSpace {
 		if ((tileCenterX >= this.x) && (tileCenterX < (this.x + this.width))) {
 			if ((tileCenterY > this.y) && (tileCenterY <= (this.y + this.height))) {
 				if(this.occupied){
-					Log.d(TAG, "calling getClosestTileSpace for tile:" + tile.getIndex());
-					Log.d(TAG, "current tilespace: (" + row + ", " + col + ")");
 					TileSpace freeSpace = board.getClosestAvailableTileSpace(tileCenterX, tileCenterY);
 					tile.setX(freeSpace.getX());
 					tile.setY(freeSpace.getY());
