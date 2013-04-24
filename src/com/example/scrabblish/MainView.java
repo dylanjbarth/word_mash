@@ -141,7 +141,7 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 		Component[] components = new Component[NUMCOMPONENTS];
 		for (int i=0; i < NUMCOMPONENTS; i++){
 			String title = "";
-			int height = screenHeight/NUMCOMPONENTS, x = startX, y = height*i;
+			int height = screenHeight/NUMCOMPONENTS, x = startX, y = height*i, index = i;
 			boolean isButton = false;
 			switch(i){
 			case 0: 
@@ -163,7 +163,7 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 				isButton = true;
 				break;
 			}
-			Component component = new Component(title, x, y, width, height, isButton);
+			Component component = new Component(title, index, x, y, width, height, isButton);
 			components[i] = component;
 		}
 		return components;
@@ -177,10 +177,11 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 	public boolean onTouchEvent(MotionEvent event){
 		float eventX = event.getX();
 		float eventY = event.getY();
-		Log.d(TAG, "Touch: x=" + eventX + ", y=" + eventY);
+//		Log.d(TAG, "Touch: x=" + eventX + ", y=" + eventY);
 		if(event.getAction() == MotionEvent.ACTION_DOWN){
-			board.checkForExports((int)eventX, (int)eventY);
+			board.handleMovingTiles((int)eventX, (int)eventY);
 			letterTray.handleActionDown((int)eventX, (int)eventY);
+			gameMenu.handleActionDown((int)eventX, (int)eventY);
 			// exit if touch bottom of screen
 			//			if (event.getY() > getHeight() - 50){
 			//				thread.setRunning(false);
@@ -189,12 +190,14 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 		} if (event.getAction() == MotionEvent.ACTION_MOVE){
 			// Update for dragging
 			Tile tile = letterTray.tileTouched();
+			gameMenu.handleActionMove((int)eventX, (int)eventY); 
 			if(tile != null){
 				tile.dragSetX((int)event.getX());
 				tile.dragSetY((int)event.getY());
 			}
 		} if (event.getAction() == MotionEvent.ACTION_UP){
 			// snap tile into place
+			gameMenu.handleActionUp((int)eventX, (int)eventY);
 			Tile tile = letterTray.tileTouched();
 			if(tile != null){
 				board.snapTileIntoPlace(tile);

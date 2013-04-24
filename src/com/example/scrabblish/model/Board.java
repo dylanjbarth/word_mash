@@ -12,11 +12,7 @@ import android.util.Log;
 
 @SuppressLint("NewApi")
 public class Board {
-	private int x;
-	private int y;
-	private int size;
-	private int width;
-	private int height;
+	private int x, y, size, width, height;
 	private TileSpace[][] tileSpaces;
 	private static final String TAG = MainView.class.getSimpleName();
 
@@ -146,7 +142,7 @@ public class Board {
 		return freedom;
 	}
 	
-	public void checkForExports(int eventX, int eventY){
+	public void handleMovingTiles(int eventX, int eventY){
 		TileSpace[][] tileSpaces = this.getAllTileSpaces();
 		for(int r=0; r < Math.sqrt(size); r++){
 			for (int c=0; c < Math.sqrt(size); c++){

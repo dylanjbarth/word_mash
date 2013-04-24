@@ -10,16 +10,7 @@ import android.util.Log;
 
 public class Tile {
 	private Bitmap bitmap;
-	private int resetX;
-	private int resetY;
-	private int x;
-	private int y;
-	private int centerX;
-	private int centerY;
-	private int width;
-	private int height;
-	private int index;
-	private int SCALOR = 2;
+	private int resetX, resetY, x, y, centerX, centerY, width, height, index, SCALOR = 2;
 	private boolean touched;
 	private char letter;
 	private static final String TAG = MainView.class.getSimpleName();

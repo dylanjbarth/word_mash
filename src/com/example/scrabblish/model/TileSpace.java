@@ -8,14 +8,7 @@ import com.example.scrabblish.MainView;
 
 public class TileSpace {
 	private Bitmap bitmap;
-	private int row;
-	private int col;
-	private int x;
-	private int y;
-	private int centerX;
-	private int centerY;
-	private int width;
-	private int height;
+	private int row, col, x, y, centerX, centerY, width, height;
 	private boolean occupied;
 	private int multiplier;
 	private static final String TAG = MainView.class.getSimpleName();

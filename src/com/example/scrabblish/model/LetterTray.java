@@ -6,10 +6,7 @@ import android.graphics.Canvas;
 import android.view.SurfaceView;
 
 public class LetterTray {
-	private int x;
-	private int y;
-	private int width;
-	private int size;
+	private int x, y, width, size;
 	private Tile[] tray;
 	private static final String TAG = MainView.class.getSimpleName();
 
