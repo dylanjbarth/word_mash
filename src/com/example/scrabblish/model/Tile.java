@@ -1,8 +1,10 @@
 package com.example.scrabblish.model;
 
+import com.example.letterscrummage.R;
 import com.example.scrabblish.MainView;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.util.Log;
 
@@ -17,6 +19,7 @@ public class Tile {
 	private int width;
 	private int height;
 	private int index;
+	private int SCALOR = 2;
 	private boolean touched;
 	private char letter;
 	private static final String TAG = MainView.class.getSimpleName();
@@ -32,7 +35,7 @@ public class Tile {
 		this.height = height;
 		this.centerX = updateCenterX(x);
 		this.centerY = updateCenterY(y);
-//		this.letter = letter; // generate rando 
+		//		this.letter = letter; // generate rando 
 		Log.d(TAG, "Created tile index: " + index + ", x:" + x + ", y:" + y);
 	}
 
@@ -50,47 +53,47 @@ public class Tile {
 	public int getX(){
 		return x;
 	}
-	
+
 	public int getY(){
 		return y;
 	}
-	
+
 	public int getCenterX(){
 		return centerX;
 	}
-	
+
 	public int getCenterY(){
 		return centerY;
 	}
-	
+
 	public int getHeight(){
 		return height;
 	}
-	
+
 	public int getWidth(){
 		return width;
 	}
-	
+
 	public int getLetter(){
 		return letter;
 	}
-	
+
 	public boolean isTouched(){
 		return touched;
 	}
-	
+
 	/*************************
 	 * Setters * 
 	 *************************/
 	public void setBitmap(Bitmap bitmap){
 		this.bitmap = bitmap;
 	}
-	
+
 	public void setX(int x){
 		this.x = x;
 		this.centerX = updateCenterX(x);
 	}
-	
+
 	public void setY(int y){
 		this.y = y;
 		this.centerY = updateCenterY(y);
@@ -99,15 +102,15 @@ public class Tile {
 	public void dragSetX(int x){
 		setX(x-width/2);
 	}
-	
+
 	public void dragSetY(int y){
 		setY(y-height/2);
 	}
-	
+
 	public int updateCenterX(int x){
 		return x+width/2;
 	}
-	
+
 	public int updateCenterY(int y){
 		return y+height/2;
 	}
@@ -119,7 +122,7 @@ public class Tile {
 	public void setTouched(boolean touched){
 		this.touched = touched;
 	}
-	
+
 	/*************************
 	 * Helpers * 
 	 *************************/
@@ -133,22 +136,36 @@ public class Tile {
 		canvas.drawBitmap(bitmap, x, y, null);
 	}
 
+	public void drawBig(Canvas canvas){
+		int SCALOR = 2;
+		int newWidth = width*SCALOR;
+		int newHeight = height*SCALOR;
+		int newX = x - (newWidth)/2;
+		int newY = y - (newHeight)/2;
+		canvas.drawBitmap(scaleBitmap(bitmap, newWidth, newHeight), newX, newY, null);
+	}
+
 	public void handleActionDown(int eventX, int eventY){
-		if ((eventX >= x) && (eventX <= (x + width))) {
-			if ((eventY >= y) && (eventY <= (y + height))) {
-				setTouched(true);
-			} else {
-				setTouched(false);
-			}
+		if (((eventX >= x) && (eventX <= (x + width))) && ((eventY >= y) && (eventY <= (y + height)))) {
+			setTouched(true);
+			
+//			expandImage(); here would be where to blow up image
 		} else {
 			setTouched(false);
 		}
 	}
-	
+
 	public void resetPosition(){
 		this.x = resetX;
 		this.y = resetY;
 		Log.d(TAG, "Resetting pos, index:" + index + ", x:" + resetX + " y:" + resetY);
 	}
+
+//	public void expandImage(){
+//		this.bitmap = scaleBitmap(bitmap, width*SCALOR, height*SCALOR);
+//		this.x = ;
+//		this.y = resetY;
+//		Log.d(TAG, "Resetting pos, index:" + index + ", x:" + resetX + " y:" + resetY);
+//	}
 
 }

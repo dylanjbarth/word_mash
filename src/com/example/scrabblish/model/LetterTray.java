@@ -52,24 +52,27 @@ public class LetterTray {
 	}
 
 	public void draw(Canvas canvas){
-		// iterates through all tile objects and draws them 
-		int touchedIndex = 0;
+		// iterates through all tile objects and draws them, touched tile last
+		int touchedIndex = 7;
 		for(int r=0; r < size; r++){
 			Tile tile = this.getTileFromTray(r);
 			if(!tile.isTouched()){
 				tile.draw(canvas);
 			} else {
-				touchedIndex = r;
+				touchedIndex = r; 
 			}
 		}
-		this.getTileFromTray(touchedIndex).draw(canvas);
+		if (touchedIndex < 7){ // this is a total hack
+			this.getTileFromTray(touchedIndex).draw(canvas); // for now
+//			this.getTileFromTray(touchedIndex).drawBig(canvas); // for later
+		}
 	}
 	
 	public void handleActionDown(int eventX, int eventY){
 		// iterates through all tile objects and asks them to handle the individual action down event
 		for(int r=0; r < size; r++){
-			Object tile = this.getTileFromTray(r);
-			((Tile) tile).handleActionDown(eventX, eventY);
+			Tile tile = this.getTileFromTray(r);
+			tile.handleActionDown(eventX, eventY);
 		}
 	}
 	
@@ -77,7 +80,7 @@ public class LetterTray {
 		// iterates through all tile objects and returns the object that is currently touched
 		for(int r=0; r < size; r++){
 			Tile tile = this.getTileFromTray(r);
-			if (((Tile) tile).isTouched()){
+			if (tile.isTouched()){
 				return tile;
 			}
 		}

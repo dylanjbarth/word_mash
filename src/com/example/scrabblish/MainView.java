@@ -146,11 +146,6 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 			if(tile != null){
 				tile.dragSetX((int)event.getX());
 				tile.dragSetY((int)event.getY());
-//				Log.d(TAG, "Moving tile index: " + tile.getIndex());
-//				Log.d(TAG, "tileX: " + tile.getX());
-//				Log.d(TAG, "tileY: " + tile.getY());
-//				Log.d(TAG, "tileCenterX: " + tile.getCenterX());
-//				Log.d(TAG, "tilCenterY: " + tile.getCenterY());
 			}
 		} if (event.getAction() == MotionEvent.ACTION_UP){
 			// snap tile into place
