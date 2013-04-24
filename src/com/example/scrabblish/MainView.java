@@ -1,7 +1,5 @@
 package com.example.scrabblish;
 
-import java.util.Arrays;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -30,7 +28,7 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 	private LetterTray letterTray;
 	private GameMenu gameMenu;
 	private int BOARD_SIZE = 7; // note that changing either of these may make it necessary to change buffer size in TileSpace.handleTileSnapping
-	private int LETTER_TRAY_SIZE = 6;
+	private int LETTER_TRAY_SIZE = 7;
 	private int screenWidth;
 	private int screenHeight;
 	private int boardWidth;

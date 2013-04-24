@@ -1,7 +1,6 @@
 package com.example.scrabblish.model;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import android.graphics.Canvas;
 

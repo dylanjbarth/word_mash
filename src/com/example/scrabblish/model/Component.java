@@ -29,7 +29,12 @@ public class Component {
 	}
 
 	public void draw(Canvas canvas){
-		paint.setColor(Color.LTGRAY);
+		if (isTouched){
+			paint.setColor(Color.DKGRAY);
+		} else {
+			paint.setColor(Color.LTGRAY);
+		}
+		
         paint.setStrokeWidth(1);
         canvas.drawRect(x, y, x+width, y+height, paint);
         paint.setColor(Color.BLACK);
