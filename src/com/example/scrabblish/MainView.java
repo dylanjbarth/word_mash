@@ -13,6 +13,8 @@ import android.view.SurfaceView;
 
 import com.example.letterscrummage.R;
 import com.example.scrabblish.model.Board;
+import com.example.scrabblish.model.Component;
+import com.example.scrabblish.model.GameMenu;
 import com.example.scrabblish.model.LetterTray;
 import com.example.scrabblish.model.Tile;
 import com.example.scrabblish.model.TileSpace;
@@ -24,10 +26,14 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 	private MainThread thread;
 	private Board board;
 	private LetterTray letterTray;
+	private GameMenu gameMenu;
 	private int BOARD_SIZE = 7; // note that changing either of these may make it necessary to change buffer size in TileSpace.handleTileSnapping
 	private int LETTER_TRAY_SIZE = 6;
 	private int screenWidth;
-	private int screenHeight;	
+	private int screenHeight;
+	private int boardWidth;
+	private int letterTrayWidth;
+	private int gameMenuWidth;
 	
 	public MainView(Context context){
 		super(context);
@@ -68,15 +74,13 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 	}
 	
 	/*************************
-	 * Setup * 
+	 * Create Game Objects * 
 	 *************************/
 	
 	public void prepGame(){
-		// first, create game board, specifying x, y, and size 
 		createBoard(0, 0, BOARD_SIZE*BOARD_SIZE);
-		
-		// Next, create letter tray (Size based on board size)
 		createLetterTray();
+		createGameMenu();
 	}
 
 	public void createBoard(int x, int y, int size){
@@ -86,7 +90,7 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 	}
 	
 	public TileSpace[][] createTileSpaces(int size){
-		// returns an 2D object array of tileSpaces 
+		// return an 2D object array containing tileSpaces 
 		TileSpace[][] tileSpaces = new TileSpace[size][size];
 		int imgWidth = screenWidth/(size*2);
 		int imgHeight = screenHeight/size;
@@ -100,21 +104,19 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 		return tileSpaces;
 	}
 	
-	public Bitmap scaleBitmap(Bitmap tileSpaceImage, int imgWidth, int imgHeight){
-		Bitmap resizedBitmap=Bitmap.createScaledBitmap(tileSpaceImage, imgWidth, imgHeight, true);
-		return resizedBitmap;
-	}
-	
 	public void createLetterTray(){
-		int boardWidth = board.getWidth();
+		// Create tiles that make up letter tray array
+		boardWidth = board.getWidth();
 		Tile[] tray = new Tile[LETTER_TRAY_SIZE];
 		for(int i=0; i < LETTER_TRAY_SIZE; i++){
 			tray[i] = ((Tile) createTile(i, boardWidth));
 		}
 		letterTray = new LetterTray(boardWidth, 0, LETTER_TRAY_SIZE, tray);
+		letterTrayWidth = letterTray.getWidth();
 	}
 	
 	public Tile createTile(int index, int startX) {
+		// return a tile at the appropriate space and index
 		int imgWidth = screenWidth/(BOARD_SIZE*2);
 		int imgHeight = screenHeight/BOARD_SIZE;
 		Bitmap tileImage = BitmapFactory.decodeResource(getResources(), R.drawable.letter_tile);
@@ -123,8 +125,45 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 		return tile;
 	}
 	
+	public void createGameMenu(){
+		// Create components
+		gameMenuWidth = screenWidth - boardWidth - letterTrayWidth;
+		Component[] gameMenuComponents = createGameMenuComponents(gameMenuWidth);
+		int x = boardWidth+letterTrayWidth;
+		int y = 0;
+		GameMenu gameMenu = new GameMenu(x, y, gameMenuWidth, screenHeight, gameMenuComponents);
+	}
+	
+	public Component[] createGameMenuComponents(int width){
+		int NUMCOMPONENTS = 5;
+		Component[] components = new Component[NUMCOMPONENTS];
+		for (int i=0; i < NUMCOMPONENTS; i++){
+			String title = "";
+			int height = screenHeight/NUMCOMPONENTS, x = 0, y = height*i;
+			boolean isButton = false;
+			switch(i){
+			case 0: 
+				title = "logo";
+			case 1:
+				title = "score";
+			case 2:
+				title = "shuffle";
+				isButton = true;
+			case 3:
+				title = "newTiles";
+				isButton = true;
+			case 4:
+				title = "menu";
+				isButton = true;
+			}
+			Component component = new Component(title, x, y, width, height, isButton);
+			components[i] = component;
+		}
+		return components;
+	}
+	
 	/*************************
-	 * Game moderation * 
+	 * Game logic * 
 	 *************************/
 	
 	@Override

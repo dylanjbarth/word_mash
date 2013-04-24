@@ -8,6 +8,7 @@ import android.view.SurfaceView;
 public class LetterTray {
 	private int x;
 	private int y;
+	private int width;
 	private int size;
 	private Tile[] tray;
 	private static final String TAG = MainView.class.getSimpleName();
@@ -41,6 +42,12 @@ public class LetterTray {
 
 	public void setSize(int size){
 		this.size = size;
+	}
+	
+	public int getWidth(){
+		Tile tile = getTileFromTray(0);
+		this.width = tile.getWidth();
+		return this.width;
 	}
 
 	public Object[] getTray(){
