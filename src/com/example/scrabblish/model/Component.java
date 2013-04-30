@@ -62,7 +62,7 @@ public class Component {
 	
 	public void handleActionMove(int eventX, int eventY) {
 		if(this.isTouched){
-			if(!(eventX >= x) && (eventX < x+width) && (eventY >= y) && (eventY < y+height)){
+			if(!((eventX >= x) && (eventX < x+width) && (eventY >= y) && (eventY < y+height))){
 				this.isTouched = false;
 				Log.d(TAG, "Moved outside of " + title + ", setting touched to false!");
 				// clicked(); or by button type, do each individual method here, this can be the qb
