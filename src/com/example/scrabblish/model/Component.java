@@ -10,7 +10,7 @@ import com.example.scrabblish.MainView;
 public class Component {
 	private int x, y, width, height, index;
 	private String title;
-	private boolean isButton, isTouched;
+	private boolean isButton, isTouched, clicked;
 	private Paint paint = new Paint();
 	private static final String TAG = MainView.class.getSimpleName();
 
@@ -40,18 +40,35 @@ public class Component {
         paint.setColor(Color.BLACK);
         canvas.drawText(title, x+20, y+20, paint);
 	}
+	
+	/*************************
+	 * Getters * 
+	 *************************/
 
 	public String getTitle() {
 		return title;
 	}
+	
+	public boolean isButton() {
+		return this.isButton;
+	}
+	
+	public boolean isClicked() {
+		return this.clicked;
+	}
+	
+	/*************************
+	 * Setters * 
+	 *************************/
 
 	public void setTitle(String title) {
 		this.title = title;
 	}
 
-	public boolean isButton() {
-		return this.isButton;
+	public void resetClicked(){
+		this.clicked = false;
 	}
+	
 
 	public void handleActionDown(int eventX, int eventY) {
 		if((eventX >= x) && (eventX < x+width) && (eventY >= y) && (eventY < y+height)){
@@ -74,6 +91,7 @@ public class Component {
 		if(this.isTouched){
 			if((eventX >= x) && (eventX < x+width) && (eventY >= y) && (eventY < y+height)){
 				this.isTouched = false;
+				this.clicked = true;
 				Log.d(TAG, title + " has been clicked!");
 				// clicked(); or by button type, do each individual method here, this can be the qb
 			}

@@ -69,15 +69,10 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event){
-		float eventX = event.getX();
-		float eventY = event.getY();
-		if(event.getAction() == MotionEvent.ACTION_DOWN){
-			game.handleActionDown((int)eventX, (int)eventY);
-		} if (event.getAction() == MotionEvent.ACTION_MOVE){
-			game.handleActionMove((int)eventX, (int)eventY);
-		} if (event.getAction() == MotionEvent.ACTION_UP){
-			game.handleActionUp((int)eventX, (int)eventY);
-		}
+		// Check game state, then handle touches appropriately.
+		int eventX = ((int) event.getX());
+		int eventY = ((int) event.getY());
+		game.handleAction(event.getAction(), eventX, eventY);
 		return true;
 	}
 

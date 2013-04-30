@@ -4,7 +4,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.util.Log;
+import android.view.MotionEvent;
 
 import com.example.letterscrummage.R;
 import com.example.scrabblish.MainView;
@@ -16,6 +16,7 @@ public class Game {
 	private Resources resources; 
 	private int width, height;
 	private int BOARD_SIZE = 7, LETTER_TRAY_SIZE = 7, COMPONENTS = 5;
+	private String state;
 	
 	private static final String TAG = MainView.class.getSimpleName();
 
@@ -26,6 +27,7 @@ public class Game {
 		this.board = createBoard(0, 0, BOARD_SIZE*BOARD_SIZE);
 		this.tray = createLetterTray();
 		this.menu = createGameMenu();
+		this.state = "preGame";
 	}
 
 	/*************************
@@ -81,7 +83,7 @@ public class Game {
 		int x = this.board.boardWidth()+this.tray.getWidth();
 		int y = 0;
 		Component[] gameMenuComponents = createGameMenuComponents(x, gameMenuWidth);
-		GameMenu gameMenu = new GameMenu(x, y, gameMenuWidth, this.height, gameMenuComponents);
+		GameMenu gameMenu = new GameMenu(x, y, gameMenuWidth, this.height, gameMenuComponents, this.state);
 		return gameMenu;
 	}
 
@@ -99,15 +101,18 @@ public class Game {
 				title = "score";
 				break;
 			case 2:
-				title = "shuffle";
+				// shuffle or recall tiles
+				title = "updateTray";
 				isButton = true;
 				break;
 			case 3:
+				// allows exchange of tiles
 				title = "newTiles";
 				isButton = true;
 				break;
 			case 4:
-				title = "menu";
+				// new game, pause, resume
+				title = "changeGameState";
 				isButton = true;
 				break;
 			}
@@ -158,15 +163,72 @@ public class Game {
 		menu.draw(canvas);
 		tray.draw(canvas);
 	}
-
-	public void handleActionDown(int eventX, int eventY){
-		board.handleMovingTiles((int)eventX, (int)eventY);
-		menu.handleActionDown((int)eventX, (int)eventY);
-		tray.handleActionDown((int)eventX, (int)eventY);
+	
+	public void handleAction(int event, int eventX, int eventY){
+		String gameState = this.state;
+		if(gameState == "preGame"){
+			// handle touches
+			if(event == MotionEvent.ACTION_DOWN){
+				preGameActionDown(eventX, eventY);
+			} else if (event == MotionEvent.ACTION_MOVE){
+				preGameActionMove(eventX, eventY);
+			} else if (event == MotionEvent.ACTION_UP){
+				preGameActionUp(eventX, eventY);
+			}
+			if(newGameClicked()){
+				this.state = "inGame";
+			}
+		} else if (gameState == "startGame"){
+			
+		} else if (gameState == "inGame"){
+			if(event == MotionEvent.ACTION_DOWN){
+				inGameActionDown(eventX, eventY);
+			} else if (event == MotionEvent.ACTION_MOVE){
+				inGameActionMove(eventX, eventY);
+			} else if (event == MotionEvent.ACTION_UP){
+				inGameActionUp(eventX, eventY);
+			}
+		} else if (gameState == "postGame"){
+			
+		}
+	}
+	
+	/*************************
+	 * preGame methods * 
+	 *************************/
+	
+	public void preGameActionDown(int eventX, int eventY){
+		menu.preGameActionDown(eventX, eventY);
 	}
 
-	public void handleActionMove(int eventX, int eventY){
-		menu.handleActionMove((int)eventX, (int)eventY); 
+	public void preGameActionMove(int eventX, int eventY){
+		menu.handleActionMove(eventX, eventY);
+	}
+
+	public void preGameActionUp(int eventX, int eventY){
+		menu.handleActionUp(eventX, eventY);
+	}
+	
+	public boolean newGameClicked(){
+		return menu.checkNewGameClicked();
+	}
+	
+	/*************************
+	 * startGame methods * 
+	 *************************/
+	
+	/*************************
+	 * inGame methods * 
+	 *************************/
+	
+	public void inGameActionDown(int eventX, int eventY){
+		board.handleMovingTiles(eventX, eventY);
+		menu.handleActionDown(eventX, eventY);
+		tray.handleActionDown(eventX, eventY);
+	}
+
+	public void inGameActionMove(int eventX, int eventY){
+		menu.handleActionMove(eventX, eventY); 
 		Tile tile = tray.tileTouched();
 		if(tile != null){
 			tile.dragSetX(eventX);
@@ -174,13 +236,17 @@ public class Game {
 		}
 	}
 
-	public void handleActionUp(int eventX, int eventY){
-		menu.handleActionUp((int)eventX, (int)eventY);
+	public void inGameActionUp(int eventX, int eventY){
+		menu.handleActionUp(eventX, eventY);
 		Tile tile = tray.tileTouched();
 		if(tile != null){
 			board.snapTileIntoPlace(tile);
 			tile.setTouched(false);
 		}
 	}
+	
+	/*************************
+	 * postGame methods * 
+	 *************************/
 
 }
