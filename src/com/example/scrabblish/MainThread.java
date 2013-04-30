@@ -31,7 +31,7 @@ public class MainThread extends Thread {
 				synchronized(surfaceHolder){
 					// update game state
 					// render state to the screen
-					this.mainView.onDraw(canvas);
+					this.mainView.mainLoop(canvas);
 				} 
 			} finally {
 				if (canvas != null){
