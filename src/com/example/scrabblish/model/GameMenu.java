@@ -39,10 +39,10 @@ public class GameMenu {
 		return buttons;
 	}
 
-	public Component getGameStateChangedButton(){
+	public Component getButton(String buttonName){
 		for(int i=0; i < this.components.length; i++){
 			Component comp = components[i];
-			if(comp.isButton() && comp.getTitle() == "changeGameState"){
+			if(comp.isButton() && comp.getTitle() == buttonName){
 				return comp;
 			}
 		}
@@ -54,23 +54,23 @@ public class GameMenu {
 	 *************************/
 
 	public void preGameActionDown(int eventX, int eventY) {
-		getGameStateChangedButton().handleActionDown(eventX, eventY);
+		getButton("changeGameState").handleActionDown(eventX, eventY);
 	}
 
 	public void preGameActionMove(int eventX, int eventY) {
-		getGameStateChangedButton().handleActionMove(eventX, eventY);
+		getButton("changeGameState").handleActionMove(eventX, eventY);
 	}
 
 	public void preGameActionUp(int eventX, int eventY) {
-		getGameStateChangedButton().handleActionUp(eventX, eventY);
+		getButton("changeGameState").handleActionUp(eventX, eventY);
 	}
 	
 	public boolean checkNewGameClicked() {
-		return getGameStateChangedButton().isClicked();
+		return getButton("changeGameState").isClicked();
 	}
 	
 	public void resetNewGameButton(){
-		getGameStateChangedButton().resetClicked();
+		getButton("changeGameState").resetClicked();
 	}
 
 	/*************************
