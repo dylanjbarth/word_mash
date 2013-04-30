@@ -81,20 +81,10 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 		return true;
 	}
 
-	public void updateState(){
-		// do something important eventually
-	}
-
 	@Override
 	public void onDraw(Canvas canvas){
 		canvas.drawColor(Color.BLACK);
 		game.draw(canvas);
-	}
-
-	protected void mainLoop(Canvas canvas){
-		// main game loop
-		updateState();
-		onDraw(canvas);
 	}
 }
 
