@@ -177,6 +177,7 @@ public class Game {
 			}
 			if(newGameClicked()){
 				this.state = "inGame";
+				menu.resetNewGameButton();
 			}
 		} else if (gameState == "startGame"){
 			
