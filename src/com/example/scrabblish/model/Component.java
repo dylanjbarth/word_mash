@@ -25,11 +25,11 @@ public class Component {
 		this.isTouched = false;
 		if(this.title == "scoreTimer"){
 			this.score = 0;
-			this.time = 30;
+			this.time = 30; 
 		}
-        Log.d(TAG, "Initialized component:" + title + 
-        		"coords: (" + x + ", " + y + "), " +
-        		"h:" + height + " w:" + width);
+		Log.d(TAG, "Initialized component:" + title + 
+				"coords: (" + x + ", " + y + "), " +
+				"h:" + height + " w:" + width);
 	}
 
 	public void draw(Canvas canvas){
@@ -38,13 +38,17 @@ public class Component {
 		} else {
 			paint.setColor(Color.LTGRAY);
 		}
-		
-        paint.setStrokeWidth(1);
-        canvas.drawRect(x, y, x+width, y+height, paint);
-        paint.setColor(Color.BLACK);
-        canvas.drawText(title, x+20, y+20, paint);
+
+		paint.setStrokeWidth(1);
+		canvas.drawRect(x, y, x+width, y+height, paint);
+		paint.setColor(Color.BLACK);
+		if(title=="scoreTimer"){
+			canvas.drawText("Time: " + String.valueOf(time) + "s", x+20, y+20, paint);
+		} else {
+			canvas.drawText(title, x+20, y+20, paint);
+		}
 	}
-	
+
 	/*************************
 	 * Getters * 
 	 *************************/
@@ -52,19 +56,19 @@ public class Component {
 	public String getTitle() {
 		return title;
 	}
-	
+
 	public boolean isButton() {
 		return this.isButton;
 	}
-	
+
 	public boolean isClicked() {
 		return this.clicked;
 	}
-	
+
 	public int getTime(){
 		return this.time;
 	}
-	
+
 	/*************************
 	 * Setters * 
 	 *************************/
@@ -76,15 +80,15 @@ public class Component {
 	public void resetClicked(){
 		this.clicked = false;
 	}
-	
+
 	public void setScore(int score){
 		this.score = score;
 	}
-	
+
 	public void subtractTime(){
 		this.time -= 1;
 	}
-	
+
 	/*************************
 	 * Helpers * 
 	 *************************/
@@ -95,7 +99,7 @@ public class Component {
 			Log.d(TAG, "Setting " + title + " to touched!");
 		}
 	}
-	
+
 	public void handleActionMove(int eventX, int eventY) {
 		if(this.isTouched){
 			if(!((eventX >= x) && (eventX < x+width) && (eventY >= y) && (eventY < y+height))){
@@ -105,7 +109,7 @@ public class Component {
 			}
 		}
 	}
-	
+
 	public void handleActionUp(int eventX, int eventY) {
 		if(this.isTouched){
 			if((eventX >= x) && (eventX < x+width) && (eventY >= y) && (eventY < y+height)){
