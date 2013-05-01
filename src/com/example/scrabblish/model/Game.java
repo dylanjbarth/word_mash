@@ -2,6 +2,9 @@ package com.example.scrabblish.model;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -19,11 +22,12 @@ public class Game {
 	private GameMenu menu;
 	private Resources resources; 
 	private Timer inGameTimer;
-	private TimerTask updateTimer;
+	private ScheduledExecutorService timer;
 	private int width, height;
 	private int BOARD_SIZE = 7, LETTER_TRAY_SIZE = 7, COMPONENTS = 5;
 	private String state;
-	
+	private boolean TIMER_RUNNING = false;
+
 	private static final String TAG = MainView.class.getSimpleName();
 
 	public Game(int screenW, int screenH, Resources resources){
@@ -34,7 +38,6 @@ public class Game {
 		this.tray = createLetterTray();
 		this.menu = createGameMenu();
 		this.state = "preGame";
-		this.inGameTimer = new Timer();
 	}
 
 	/*************************
@@ -170,7 +173,7 @@ public class Game {
 		menu.draw(canvas);
 		tray.draw(canvas);
 	}
-	
+
 	public void handleAction(int event, int eventX, int eventY){
 		String gameState = this.state;
 		if(gameState == "preGame"){
@@ -184,11 +187,9 @@ public class Game {
 			}
 			if(newGameClicked()){
 				this.state = "inGame";
-				menu.resetNewGameButton();
+				menu.resetChangeGameStateButton();
 				startGameTimer();
 			}
-		} else if (gameState == "startGame"){
-			
 		} else if (gameState == "inGame"){
 			if(event == MotionEvent.ACTION_DOWN){
 				inGameActionDown(eventX, eventY);
@@ -198,14 +199,14 @@ public class Game {
 				inGameActionUp(eventX, eventY);
 			}
 		} else if (gameState == "postGame"){
-			
+
 		}
 	}
-	
+
 	/*************************
 	 * preGame methods * 
 	 *************************/
-	
+
 	public void preGameActionDown(int eventX, int eventY){
 		menu.preGameActionDown(eventX, eventY);
 	}
@@ -217,36 +218,42 @@ public class Game {
 	public void preGameActionUp(int eventX, int eventY){
 		menu.handleActionUp(eventX, eventY);
 	}
-	
+
 	public boolean newGameClicked(){
-		return menu.checkNewGameClicked();
+		return menu.checkChangeGameStateClicked();
 	}
-	
+
 	/*************************
-	 * startGame methods * 
+	 * timer methods * 
 	 *************************/
 	public void startGameTimer(){
-		// updateTimer every second
-		updateTimer = new TimerTask() {
-			@Override
+		TIMER_RUNNING = true;
+		timer = Executors.newSingleThreadScheduledExecutor();
+		Runnable startTimer = new Runnable() {
 			public void run() {
-				Component timer = menu.getComponent("scoreTimer");
-				timer.subtractTime();
-				Log.d(TAG, "Time: " + timer.getTime());
-				if(timer.getTime() == 0){
-					inGameTimer.cancel();
+				Component timerComponent = menu.getComponent("scoreTimer");
+				timerComponent.subtractTime();
+				Log.d(TAG, "Time: " + timerComponent.getTime());
+				if(timerComponent.getTime() == 0){
+					timer.shutdown();
+					TIMER_RUNNING = false;
 					Log.d(TAG, "Timer canceled."); 
 					state = "postGame";
 				}
 			}
 		};
-		inGameTimer.schedule(updateTimer, 0, 1000);
+		timer.scheduleAtFixedRate(startTimer, 0, 1000, TimeUnit.MILLISECONDS);
 	}
-	
+
+	public void pauseGameTimer(){
+		timer.shutdown();
+		TIMER_RUNNING = false;
+	}
+
 	/*************************
 	 * inGame methods * 
 	 *************************/
-	
+
 	public void inGameActionDown(int eventX, int eventY){
 		board.handleMovingTiles(eventX, eventY);
 		menu.handleActionDown(eventX, eventY);
@@ -264,13 +271,21 @@ public class Game {
 
 	public void inGameActionUp(int eventX, int eventY){
 		menu.handleActionUp(eventX, eventY);
+		if(menu.checkChangeGameStateClicked()){
+			if(TIMER_RUNNING){
+				pauseGameTimer();
+			} else {
+				startGameTimer();
+			}
+			menu.resetChangeGameStateButton();
+		}
 		Tile tile = tray.tileTouched();
 		if(tile != null){
 			board.snapTileIntoPlace(tile);
 			tile.setTouched(false);
 		}
 	}
-	
+
 	/*************************
 	 * postGame methods * 
 	 *************************/

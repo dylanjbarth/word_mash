@@ -67,15 +67,6 @@ public class GameMenu {
 	public void preGameActionUp(int eventX, int eventY) {
 		getComponent("changeGameState").handleActionUp(eventX, eventY);
 	}
-	
-	public boolean checkNewGameClicked() {
-		return getComponent("changeGameState").isClicked();
-	}
-	
-	public void resetNewGameButton(){
-		getComponent("changeGameState").resetClicked();
-		Log.d(TAG, "Reset changeGameState to unclicked state.");
-	}
 
 	/*************************
 	 * inGame methods * 
@@ -89,14 +80,6 @@ public class GameMenu {
 		}
 	}
 
-	public void handleActionUp(int eventX, int eventY) {
-		// only for buttons
-		ArrayList<Component> buttons = getAllButtons();
-		for(int i=0; i < buttons.size(); i++){
-			buttons.get(i).handleActionUp(eventX, eventY);
-		}
-	}
-
 	public void handleActionMove(int eventX, int eventY) {
 		// only for buttons
 		ArrayList<Component> buttons = getAllButtons();
@@ -104,4 +87,27 @@ public class GameMenu {
 			buttons.get(i).handleActionMove(eventX, eventY);
 		}
 	}
+	
+	public void handleActionUp(int eventX, int eventY) {
+		// only for buttons
+		ArrayList<Component> buttons = getAllButtons();
+		for(int i=0; i < buttons.size(); i++){
+			buttons.get(i).handleActionUp(eventX, eventY);
+		}
+		checkChangeGameStateClicked();
+	}
+	
+	/*************************
+	 * Button helper methods * 
+	 *************************/
+	
+	public boolean checkChangeGameStateClicked() {
+		return getComponent("changeGameState").isClicked();
+	}
+	
+	public void resetChangeGameStateButton(){
+		getComponent("changeGameState").resetClicked();
+	}
+	
+	
 }

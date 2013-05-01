@@ -4,6 +4,8 @@ import java.util.Random;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.util.Log;
 
 import com.example.scrabblish.MainView;
@@ -113,13 +115,13 @@ public class Tile {
 	
 	private String randomLetter(){
 		Random rand = new Random();
-		int i = rand.nextInt(26+1);
+		int i = rand.nextInt(26) + 1;
 		Log.d(TAG, "Created new rand int " + i);
 		return getCharForNumber(i);
 	}
 	
 	private String getCharForNumber(int i) {
-		// code below borrowed from: http://stackoverflow.com/a/10813256
+		// this method copied from: http://stackoverflow.com/a/10813256
 		String s = i > 0 && i < 27 ? String.valueOf((char)(i + 64)) : null;
 	    return s;
 	}
@@ -135,6 +137,9 @@ public class Tile {
 
 	public void draw(Canvas canvas){
 		canvas.drawBitmap(bitmap, x, y, null);
+		Paint paint = new Paint();
+		paint.setColor(Color.BLACK);
+		canvas.drawText(letter, centerX, centerY, paint);
 	}
 
 	public void drawBig(Canvas canvas){
