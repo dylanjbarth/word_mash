@@ -1,18 +1,18 @@
 package com.example.scrabblish.model;
 
-import com.example.letterscrummage.R;
-import com.example.scrabblish.MainView;
+import java.util.Random;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.util.Log;
+
+import com.example.scrabblish.MainView;
 
 public class Tile {
 	private Bitmap bitmap;
 	private int resetX, resetY, x, y, centerX, centerY, width, height, index, SCALOR = 2;
 	private boolean touched;
-	private char letter;
+	private String letter;
 	private static final String TAG = MainView.class.getSimpleName();
 
 	public Tile(Bitmap passedBitmap, int width, int height, int index, int startX){
@@ -26,8 +26,9 @@ public class Tile {
 		this.height = height;
 		this.centerX = updateCenterX(x);
 		this.centerY = updateCenterY(y);
-		//		this.letter = letter; // generate rando 
+		this.letter = randomLetter(); // generate rando 
 		Log.d(TAG, "Created tile index: " + index + ", x:" + x + ", y:" + y);
+		Log.d(TAG, "letter: " + letter);
 	}
 
 	/*************************
@@ -65,7 +66,7 @@ public class Tile {
 		return width;
 	}
 
-	public int getLetter(){
+	public String getLetter(){
 		return letter;
 	}
 
@@ -106,12 +107,21 @@ public class Tile {
 		return y+height/2;
 	}
 
-	public void setLetter(char letter){
-		this.letter = letter;
-	}
-
 	public void setTouched(boolean touched){
 		this.touched = touched;
+	}
+	
+	private String randomLetter(){
+		Random rand = new Random();
+		int i = rand.nextInt(26+1);
+		Log.d(TAG, "Created new rand int " + i);
+		return getCharForNumber(i);
+	}
+	
+	private String getCharForNumber(int i) {
+		// code below borrowed from: http://stackoverflow.com/a/10813256
+		String s = i > 0 && i < 27 ? String.valueOf((char)(i + 64)) : null;
+	    return s;
 	}
 
 	/*************************
@@ -139,8 +149,8 @@ public class Tile {
 	public void handleActionDown(int eventX, int eventY){
 		if (((eventX >= x) && (eventX <= (x + width))) && ((eventY >= y) && (eventY <= (y + height)))) {
 			setTouched(true);
-			
-//			expandImage(); here would be where to blow up image
+
+			//			expandImage(); here would be where to blow up image
 		} else {
 			setTouched(false);
 		}
@@ -152,11 +162,11 @@ public class Tile {
 		Log.d(TAG, "Resetting pos, index:" + index + ", x:" + resetX + " y:" + resetY);
 	}
 
-//	public void expandImage(){
-//		this.bitmap = scaleBitmap(bitmap, width*SCALOR, height*SCALOR);
-//		this.x = ;
-//		this.y = resetY;
-//		Log.d(TAG, "Resetting pos, index:" + index + ", x:" + resetX + " y:" + resetY);
-//	}
+	//	public void expandImage(){
+	//		this.bitmap = scaleBitmap(bitmap, width*SCALOR, height*SCALOR);
+	//		this.x = ;
+	//		this.y = resetY;
+	//		Log.d(TAG, "Resetting pos, index:" + index + ", x:" + resetX + " y:" + resetY);
+	//	}
 
 }
