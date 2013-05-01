@@ -168,13 +168,12 @@ public class Game {
 	public void draw(Canvas canvas){
 		board.draw(canvas);
 		menu.draw(canvas);
-		tray.draw(canvas);
+		tray.draw(canvas); // order matters - draw tiles last
 	}
 
 	public void handleAction(int event, int eventX, int eventY){
 		String gameState = this.state;
 		if(gameState == "preGame"){
-			// handle touches
 			if(event == MotionEvent.ACTION_DOWN){
 				preGameActionDown(eventX, eventY);
 			} else if (event == MotionEvent.ACTION_MOVE){
@@ -221,33 +220,6 @@ public class Game {
 	}
 
 	/*************************
-	 * timer methods * 
-	 *************************/
-	public void startGameTimer(){
-		TIMER_RUNNING = true;
-		timer = Executors.newSingleThreadScheduledExecutor();
-		Runnable startTimer = new Runnable() {
-			public void run() {
-				Component timerComponent = menu.getComponent("scoreTimer");
-				timerComponent.subtractTime();
-				Log.d(TAG, "Time: " + timerComponent.getTime());
-				if(timerComponent.getTime() == 0){
-					timer.shutdown();
-					TIMER_RUNNING = false;
-					Log.d(TAG, "Timer canceled."); 
-					state = "postGame";
-				}
-			}
-		};
-		timer.scheduleAtFixedRate(startTimer, 0, 1000, TimeUnit.MILLISECONDS);
-	}
-
-	public void pauseGameTimer(){
-		timer.shutdown();
-		TIMER_RUNNING = false;
-	}
-
-	/*************************
 	 * inGame methods * 
 	 *************************/
 
@@ -280,11 +252,41 @@ public class Game {
 		if(tile != null){
 			board.snapTileIntoPlace(tile);
 			tile.setTouched(false);
+			int score = board.calculateScore();
+			menu.getComponent("scoreTimer").setScore(score);
+			// calculate score
 		}
 	}
 
 	/*************************
 	 * postGame methods * 
 	 *************************/
+	
+	/*************************
+	 * timer methods * 
+	 *************************/
+	public void startGameTimer(){
+		TIMER_RUNNING = true;
+		timer = Executors.newSingleThreadScheduledExecutor();
+		Runnable startTimer = new Runnable() {
+			public void run() {
+				Component timerComponent = menu.getComponent("scoreTimer");
+				timerComponent.subtractTime();
+				Log.d(TAG, "Time: " + timerComponent.getTime());
+				if(timerComponent.getTime() == 0){
+					timer.shutdown();
+					TIMER_RUNNING = false;
+					Log.d(TAG, "Timer canceled."); 
+					state = "postGame";
+				}
+			}
+		};
+		timer.scheduleAtFixedRate(startTimer, 0, 1000, TimeUnit.MILLISECONDS);
+	}
+
+	public void pauseGameTimer(){
+		timer.shutdown();
+		TIMER_RUNNING = false;
+	}
 
 }

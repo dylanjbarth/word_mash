@@ -3,11 +3,13 @@ package com.example.scrabblish.model;
 import java.util.Arrays;
 import java.util.TreeMap;
 
-import com.example.scrabblish.MainView;
-
 import android.annotation.SuppressLint;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.util.Log;
+
+import com.example.scrabblish.MainView;
 
 
 @SuppressLint("NewApi")
@@ -24,31 +26,19 @@ public class Board {
 		this.width = boardWidth();
 //		this.height = boardHeight(); // for some reason this is skewing board... not important for now.
 	}
+	
+	/*************************
+	 * Getters * 
+	 *************************/
 
 	public int getX(){
 		return x;
 	}
 
-	public void setX(int x){
-		this.x = x;
-	}
-
 	public int getY(){
 		return y;
 	}
-
-	public void setY(int y){
-		this.y = y;
-	}
-
-	public int getSize(){
-		return size;
-	}
-
-	public void setSize(int size){
-		this.size = size;
-	}
-
+	
 	public int getHeight(){
 		return height;
 	}
@@ -56,65 +46,24 @@ public class Board {
 	public int getWidth(){
 		return width;
 	}
-
+	
+	public int getSize(){
+		return size;
+	}
+	
 	public TileSpace getTileSpace(int row, int col){
 		TileSpace tileSpace = tileSpaces[row][col];
 		return tileSpace;
 	}
+	
+	public TileSpace getCenterTileSpace(){
+		int center = ((int) Math.sqrt(this.size)/2);
+		Log.d(TAG, "CENTER TILE: " + center);
+		return getTileSpace(center, center);
+	}
 
 	public TileSpace[][] getAllTileSpaces(){
 		return tileSpaces;
-	}
-
-	public void setTileSpace(int row, int col, TileSpace tile){
-		this.tileSpaces[row][col] = tile;
-	}
-
-	public int boardWidth(){
-		int width = 0;
-		for(int c=0; c < Math.sqrt(size); c++){
-			Object tileSpace = this.getTileSpace(0, c);
-			width += ((TileSpace) tileSpace).getWidth();
-		}
-		return width;
-	}
-
-	public int boardHeight(){
-		int height = 0;
-		for(int r=0; r < Math.sqrt(size); r++){
-			Object tileSpace = this.getTileSpace(r, 0);
-			height += ((TileSpace) tileSpace).getHeight();
-		}
-		return height;
-	}
-
-	public void draw(Canvas canvas){
-		// iterates through tileSpaces and draws them
-		for(int r=0; r < Math.sqrt(size); r++){
-			for (int c=0; c < Math.sqrt(size); c++){
-				TileSpace tileSpace = this.getTileSpace(r, c);
-				tileSpace.draw(canvas);
-			}
-		}
-	}
-	
-	public void snapTileIntoPlace(Tile tile){
-		// snaps tile into place
-		Log.d(TAG, "attempting to snap tile into place for tile:" + tile.getIndex());
-		boolean snapped = false;
-		A: for(int r=0; r < Math.sqrt(size); r++){
-			for (int c=0; c < Math.sqrt(size); c++){
-				TileSpace tileSpace = this.getTileSpace(r, c);
-				if (tileSpace.handleTileSnapping(this, tile)){
-					snapped = true;
-					break A;
-				}
-			}
-		}
-		// or resets its position
-		if (!snapped){
-			tile.resetPosition();
-		}
 	}
 	
 	public TileSpace getClosestAvailableTileSpace(int tileCenterX, int tileCenterY){
@@ -141,6 +90,83 @@ public class Board {
 		TileSpace freedom = tileSpaces[coords[0]][coords[1]];
 		return freedom;
 	}
+
+	/*************************
+	 * Setters * 
+	 *************************/
+	
+	public void setX(int x){
+		this.x = x;
+	}
+	
+	public void setY(int y){
+		this.y = y;
+	}
+
+	public void setSize(int size){
+		this.size = size;
+	}
+	
+	public void setTileSpace(int row, int col, TileSpace tile){
+		this.tileSpaces[row][col] = tile;
+	}
+	
+	/*************************
+	 * Helpers * 
+	 *************************/
+	
+	public int boardWidth(){
+		int width = 0;
+		for(int c=0; c < Math.sqrt(size); c++){
+			Object tileSpace = this.getTileSpace(0, c);
+			width += ((TileSpace) tileSpace).getWidth();
+		}
+		return width;
+	}
+
+	public int boardHeight(){
+		int height = 0;
+		for(int r=0; r < Math.sqrt(size); r++){
+			Object tileSpace = this.getTileSpace(r, 0);
+			height += ((TileSpace) tileSpace).getHeight();
+		}
+		return height;
+	}
+
+	public void draw(Canvas canvas){
+		// iterates through tileSpaces and draws them
+		for(int r=0; r < Math.sqrt(size); r++){
+			for (int c=0; c < Math.sqrt(size); c++){
+				TileSpace tileSpace = this.getTileSpace(r, c);
+				tileSpace.draw(canvas);
+			}
+		}
+		//temporary
+		int centerX = getCenterTileSpace().getX();
+		int centerY = getCenterTileSpace().getY();
+		Paint paint = new Paint();
+		paint.setColor(Color.BLACK);
+		canvas.drawText("C", centerX+25, centerY+40, paint);
+	}
+	
+	public void snapTileIntoPlace(Tile tile){
+		// snaps tile into place
+		Log.d(TAG, "attempting to snap tile into place for tile:" + tile.getIndex());
+		boolean snapped = false;
+		A: for(int r=0; r < Math.sqrt(size); r++){
+			for (int c=0; c < Math.sqrt(size); c++){
+				TileSpace tileSpace = this.getTileSpace(r, c);
+				if (tileSpace.handleTileSnapping(this, tile)){
+					snapped = true;
+					break A;
+				}
+			}
+		}
+		// or resets its position
+		if (!snapped){
+			tile.resetPosition();
+		}
+	}
 	
 	public void handleMovingTiles(int eventX, int eventY){
 		TileSpace[][] tileSpaces = this.getAllTileSpaces();
@@ -164,5 +190,11 @@ public class Board {
 			}
 			Log.d(TAG, "R" + r + ": " + Arrays.toString(row));
 		}
+	}
+
+	public int calculateScore() {
+		TileSpace centerSpace = getCenterTileSpace();
+		
+		return 0;
 	}
 }
