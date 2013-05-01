@@ -1,5 +1,6 @@
 package com.example.scrabblish.model;
 
+import java.util.HashMap;
 import java.util.Random;
 
 import android.graphics.Bitmap;
@@ -12,7 +13,7 @@ import com.example.scrabblish.MainView;
 
 public class Tile {
 	private Bitmap bitmap;
-	private int resetX, resetY, x, y, centerX, centerY, width, height, index, SCALOR = 2;
+	private int resetX, resetY, x, y, centerX, centerY, width, height, index, SCALOR = 2, value;
 	private boolean touched;
 	private String letter;
 	private static final String TAG = MainView.class.getSimpleName();
@@ -29,8 +30,8 @@ public class Tile {
 		this.centerX = updateCenterX(x);
 		this.centerY = updateCenterY(y);
 		this.letter = randomLetter(); // generate rando 
-		Log.d(TAG, "Created tile index: " + index + ", x:" + x + ", y:" + y);
-		Log.d(TAG, "letter: " + letter);
+		this.value = returnLetterValue(letter);
+		Log.d(TAG, "letter: " + letter + ", value: " + value);
 	}
 
 	/*************************
@@ -165,6 +166,42 @@ public class Tile {
 		this.x = resetX;
 		this.y = resetY;
 		Log.d(TAG, "Resetting pos, index:" + index + ", x:" + resetX + " y:" + resetY);
+	}
+	
+	/******************************
+	 * values of letters * 
+	 ******************************/
+	
+	public int returnLetterValue(String letter){
+		HashMap<String, Integer> tileValues = new HashMap<String, Integer>();
+		tileValues.put("A", 1);
+		tileValues.put("B", 3);
+		tileValues.put("C", 3);
+		tileValues.put("D", 2);
+		tileValues.put("E", 1);
+		tileValues.put("F", 4);
+		tileValues.put("G", 2);
+		tileValues.put("H", 4);
+		tileValues.put("I", 1);
+		tileValues.put("J", 8);
+		tileValues.put("K", 5);
+		tileValues.put("L", 1);
+		tileValues.put("M", 3);
+		tileValues.put("N", 1);
+		tileValues.put("O", 1);
+		tileValues.put("P", 3);
+		tileValues.put("Q", 10);
+		tileValues.put("R", 1);
+		tileValues.put("S", 1);
+		tileValues.put("T", 1);
+		tileValues.put("U", 1);
+		tileValues.put("V", 1);
+		tileValues.put("W", 4);
+		tileValues.put("X", 8);
+		tileValues.put("Y", 4);
+		tileValues.put("Z", 10);
+		int value = (Integer) tileValues.get(letter);
+		return value;
 	}
 
 	//	public void expandImage(){

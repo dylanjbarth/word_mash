@@ -1,7 +1,5 @@
 package com.example.scrabblish.model;
 
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -20,8 +18,7 @@ public class Game {
 	private Board board;
 	private LetterTray tray;
 	private GameMenu menu;
-	private Resources resources; 
-	private Timer inGameTimer;
+	private Resources resources;
 	private ScheduledExecutorService timer;
 	private int width, height;
 	private int BOARD_SIZE = 7, LETTER_TRAY_SIZE = 7, COMPONENTS = 5;

@@ -10,11 +10,7 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-import com.example.scrabblish.model.Board;
 import com.example.scrabblish.model.Game;
-import com.example.scrabblish.model.GameMenu;
-import com.example.scrabblish.model.LetterTray;
-import com.example.scrabblish.model.Tile;
 
 public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 
