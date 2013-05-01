@@ -8,14 +8,14 @@ import android.util.Log;
 import com.example.scrabblish.MainView;
 
 public class Component {
-	private int x, y, width, height, index;
-	private String title;
+	private int x, y, width, height, index, score, time;
+	private String title, displayTitle;
 	private boolean isButton, isTouched, clicked;
 	private Paint paint = new Paint();
 	private static final String TAG = MainView.class.getSimpleName();
 
 	public Component(String title, int index, int x, int y, int width, int height, boolean isButton){
-		this.setTitle(title);
+		this.title = title;
 		this.index = index;
 		this.x = x;
 		this.y = y;
@@ -23,6 +23,10 @@ public class Component {
 		this.height = height;
 		this.isButton = isButton;
 		this.isTouched = false;
+		if(this.title == "scoreTimer"){
+			this.score = 0;
+			this.time = 30;
+		}
         Log.d(TAG, "Initialized component:" + title + 
         		"coords: (" + x + ", " + y + "), " +
         		"h:" + height + " w:" + width);
@@ -57,6 +61,10 @@ public class Component {
 		return this.clicked;
 	}
 	
+	public int getTime(){
+		return this.time;
+	}
+	
 	/*************************
 	 * Setters * 
 	 *************************/
@@ -69,6 +77,17 @@ public class Component {
 		this.clicked = false;
 	}
 	
+	public void setScore(int score){
+		this.score = score;
+	}
+	
+	public void subtractTime(){
+		this.time -= 1;
+	}
+	
+	/*************************
+	 * Helpers * 
+	 *************************/
 
 	public void handleActionDown(int eventX, int eventY) {
 		if((eventX >= x) && (eventX < x+width) && (eventY >= y) && (eventY < y+height)){

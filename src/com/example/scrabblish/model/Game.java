@@ -1,9 +1,13 @@
 package com.example.scrabblish.model;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.util.Log;
 import android.view.MotionEvent;
 
 import com.example.letterscrummage.R;
@@ -14,6 +18,8 @@ public class Game {
 	private LetterTray tray;
 	private GameMenu menu;
 	private Resources resources; 
+	private Timer inGameTimer;
+	private TimerTask updateTimer;
 	private int width, height;
 	private int BOARD_SIZE = 7, LETTER_TRAY_SIZE = 7, COMPONENTS = 5;
 	private String state;
@@ -28,6 +34,7 @@ public class Game {
 		this.tray = createLetterTray();
 		this.menu = createGameMenu();
 		this.state = "preGame";
+		this.inGameTimer = new Timer();
 	}
 
 	/*************************
@@ -98,7 +105,7 @@ public class Game {
 				title = "logo";
 				break;
 			case 1:
-				title = "score";
+				title = "scoreTimer";
 				break;
 			case 2:
 				// shuffle or recall tiles
@@ -178,6 +185,7 @@ public class Game {
 			if(newGameClicked()){
 				this.state = "inGame";
 				menu.resetNewGameButton();
+				startGameTimer();
 			}
 		} else if (gameState == "startGame"){
 			
@@ -217,6 +225,23 @@ public class Game {
 	/*************************
 	 * startGame methods * 
 	 *************************/
+	public void startGameTimer(){
+		// updateTimer every second
+		updateTimer = new TimerTask() {
+			@Override
+			public void run() {
+				Component timer = menu.getComponent("scoreTimer");
+				timer.subtractTime();
+				Log.d(TAG, "Time: " + timer.getTime());
+				if(timer.getTime() == 0){
+					inGameTimer.cancel();
+					Log.d(TAG, "Timer canceled."); 
+					state = "postGame";
+				}
+			}
+		};
+		inGameTimer.schedule(updateTimer, 0, 1000);
+	}
 	
 	/*************************
 	 * inGame methods * 

@@ -1,8 +1,11 @@
 package com.example.scrabblish.model;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import android.graphics.Canvas;
+import android.util.Log;
 
 import com.example.scrabblish.MainView;
 
@@ -39,10 +42,10 @@ public class GameMenu {
 		return buttons;
 	}
 
-	public Component getButton(String buttonName){
+	public Component getComponent(String buttonName){
 		for(int i=0; i < this.components.length; i++){
 			Component comp = components[i];
-			if(comp.isButton() && comp.getTitle() == buttonName){
+			if(comp.getTitle() == buttonName){
 				return comp;
 			}
 		}
@@ -54,29 +57,30 @@ public class GameMenu {
 	 *************************/
 
 	public void preGameActionDown(int eventX, int eventY) {
-		getButton("changeGameState").handleActionDown(eventX, eventY);
+		getComponent("changeGameState").handleActionDown(eventX, eventY);
 	}
 
 	public void preGameActionMove(int eventX, int eventY) {
-		getButton("changeGameState").handleActionMove(eventX, eventY);
+		getComponent("changeGameState").handleActionMove(eventX, eventY);
 	}
 
 	public void preGameActionUp(int eventX, int eventY) {
-		getButton("changeGameState").handleActionUp(eventX, eventY);
+		getComponent("changeGameState").handleActionUp(eventX, eventY);
 	}
 	
 	public boolean checkNewGameClicked() {
-		return getButton("changeGameState").isClicked();
+		return getComponent("changeGameState").isClicked();
 	}
 	
 	public void resetNewGameButton(){
-		getButton("changeGameState").resetClicked();
+		getComponent("changeGameState").resetClicked();
+		Log.d(TAG, "Reset changeGameState to unclicked state.");
 	}
 
 	/*************************
 	 * inGame methods * 
 	 *************************/
-
+	
 	public void handleActionDown(int eventX, int eventY) {
 		// only for buttons
 		ArrayList<Component> buttons = getAllButtons();
