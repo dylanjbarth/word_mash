@@ -113,19 +113,6 @@ public class Tile {
 	public void setTouched(boolean touched){
 		this.touched = touched;
 	}
-	
-	private String randomLetter(){
-		Random rand = new Random();
-		int i = rand.nextInt(26) + 1;
-		Log.d(TAG, "Created new rand int " + i);
-		return getCharForNumber(i);
-	}
-	
-	private String getCharForNumber(int i) {
-		// this method copied from: http://stackoverflow.com/a/10813256
-		String s = i > 0 && i < 27 ? String.valueOf((char)(i + 64)) : null;
-	    return s;
-	}
 
 	/*************************
 	 * Helpers * 
@@ -169,8 +156,16 @@ public class Tile {
 	}
 	
 	/******************************
-	 * values of letters * 
+	 * letters helpers * 
 	 ******************************/
+	
+	private String randomLetter(){
+		Random rand = new Random();
+		int i = rand.nextInt(26) + 1;
+		Log.d(TAG, "Created new rand int " + i);
+		String s = i > 0 && i < 27 ? String.valueOf((char)(i + 64)) : null; // http://stackoverflow.com/a/10813256
+		return s;
+	}
 	
 	public int returnLetterValue(String letter){
 		HashMap<String, Integer> tileValues = new HashMap<String, Integer>();
