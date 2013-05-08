@@ -26,79 +26,93 @@ public class TileSpace {
 		this.centerX = x+width/2;
 		this.centerY = y+height/2;
 	}
-
+	
+	/*************************
+	 * Getters * 
+	 *************************/
 	public Bitmap getBitmap(){
 		return bitmap;
 	}
-
-	public void setBitmap(Bitmap bitmap){
-		this.bitmap = bitmap;
-	}
-
+	
 	public int getRow(){
 		return row;
 	}
-
-	public void setRow(int row){
-		this.row = row;
-	}
-
+	
 	public int getCol(){
 		return col;
 	}
-
-	public void setCol(int col){
-		this.col = col;
-	}
-
+	
 	public int getX(){
 		return x;
 	}
-
-	public void setX(int x){
-		this.x = x;
-	}
-
+	
 	public int getY(){
 		return y;
 	}
-
-	public void setY(int y){
-		this.y = y;
-	}
-
+	
 	public int getWidth(){
 		return width;
-	}
-
-	public void setWidth(int width){
-		this.width = width;
 	}
 
 	public int getHeight(){
 		return height;
 	}
-
-	public void setHeight(int height){
-		this.height = height;
-	}
-
+	
 	public boolean isOccupied(){
 		return occupied;
-	}
-
-	public void setOccupied(boolean occupied){
-		this.occupied = occupied;
 	}
 
 	public int getMultiplier(){
 		return multiplier;
 	}
-
+	
+	public int[] getCoords(){
+		int[] coords = {row, col};
+		return coords;
+	}
+	
+	/*************************
+	 * Setters * 
+	 *************************/
+	public void setBitmap(Bitmap bitmap){
+		this.bitmap = bitmap;
+	}
+	
+	public void setRow(int row){
+		this.row = row;
+	}
+	
+	public void setCol(int col){
+		this.col = col;
+	}
+	
+	public void setX(int x){
+		this.x = x;
+	}
+	
+	public void setY(int y){
+		this.y = y;
+	}
+	
+	public void setWidth(int width){
+		this.width = width;
+	}
+	
+	public void setHeight(int height){
+		this.height = height;
+	}
+	
+	public void setOccupied(boolean occupied){
+		this.occupied = occupied;
+	}
+	
 	public void setMultiplier(int multiplier){
 		this.multiplier = multiplier;
 	}
-
+	
+	/*************************
+	 * Helpers * 
+	 *************************/	
 	public int positionTileX(int row, int imgWidth){
 		// gives top left x of tile
 		int x = imgWidth*row;
