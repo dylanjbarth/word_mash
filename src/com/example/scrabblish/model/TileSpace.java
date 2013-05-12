@@ -8,6 +8,7 @@ import com.example.scrabblish.MainView;
 
 public class TileSpace {
 	private Bitmap bitmap;
+	private Tile tile;
 	private int row, col, x, y, centerX, centerY, width, height;
 	private boolean occupied;
 	private int multiplier;
@@ -25,6 +26,7 @@ public class TileSpace {
 		this.y = positionTileY(col, height);
 		this.centerX = x+width/2;
 		this.centerY = y+height/2;
+		this.tile = null;
 	}
 	
 	/*************************
@@ -71,6 +73,14 @@ public class TileSpace {
 		return coords;
 	}
 	
+	public Tile getCurrentTile(){
+		if(tile != null){
+			return tile;
+		} else {
+			return null;
+		}
+	}
+	
 	/*************************
 	 * Setters * 
 	 *************************/
@@ -108,6 +118,10 @@ public class TileSpace {
 	
 	public void setMultiplier(int multiplier){
 		this.multiplier = multiplier;
+	}
+	
+	public void setTile(Tile tile){
+		this.tile = tile;
 	}
 	
 	/*************************
