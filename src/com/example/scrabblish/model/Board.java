@@ -218,7 +218,7 @@ public class Board {
 	public String[] getAllWords(){
 		// goes through each row and column, adding every sequence greater than 2 to a string array
 		ArrayList<String> allWords = new ArrayList<String>();
-		// walks through the board horizontally
+		// horizontally
 		for(int r=0; r < this.gridLength; r++){
 			String word = "";
 			for (int c=0; c < this.gridLength; c++){
@@ -228,6 +228,23 @@ public class Board {
 					word += tile.getLetter();
 				} 
 				if(tile == null || r==this.gridLength-1){
+					if(word.length() > 1){
+						allWords.add(word);
+					}
+					word = "";
+				}
+			}
+		}
+		// vertically
+		for(int c=0; c < this.gridLength; c++){
+			String word = "";
+			for (int r=0; r < this.gridLength; r++){
+				TileSpace tileSpace = tileSpaces[c][r];
+				Tile tile = tileSpace.getCurrentTile();
+				if(tile != null){
+					word += tile.getLetter();
+				} 
+				if(tile == null || c==this.gridLength-1){
 					if(word.length() > 1){
 						allWords.add(word);
 					}
@@ -251,7 +268,7 @@ public class Board {
 		Log.d(TAG, words.toString());
 		for(int i=0; i < words.length; i++){
 			Log.d(TAG, words[i]);
-//			score += calcWordScore(words[i]);
+			//			score += calcWordScore(words[i]);
 		}
 		return score;
 	}
