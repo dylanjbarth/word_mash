@@ -14,7 +14,7 @@ import com.example.scrabblish.MainView;
 public class Tile {
 	private Bitmap bitmap;
 	private int resetX, resetY, x, y, centerX, centerY, width, height, index, SCALOR = 2, value;
-	private boolean touched;
+	private boolean touched, validity;
 	private String letter;
 	private static final String TAG = MainView.class.getSimpleName();
 
@@ -31,6 +31,7 @@ public class Tile {
 		this.centerY = updateCenterY(y);
 		this.letter = randomLetter(); // generate rando 
 		this.value = returnLetterValue(letter);
+		this.validity = false;
 		Log.d(TAG, "letter: " + letter + ", value: " + value);
 	}
 
@@ -113,6 +114,10 @@ public class Tile {
 	public void setTouched(boolean touched){
 		this.touched = touched;
 	}
+	
+	public void setValidity(boolean validity) {
+		this.validity = validity;
+	}
 
 	/*************************
 	 * Helpers * 
@@ -126,7 +131,11 @@ public class Tile {
 	public void draw(Canvas canvas){
 		canvas.drawBitmap(bitmap, x, y, null);
 		Paint paint = new Paint();
-		paint.setColor(Color.BLACK);
+		if(validity == false){
+			paint.setColor(Color.BLACK);
+		} else {
+			paint.setColor(Color.RED);
+		}
 		canvas.drawText(letter, centerX, centerY, paint);
 		canvas.drawText(Integer.toString(value), centerX+12, centerY+18, paint);
 	}

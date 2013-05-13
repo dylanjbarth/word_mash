@@ -221,12 +221,19 @@ public class Board {
 	public int calculateScore(){
 		int score = 0;
 		ArrayList<ArrayList<Tile>> words = getAllWords();
+		ArrayList<ArrayList<Tile>> validTiles = new ArrayList<ArrayList<Tile>>();
 		for(int i=0; i < words.size(); i++){
 			String word = getWord(words, i);
 			Log.d(TAG, word);
 			if(wordIsValid(word)){
 				score += calcWordScore(word);
+				validTiles.add(words.get(i));
+			} else {
+				setTilesValidity(words.get(i), false);
 			}
+		}
+		for(int i=0; i < validTiles.size(); i++){
+			setTilesValidity(validTiles.get(i), true);
 		}
 		Log.d(TAG, "***SCORE*** == " + score);
 		return score;
@@ -247,6 +254,12 @@ public class Board {
 			text += word.get(i).getLetter();
 		}
 		return text;
+	}
+	
+	public void setTilesValidity(ArrayList<Tile> tiles, boolean validity){
+		for(int i=0; i < tiles.size(); i++){
+			tiles.get(i).setValidity(validity);
+		}
 	}
 
 	public int returnLetterValue(char c){
