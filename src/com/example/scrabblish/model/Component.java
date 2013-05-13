@@ -25,7 +25,7 @@ public class Component {
 		this.isTouched = false;
 		if(this.title == "scoreTimer"){
 			this.score = 0;
-			this.time = 30; 
+			this.time = 60; 
 		}
 		Log.d(TAG, "Initialized component:" + title + 
 				"coords: (" + x + ", " + y + "), " +
