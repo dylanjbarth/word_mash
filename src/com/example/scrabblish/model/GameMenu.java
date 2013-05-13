@@ -94,19 +94,19 @@ public class GameMenu {
 		for(int i=0; i < buttons.size(); i++){
 			buttons.get(i).handleActionUp(eventX, eventY);
 		}
-		checkChangeGameStateClicked();
+		checkIfButtonClicked("changeGameState");
 	}
 	
 	/*************************
 	 * Button helper methods * 
 	 *************************/
 	
-	public boolean checkChangeGameStateClicked() {
-		return getComponent("changeGameState").isClicked();
+	public boolean checkIfButtonClicked(String buttonName) {
+		return getComponent(buttonName).isClicked();
 	}
 	
-	public void resetChangeGameStateButton(){
-		getComponent("changeGameState").resetClicked();
+	public void resetButtonClicked(String buttonName){
+		getComponent(buttonName).resetClicked();
 	}
 	
 	

@@ -185,7 +185,7 @@ public class Game {
 			}
 			if(newGameClicked()){
 				this.state = "inGame";
-				menu.resetChangeGameStateButton();
+				menu.resetButtonClicked("changeGameState");
 				startGameTimer();
 			}
 		} else if (gameState == "inGame"){
@@ -218,7 +218,7 @@ public class Game {
 	}
 
 	public boolean newGameClicked(){
-		return menu.checkChangeGameStateClicked();
+		return menu.checkIfButtonClicked("changeGameState");
 	}
 
 	/*************************
@@ -242,7 +242,7 @@ public class Game {
 
 	public void inGameActionUp(int eventX, int eventY){
 		menu.handleActionUp(eventX, eventY);
-		if(menu.checkChangeGameStateClicked()){
+		if(menu.checkIfButtonClicked("changeGameState")){
 			if(TIMER_RUNNING){
 				pauseGameTimer();
 				this.state = "preGame";
@@ -250,7 +250,7 @@ public class Game {
 				startGameTimer();
 				this.state = "inGame";
 			}
-			menu.resetChangeGameStateButton();
+			menu.resetButtonClicked("changeGameState");
 		}
 		Tile tile = tray.tileTouched();
 		if(tile != null){
