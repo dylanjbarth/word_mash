@@ -1,6 +1,15 @@
 package com.example.scrabblish;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Scanner;
+
 import android.content.Context;
+import android.content.res.AssetManager;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -30,7 +39,8 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 		screenWidth = metrics.widthPixels;
 		screenHeight = metrics.heightPixels;
 		Log.d(TAG, screenWidth + " " + screenHeight);
-		game = new Game(screenWidth, screenHeight, gameResources);
+		ArrayList<String> wordList = createWordList(context.getAssets());
+		game = new Game(screenWidth, screenHeight, gameResources, wordList);
 		thread = new MainThread(getHolder(), this);
 		setFocusable(true);
 	}
@@ -76,6 +86,30 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 	public void onDraw(Canvas canvas){
 		canvas.drawColor(Color.BLACK);
 		game.draw(canvas);
+	}
+
+	/*************************
+	 * Helper * 
+	 *************************/
+
+	public ArrayList<String> createWordList(AssetManager assets){
+		ArrayList<String> words = new ArrayList<String>();
+		InputStream inputStream = null;
+		try {
+			inputStream = assets.open("wordlist.txt");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		BufferedReader buffReader = new BufferedReader(new InputStreamReader(inputStream));
+		String line = null;
+		try {
+			while ((line = buffReader.readLine()) != null) {
+				words.add(line);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return words;
 	}
 }
 

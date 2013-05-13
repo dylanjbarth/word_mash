@@ -19,14 +19,16 @@ public class Board {
 	private int x, y, size, width, height, gridLength;
 	private TileSpace[][] tileSpaces;
 	private static final String TAG = MainView.class.getSimpleName();
+	private ArrayList<String> wordList;
 
-	public Board(int x, int y, int size, TileSpace[][] tileSpaces){
+	public Board(int x, int y, int size, TileSpace[][] tileSpaces, ArrayList<String> wordList){
 		this.x = x;
 		this.y = y;
 		this.size = size; // 7 default
 		this.gridLength = (int) Math.sqrt(size);
 		this.tileSpaces = tileSpaces; // organized by [col][row] somehow :(
 		this.width = boardWidth();
+		this.wordList = wordList;
 		//		this.height = boardHeight(); // for some reason this is skewing board... not important for now.
 	}
 
@@ -185,37 +187,6 @@ public class Board {
 		}
 	}
 
-	public void showOccupation(){
-		TileSpace[][] tileSpaces = this.getAllTileSpaces();
-		for(int r=0; r < this.gridLength; r++){
-			boolean[] row = new boolean[(int) this.gridLength];
-			for (int c=0; c < this.gridLength; c++){
-				TileSpace tileSpace = tileSpaces[c][r];
-				row[c] = tileSpace.isOccupied();
-			}
-			Log.d(TAG, "R" + r + ": " + Arrays.toString(row));
-		}
-	}
-
-	public void showLetters(){
-		TileSpace[][] tileSpaces = this.getAllTileSpaces();
-		for(int r=0; r < this.gridLength; r++){
-			String[] row = new String[(int) this.gridLength];
-			for (int c=0; c < this.gridLength; c++){
-				TileSpace tileSpace = tileSpaces[c][r];
-				Tile tile = tileSpace.getCurrentTile();
-				String letter = "";
-				if(tile != null){
-					letter = tile.getLetter();
-				} else {
-					letter = " ";
-				}
-				row[c] = letter;
-			}
-			Log.d(TAG, "R" + r + ": " + Arrays.toString(row));
-		}
-	}
-
 	public String[] getAllWords(){
 		// goes through each row and column, adding every sequence greater than 2 to a string array
 		ArrayList<String> allWords = new ArrayList<String>();
@@ -258,32 +229,26 @@ public class Board {
 	}
 
 	public int calculateScore(){
-		// TODO
-		// Think might be on to something here.. 
-		// use show letters to calc a grid of letters. Check for words horizontally and vertically. 
-		// Then look them up in dictionary
-		// If valid, add them to score
 		int score = 0;
-		showLetters();
 		String[] words = getAllWords();
-		Log.d(TAG, words.toString());
 		for(int i=0; i < words.length; i++){
 			Log.d(TAG, words[i]);
-			score += calcWordScore(words[i]);
-		}
-		return score;
-	}
-	
-	public int calcWordScore(String word){
-		int score = 0;
-		for(int i=0; i < word.length(); i++){
-			score += returnLetterValue(word.charAt(i));
-			Log.d(TAG, "***SCORE*** == " + score);
+			if(wordIsValid(words[i])){
+				score += calcWordScore(words[i]);
+			}
 		}
 		Log.d(TAG, "***SCORE*** == " + score);
 		return score;
 	}
-	
+
+	public int calcWordScore(String word){
+		int score = 0;
+		for(int i=0; i < word.length(); i++){
+			score += returnLetterValue(word.charAt(i));
+		}
+		return score;
+	}
+
 	public int returnLetterValue(char c){
 		HashMap<Character, Integer> tileValues = new HashMap<Character, Integer>();
 		tileValues.put('A', 1);
@@ -314,5 +279,45 @@ public class Board {
 		tileValues.put('Z', 10);
 		int value = (Integer) tileValues.get(c);
 		return value;
+	}
+
+	public boolean wordIsValid(String word){
+		boolean valid = false;
+		if(wordList.contains(word.toLowerCase())){
+			Log.d(TAG, word + " is a valid word!");
+			valid = true;
+		}
+		return valid;
+	}
+
+	public void showOccupation(){
+		TileSpace[][] tileSpaces = this.getAllTileSpaces();
+		for(int r=0; r < this.gridLength; r++){
+			boolean[] row = new boolean[(int) this.gridLength];
+			for (int c=0; c < this.gridLength; c++){
+				TileSpace tileSpace = tileSpaces[c][r];
+				row[c] = tileSpace.isOccupied();
+			}
+			Log.d(TAG, "R" + r + ": " + Arrays.toString(row));
+		}
+	}
+
+	public void showLetters(){
+		TileSpace[][] tileSpaces = this.getAllTileSpaces();
+		for(int r=0; r < this.gridLength; r++){
+			String[] row = new String[(int) this.gridLength];
+			for (int c=0; c < this.gridLength; c++){
+				TileSpace tileSpace = tileSpaces[c][r];
+				Tile tile = tileSpace.getCurrentTile();
+				String letter = "";
+				if(tile != null){
+					letter = tile.getLetter();
+				} else {
+					letter = " ";
+				}
+				row[c] = letter;
+			}
+			Log.d(TAG, "R" + r + ": " + Arrays.toString(row));
+		}
 	}
 }

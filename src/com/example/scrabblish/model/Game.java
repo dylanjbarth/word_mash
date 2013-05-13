@@ -1,5 +1,6 @@
 package com.example.scrabblish.model;
 
+import java.util.ArrayList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -23,15 +24,16 @@ public class Game {
 	private int width, height;
 	private int BOARD_SIZE = 7, LETTER_TRAY_SIZE = 7, COMPONENTS = 5;
 	private String state;
+	private ArrayList<String> wordList;
 	private boolean TIMER_RUNNING = false;
 
 	private static final String TAG = MainView.class.getSimpleName();
 
-	public Game(int screenW, int screenH, Resources resources){
+	public Game(int screenW, int screenH, Resources resources, ArrayList<String> wordList){
 		this.resources = resources;
 		this.width = screenW;
 		this.height = screenH;
-		this.board = createBoard(0, 0, BOARD_SIZE*BOARD_SIZE);
+		this.board = createBoard(0, 0, BOARD_SIZE*BOARD_SIZE, wordList);
 		this.tray = createLetterTray();
 		this.menu = createGameMenu();
 		this.state = "preGame";
@@ -41,10 +43,10 @@ public class Game {
 	 * Creators * 
 	 *************************/
 
-	public Board createBoard(int x, int y, int size){
+	public Board createBoard(int x, int y, int size, ArrayList<String> wordList){
 		// Create tileSpaces that make up board grid
 		TileSpace[][] tileSpaces = createTileSpaces(BOARD_SIZE);
-		board = new Board(x, y, size, tileSpaces);
+		board = new Board(x, y, size, tileSpaces, wordList);
 		return board;
 	}
 
