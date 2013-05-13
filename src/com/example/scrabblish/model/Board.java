@@ -187,54 +187,45 @@ public class Board {
 		}
 	}
 
-	public String[] getAllWords(){
+	public ArrayList<ArrayList<Tile>> getAllWords(){
 		// goes through each row and column, adding every sequence greater than 2 to a string array
-		ArrayList<String> allWords = new ArrayList<String>();
+		ArrayList<ArrayList<Tile>> allWords = new ArrayList<ArrayList<Tile>>();
 		// horizontally
-		for(int r=0; r < this.gridLength; r++){
-			String word = "";
-			for (int c=0; c < this.gridLength; c++){
-				TileSpace tileSpace = tileSpaces[c][r];
-				Tile tile = tileSpace.getCurrentTile();
-				if(tile != null){
-					word += tile.getLetter();
-				} 
-				if(tile == null || r==this.gridLength-1){
-					if(word.length() > 1){
-						allWords.add(word);
+		for(int t=0; t < 2; t++){
+			for(int r=0; r < this.gridLength; r++){
+				ArrayList<Tile> word = new ArrayList<Tile>();
+				for (int c=0; c < this.gridLength; c++){
+					TileSpace tileSpace = tileSpaces[c][r];
+					Tile tile = tileSpace.getCurrentTile();
+					if(tile != null){
+						word.add(tile);
+					} 
+					int l;
+					if (t==0){
+						l = r;
+					} else {
+						l = c;
 					}
-					word = "";
+					if(tile == null || l==this.gridLength-1){
+						if(word.size() > 1){
+							allWords.add(word);
+						}
+						word = new ArrayList<Tile>();
+					}
 				}
 			}
 		}
-		// vertically
-		for(int c=0; c < this.gridLength; c++){
-			String word = "";
-			for (int r=0; r < this.gridLength; r++){
-				TileSpace tileSpace = tileSpaces[c][r];
-				Tile tile = tileSpace.getCurrentTile();
-				if(tile != null){
-					word += tile.getLetter();
-				} 
-				if(tile == null || c==this.gridLength-1){
-					if(word.length() > 1){
-						allWords.add(word);
-					}
-					word = "";
-				}
-			}
-		}
-		String[] words = allWords.toArray(new String[allWords.size()]);
-		return words;
+		return allWords;
 	}
 
 	public int calculateScore(){
 		int score = 0;
-		String[] words = getAllWords();
-		for(int i=0; i < words.length; i++){
-			Log.d(TAG, words[i]);
-			if(wordIsValid(words[i])){
-				score += calcWordScore(words[i]);
+		ArrayList<ArrayList<Tile>> words = getAllWords();
+		for(int i=0; i < words.size(); i++){
+			String word = getWord(words, i);
+			Log.d(TAG, word);
+			if(wordIsValid(word)){
+				score += calcWordScore(word);
 			}
 		}
 		Log.d(TAG, "***SCORE*** == " + score);
@@ -247,6 +238,15 @@ public class Board {
 			score += returnLetterValue(word.charAt(i));
 		}
 		return score;
+	}
+	
+	public String getWord(ArrayList<ArrayList<Tile>> words, int index){
+		ArrayList<Tile> word = words.get(index);
+		String text = "";
+		for(int i=0; i < word.size(); i++){
+			text += word.get(i).getLetter();
+		}
+		return text;
 	}
 
 	public int returnLetterValue(char c){
