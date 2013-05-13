@@ -44,6 +44,7 @@ public class Component {
 		paint.setColor(Color.BLACK);
 		if(title=="scoreTimer"){
 			canvas.drawText("Time: " + String.valueOf(time) + "s", x+20, y+20, paint);
+			canvas.drawText("Score: " + String.valueOf(score), x+100, y+20, paint);
 		} else {
 			canvas.drawText(title, x+20, y+20, paint);
 		}
