@@ -128,6 +128,7 @@ public class Tile {
 		Paint paint = new Paint();
 		paint.setColor(Color.BLACK);
 		canvas.drawText(letter, centerX, centerY, paint);
+		canvas.drawText(Integer.toString(value), centerX+12, centerY+18, paint);
 	}
 
 	public void drawBig(Canvas canvas){
