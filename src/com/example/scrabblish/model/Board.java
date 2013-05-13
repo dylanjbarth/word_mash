@@ -192,20 +192,22 @@ public class Board {
 		ArrayList<ArrayList<Tile>> allWords = new ArrayList<ArrayList<Tile>>();
 		// horizontally
 		for(int t=0; t < 2; t++){
+			int l;
 			for(int r=0; r < this.gridLength; r++){
 				ArrayList<Tile> word = new ArrayList<Tile>();
 				for (int c=0; c < this.gridLength; c++){
-					TileSpace tileSpace = tileSpaces[c][r];
+					TileSpace tileSpace;
+					if(t==0){
+						l = r;
+						tileSpace = tileSpaces[c][r];
+					} else {
+						l = c;
+						tileSpace = tileSpaces[r][c];
+					}
 					Tile tile = tileSpace.getCurrentTile();
 					if(tile != null){
 						word.add(tile);
 					} 
-					int l;
-					if (t==0){
-						l = r;
-					} else {
-						l = c;
-					}
 					if(tile == null || l==this.gridLength-1){
 						if(word.size() > 1){
 							allWords.add(word);
@@ -213,6 +215,10 @@ public class Board {
 						word = new ArrayList<Tile>();
 					}
 				}
+			}
+			Log.d(TAG, "t=" + t + ", words=");
+			for(int i=0; i<allWords.size(); i++){
+				Log.d(TAG, getWord(allWords, i));
 			}
 		}
 		return allWords;
@@ -224,11 +230,13 @@ public class Board {
 		ArrayList<ArrayList<Tile>> validTiles = new ArrayList<ArrayList<Tile>>();
 		for(int i=0; i < words.size(); i++){
 			String word = getWord(words, i);
-			Log.d(TAG, word);
+			Log.d(TAG, "Retrieved word: " + word);
 			if(wordIsValid(word)){
+				Log.d(TAG, word + " is a valid word.");
 				score += calcWordScore(word);
 				validTiles.add(words.get(i));
 			} else {
+				Log.d(TAG, word + " is invalid. Setting tiles to false.");
 				setTilesValidity(words.get(i), false);
 			}
 		}
