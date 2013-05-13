@@ -161,9 +161,63 @@ public class Tile {
 	
 	private String randomLetter(){
 		Random rand = new Random();
-		int i = rand.nextInt(26) + 1;
+		int i = rand.nextInt(97) + 1;
 		Log.d(TAG, "Created new rand int " + i);
-		String s = i > 0 && i < 27 ? String.valueOf((char)(i + 64)) : null; // http://stackoverflow.com/a/10813256
+//		String s = i > 0 && i < 27 ? String.valueOf((char)(i + 64)) : null; // http://stackoverflow.com/a/10813256
+		String s = null;
+		if(i<=12){ // x12
+			s = "E";
+		} else if (i<=21){ // x9
+			s= "A";
+		} else if (i<=30){ // x9
+			s= "I";
+		} else if (i<=39){ // x8
+			s= "O";
+		} else if (i<=44){ // x6
+			s= "N";
+		} else if (i<=50){ // x6
+			s= "R";
+		} else if (i<=56){ // x6
+			s= "T";
+		} else if (i<=60){ // x4
+			s= "L";
+		} else if (i<=64){ // x4
+			s= "S";
+		} else if (i<=68){ // x4
+			s= "U";
+		} else if (i<=72){ // x4
+			s= "D";
+		} else if (i<=75){ // x3
+			s= "G";
+		} else if (i<=77){ // x2
+			s= "B";
+		} else if (i<=79){ // x2
+			s= "C";
+		} else if (i<=81){ // x2
+			s= "M";
+		} else if (i<=83){ // x2
+			s= "P";
+		} else if (i<=85){ // x2
+			s= "F";
+		} else if (i<=87){ // x2
+			s= "H";
+		} else if (i<=89){ // x2
+			s= "V";
+		} else if (i<=91){ // x2
+			s= "W";
+		} else if (i<=93){ // x2
+			s= "Y";
+		} else if (i<=94){ // x1
+			s= "K";
+		} else if (i<=95){ // x1
+			s= "J";
+		} else if (i<=96){ // x1
+			s= "X";
+		} else if (i<=97){ // x1
+			s= "Q";
+		} else if (i<=98){ // x1
+			s= "Z";
+		} 
 		return s;
 	}
 	
@@ -190,7 +244,7 @@ public class Tile {
 		tileValues.put("S", 1);
 		tileValues.put("T", 1);
 		tileValues.put("U", 1);
-		tileValues.put("V", 1);
+		tileValues.put("V", 3);
 		tileValues.put("W", 4);
 		tileValues.put("X", 8);
 		tileValues.put("Y", 4);
