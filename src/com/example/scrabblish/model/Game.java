@@ -245,8 +245,10 @@ public class Game {
 		if(menu.checkChangeGameStateClicked()){
 			if(TIMER_RUNNING){
 				pauseGameTimer();
+				this.state = "preGame";
 			} else {
 				startGameTimer();
+				this.state = "inGame";
 			}
 			menu.resetChangeGameStateButton();
 		}
