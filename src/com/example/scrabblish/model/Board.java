@@ -191,26 +191,30 @@ public class Board {
 	public ArrayList<ArrayList<Tile>> getAllWords(){
 		// goes through each row and column, adding every sequence greater than 2 to a string array
 		ArrayList<ArrayList<Tile>> allWords = new ArrayList<ArrayList<Tile>>();
-		// horizontally
+		// first loop horizontal, second is vertical
 		for(int t=0; t < 2; t++){
-			int l;
+			if(t==0){
+				Log.d(TAG, "Horizontal loop");
+			} else {
+				Log.d(TAG, "Vertical loop");
+			}
 			for(int r=0; r < this.gridLength; r++){
 				ArrayList<Tile> word = new ArrayList<Tile>();
 				for (int c=0; c < this.gridLength; c++){
 					TileSpace tileSpace;
 					if(t==0){
-						l = r;
 						tileSpace = tileSpaces[c][r];
 					} else {
-						l = c;
 						tileSpace = tileSpaces[r][c];
 					}
 					Tile tile = tileSpace.getCurrentTile();
 					if(tile != null){
 						word.add(tile);
+						Log.d(TAG, "Added letter: " + tile.getLetter() + " to word");
 					} 
-					if(tile == null || l==this.gridLength-1){
+					if(tile == null || c>=this.gridLength-1){
 						if(word.size() > 1){
+							Log.d(TAG, "Added word: " + word);
 							allWords.add(word);
 						}
 						word = new ArrayList<Tile>();
