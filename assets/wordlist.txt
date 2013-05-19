@@ -2657,9 +2657,7 @@ bazaars
 bazar
 bazars
 bazooka
-bb
-bbl
-bdrm
+
 be
 beach
 beached
@@ -3397,7 +3395,7 @@ bivouac
 bizarre
 bizonal
 bizones
-bks
+
 blab
 blabbed
 blabber
@@ -3460,7 +3458,7 @@ blazes
 blazing
 blazon
 blazons
-bldg
+
 bleach
 bleachs
 bleak
@@ -3647,7 +3645,7 @@ blushed
 blusher
 blushes
 bluster
-blvd
+
 boa
 boar
 board
@@ -4140,8 +4138,7 @@ boyos
 boys
 bozo
 bozos
-bps
-br
+
 bra
 brace
 braced
@@ -5676,8 +5673,7 @@ cays
 cayugas
 cayuse
 cayuses
-cc
-cd
+
 cease
 ceased
 ceases
@@ -5802,7 +5798,7 @@ cesurae
 cesuras
 cetera
 ceylon
-cgs
+
 chablis
 chad
 chads
@@ -6168,7 +6164,7 @@ chloral
 chloric
 chlorid
 chlorin
-chm
+
 chock
 chocked
 chocks
@@ -6403,7 +6399,7 @@ civisms
 civitas
 civvies
 civvy
-cl
+
 clabber
 clack
 clacked
@@ -6684,7 +6680,7 @@ clutch
 clutchy
 clutter
 clyster
-cmdg
+
 co
 coach
 coached
@@ -7600,10 +7596,9 @@ coziest
 cozily
 cozy
 cpi
-cpl
-cps
+
 cpu
-cr
+
 craal
 craals
 crab
@@ -7706,7 +7701,7 @@ crazies
 crazily
 crazing
 crazy
-crc
+
 creak
 creaked
 creaks
@@ -7954,13 +7949,7 @@ crypto
 cryptos
 crypts
 crystal
-cs
-csp
-cst
-ct
-ctg
-ctrl
-cts
+
 cub
 cuba
 cubage
@@ -8251,7 +8240,7 @@ cutty
 cutup
 cutups
 cutworm
-cwt
+
 cyan
 cyanic
 cyanide
@@ -8594,10 +8583,7 @@ dazzle
 dazzled
 dazzler
 dazzles
-db
-dbl
-dbms
-dc
+
 de
 deacon
 deacons
@@ -9974,7 +9960,7 @@ doziest
 dozily
 dozing
 dozy
-dp
+
 drab
 drabbed
 drabber
@@ -10437,7 +10423,7 @@ dwells
 dwelt
 dwight
 dwindle
-dx
+
 dyable
 dyad
 dyadic
@@ -13197,7 +13183,7 @@ foxtrot
 foxy
 foyer
 foyers
-fps
+
 fracas
 frag
 fragged
@@ -13606,7 +13592,7 @@ fuzzier
 fuzzily
 fuzzing
 fuzzy
-fwd
+
 fylfot
 fylfots
 ga
@@ -13980,7 +13966,7 @@ gazers
 gazes
 gazette
 gazing
-gds
+
 gear
 gearbox
 geared
@@ -14734,7 +14720,7 @@ gouts
 gouty
 gov
 govern
-'s
+
 governs
 govt
 gown
@@ -15799,7 +15785,7 @@ hazily
 hazing
 hazings
 hazy
-hdqrs
+
 he
 head
 headed
@@ -16681,10 +16667,7 @@ hoyden
 hoydens
 hoyle
 hoyles
-hp
-hr
-hrs
-hts
+
 hub
 hubbies
 hubbub
@@ -17291,7 +17274,7 @@ indue
 indued
 indues
 indulge
-'s
+
 indwell
 indwelt
 inept
@@ -17864,7 +17847,7 @@ jazzing
 jazzman
 jazzmen
 jazzy
-jct
+
 jealous
 jean
 jeans
@@ -18407,7 +18390,7 @@ kayos
 kays
 kazoo
 kazoos
-kb
+
 keats
 kebab
 kebabs
@@ -18697,7 +18680,7 @@ kitty
 kivas
 kiwi
 kiwis
-kl
+
 klanism
 klans
 klatch
@@ -18879,7 +18862,7 @@ kuwait
 kvetch
 kwacha
 kwachas
-kwhr
+
 kyat
 kyats
 kyoto
@@ -19324,7 +19307,7 @@ lazulis
 lazy
 lazying
 lazyish
-lbs
+
 lea
 leach
 leached
@@ -19619,8 +19602,7 @@ lexical
 lexicon
 ley
 leys
-lf
-lh
+
 liable
 liaise
 liaised
@@ -19991,7 +19973,7 @@ livre
 livres
 lizard
 lizards
-ll
+
 llama
 llamas
 llano
@@ -20364,8 +20346,7 @@ loyaler
 loyally
 loyalty
 lozenge
-lpm
-lr
+
 luau
 luaus
 lubber
@@ -21208,9 +21189,7 @@ mazing
 mazuma
 mazurka
 mazy
-mb
-mc
-md
+
 me
 mea
 mead
@@ -21510,10 +21489,7 @@ mezuzah
 mezuzas
 mezzo
 mezzos
-mf
-mfd
-mfg
-mg
+
 miami
 miaou
 miaoued
@@ -21923,9 +21899,7 @@ mizzen
 mizzens
 mizzle
 mizzly
-mkt
-mktg
-mn
+
 mnemic
 mo
 moan
@@ -22369,13 +22343,9 @@ moxas
 moxie
 moxies
 mozart
-mpg
-mph
-mr
-ms
+
 msec
-msg
-mss
+
 much
 muches
 muck
@@ -22639,7 +22609,7 @@ muzzled
 muzzler
 muzzles
 muzzy
-mw
+
 my
 myeloma
 mylar
@@ -23132,8 +23102,7 @@ nixies
 nixing
 nixon
 nixy
-nj
-nm
+
 no
 noah
 nob
@@ -23344,7 +23313,7 @@ novelle
 novelly
 novels
 novelty
-'s
+
 novena
 novenae
 novenas
@@ -23360,7 +23329,7 @@ nows
 noxious
 nozzle
 nozzles
-nth
+
 nu
 nuance
 nuanced
@@ -23899,7 +23868,7 @@ operand
 operant
 operas
 operate
-'s
+
 opes
 opiate
 opiated
@@ -24002,7 +23971,7 @@ organ
 organa
 organdy
 organic
-'s
+
 organs
 organza
 orgasm
@@ -24859,9 +24828,7 @@ payors
 payout
 payroll
 pays
-pbx
-pc
-pct
+
 pea
 peace
 peaced
@@ -25239,7 +25206,7 @@ peyote
 peyotes
 peyotl
 peyotyl
-pf
+
 pfennig
 phaeton
 phage
@@ -25684,9 +25651,9 @@ pizza
 pizzas
 pizzazz
 pizzle
-pkg
+
 pkwy
-pl
+
 placard
 placate
 place
@@ -25936,7 +25903,7 @@ plyer
 plyers
 plying
 plywood
-pm
+
 pneuma
 pneumas
 po
@@ -26340,8 +26307,7 @@ pox
 poxed
 poxes
 poxing
-pp
-ppd
+
 praecox
 praetor
 prague
@@ -26718,7 +26684,7 @@ proxies
 proxima
 proximo
 proxy
-prs
+
 prude
 prudent
 prudery
@@ -26746,12 +26712,12 @@ psaltry
 pschent
 pseud
 pseudo
-psf
+
 pshaw
 pshawed
 pshaws
 psi
-psst
+
 psych
 psyche
 psyched
@@ -26763,7 +26729,7 @@ psychos
 psychs
 ptolemy
 ptomain
-pts
+
 pub
 puberty
 pubes
@@ -27079,7 +27045,7 @@ qindars
 qintars
 qoph
 qophs
-qts
+
 qty
 qua
 quack
@@ -27729,8 +27695,7 @@ razz
 razzed
 razzes
 razzing
-rcpt
-rd
+
 re
 reach
 reached
@@ -28643,8 +28608,7 @@ rexes
 rezone
 rezoned
 rezones
-rf
-rh
+
 rhea
 rheas
 rhebok
@@ -28938,7 +28902,7 @@ riving
 rivulet
 riyal
 riyals
-rn
+
 roach
 roached
 roaches
@@ -29249,7 +29213,7 @@ royal
 royally
 royals
 royalty
-rpm
+
 rte
 rub
 rubato
@@ -29874,7 +29838,7 @@ saying
 sayings
 says
 sayst
-sc
+
 scab
 scabbed
 scabby
@@ -30185,7 +30149,7 @@ scuttle
 scythe
 scythed
 scythes
-sd
+
 se
 sea
 seabag
@@ -30603,7 +30567,7 @@ sextos
 sexts
 sexual
 sexy
-sh
+
 shabby
 shack
 shacked
@@ -31855,7 +31819,7 @@ smutch
 smuts
 smutted
 smutty
-sn
+
 snack
 snacked
 snacks
@@ -32314,7 +32278,7 @@ soya
 soyas
 soybean
 soys
-sp
+
 spa
 space
 spaced
@@ -32773,10 +32737,9 @@ squirt
 squirts
 squish
 squishy
-sr
+
 sri
-ss
-st
+
 stab
 stabbed
 stabber
@@ -34347,8 +34310,7 @@ taxying
 tazza
 tazzas
 tazze
-tbs
-tbsp
+
 tea
 teabowl
 teabox
@@ -34632,7 +34594,7 @@ textile
 texts
 textual
 texture
-th
+
 thai
 thalami
 thalers
@@ -35115,10 +35077,7 @@ titty
 titular
 tizzies
 tizzy
-tm
-tmh
-tnpk
-tnt
+
 to
 toad
 toadied
@@ -35510,7 +35469,7 @@ toyos
 toyota
 toyotas
 toys
-tpk
+
 trace
 traced
 tracer
@@ -35895,7 +35854,7 @@ tsetses
 tsimmes
 tsked
 tsking
-tsp
+
 tsuba
 tsunami
 tsuris
@@ -36100,7 +36059,7 @@ tux
 tuxedo
 tuxedos
 tuxes
-tv
+
 twaddle
 twain
 twains
@@ -36187,7 +36146,7 @@ twofers
 twofold
 twos
 twosome
-tx
+
 tycoon
 tycoons
 tying
@@ -37023,7 +36982,7 @@ vaunted
 vaunter
 vaunts
 vaunty
-vc
+
 veal
 vealier
 veals
@@ -37557,8 +37516,7 @@ vrouw
 vrouws
 vrow
 vrows
-vs
-vt
+
 vugg
 vuggs
 vuggy
@@ -38664,7 +38622,7 @@ wizen
 wizened
 wizens
 wizes
-wk
+
 wkly
 woad
 woaded
@@ -38849,7 +38807,7 @@ wowing
 wows
 wowser
 wowsers
-wpm
+
 wrack
 wracked
 wracks
@@ -38967,13 +38925,12 @@ xmases
 xvi
 xvii
 xviii
-xx
+
 xxi
 xxii
 xxiii
 xxiv
-xxv
-xxx
+
 xylan
 xylem
 xylems
@@ -39374,7 +39331,7 @@ zizzled
 zizzles
 zloty
 zlotys
-zn
+
 zodiac
 zodiacs
 zoeas
