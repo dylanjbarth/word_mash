@@ -53,7 +53,7 @@ public class Game {
 	public TileSpace[][] createTileSpaces(int size){
 		// return an 2D object array containing tileSpaces 
 		TileSpace[][] tileSpaces = new TileSpace[size][size];
-		int imgWidth = this.width/(size*2);
+		int imgWidth = (this.width/2)/size;
 		int imgHeight = this.height/size;
 		for(int c=0; c < size; c++){
 			for (int r=0; r < size; r++){

@@ -28,30 +28,30 @@ public class TileSpace {
 		this.centerY = y+height/2;
 		this.tile = null;
 	}
-	
+
 	/*************************
 	 * Getters * 
 	 *************************/
 	public Bitmap getBitmap(){
 		return bitmap;
 	}
-	
+
 	public int getRow(){
 		return row;
 	}
-	
+
 	public int getCol(){
 		return col;
 	}
-	
+
 	public int getX(){
 		return x;
 	}
-	
+
 	public int getY(){
 		return y;
 	}
-	
+
 	public int getWidth(){
 		return width;
 	}
@@ -59,7 +59,7 @@ public class TileSpace {
 	public int getHeight(){
 		return height;
 	}
-	
+
 	public boolean isOccupied(){
 		return occupied;
 	}
@@ -67,12 +67,12 @@ public class TileSpace {
 	public int getMultiplier(){
 		return multiplier;
 	}
-	
+
 	public int[] getCoords(){
 		int[] coords = {row, col};
 		return coords;
 	}
-	
+
 	public Tile getCurrentTile(){
 		if(tile != null){
 			return tile;
@@ -80,50 +80,50 @@ public class TileSpace {
 			return null;
 		}
 	}
-	
+
 	/*************************
 	 * Setters * 
 	 *************************/
 	public void setBitmap(Bitmap bitmap){
 		this.bitmap = bitmap;
 	}
-	
+
 	public void setRow(int row){
 		this.row = row;
 	}
-	
+
 	public void setCol(int col){
 		this.col = col;
 	}
-	
+
 	public void setX(int x){
 		this.x = x;
 	}
-	
+
 	public void setY(int y){
 		this.y = y;
 	}
-	
+
 	public void setWidth(int width){
 		this.width = width;
 	}
-	
+
 	public void setHeight(int height){
 		this.height = height;
 	}
-	
+
 	public void setOccupied(boolean occupied){
 		this.occupied = occupied;
 	}
-	
+
 	public void setMultiplier(int multiplier){
 		this.multiplier = multiplier;
 	}
-	
+
 	public void setTile(Tile tile){
 		this.tile = tile;
 	}
-	
+
 	/*************************
 	 * Helpers * 
 	 *************************/	
@@ -151,26 +151,35 @@ public class TileSpace {
 	public TileSpace handleTileSnapping(Board board, Tile tile){
 		int tileCenterX = tile.getCenterX();
 		int tileCenterY = tile.getCenterY();
+		//		Log.d(TAG, "TileCenter: (" + tileCenterX + ", " + tileCenterY + ")");
+		//		Log.d(TAG, "TileSpaceCoords: (" + this.y + ", " + this.y + ")");
 		if ((tileCenterX >= this.x) && (tileCenterX < (this.x + this.width))) {
-			if ((tileCenterY > this.y) && (tileCenterY <= (this.y + this.height))) {
+			if ((tileCenterY > this.y) && (tileCenterY < (this.y + this.height))) {
+				Log.d(TAG, "*INSIDE BOTH TESTS*");
+				Log.d(TAG, "tileSpace: " + this.row + "," + this.col);
+				Log.d(TAG, "tileSpace w: " + this.width + ",h:" + this.height);
+				Log.d(TAG, "Passed if: (tileCenterX:" + tileCenterX + " >= tileSpaceX:" + this.x + ") && (tileCenterX:" + tileCenterX + "< (tileSpaceX:"+ this.x + "tileSpaceW:" + this.width + "))");
+				Log.d(TAG, "Passed if: (tileCenterY:" + tileCenterY + " > tileSpaceY:" + this.y + ") && (tileCenterY:" + tileCenterY + "< (tileSpaceY:"+ this.y + "tileSpaceH:" + this.height + "))");
 				if(this.occupied){
 					TileSpace freeSpace = board.getClosestAvailableTileSpace(tileCenterX, tileCenterY);
 					tile.setX(freeSpace.getX());
 					tile.setY(freeSpace.getY());
 					freeSpace.setOccupied(true);
+					Log.d(TAG, "Returning freeSpace.");
 					return freeSpace;
 				} else {
 					tile.setX(this.x);
 					tile.setY(this.y);
 					this.setOccupied(true);
+					Log.d(TAG, "Returning tileSpace.");
 					return this;
 				}
-				
 			} 
 		} 
+		//		Log.d(TAG, "Returning null.");
 		return null;
 	}
-	
+
 	public boolean coordsInside(int eventX, int eventY){
 		if ((eventX >= x) && (eventX < (x + width))) {
 			if ((eventY > y) && (eventY <= (y + height))) {

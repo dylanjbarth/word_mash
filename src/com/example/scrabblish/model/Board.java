@@ -157,17 +157,21 @@ public class Board {
 	public void snapTileIntoPlace(Tile tile){
 		// snaps tile into place
 		//		Log.d(TAG, "attempting to snap tile into place for tile:" + tile.getIndex());
-		for(int r=0; r < Math.sqrt(size); r++){
+		boolean snapped = false;
+		A: for(int r=0; r < Math.sqrt(size); r++){
 			for (int c=0; c < Math.sqrt(size); c++){
 				TileSpace tileSpace = this.getTileSpace(r, c);
 				TileSpace snappedTileSpace = tileSpace.handleTileSnapping(this, tile);
 				if(snappedTileSpace != null){
 					snappedTileSpace.setTile(tile);
-				} else {
-					tile.resetPosition();
+					snapped = true;
+					break A;
 				}
 //				Log.d(TAG, "Snapped tile:" + tile.getIndex() + " into tileSpace:" + snappedTileSpace.getRow() + "," + snappedTileSpace.getCol());
 			}
+		}
+		if(!snapped){
+			tile.resetPosition();
 		}
 	}
 
