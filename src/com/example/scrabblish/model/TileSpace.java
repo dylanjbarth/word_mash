@@ -148,7 +148,7 @@ public class TileSpace {
 		canvas.drawBitmap(bitmap, x, y, null);
 	}
 
-	public boolean handleTileSnapping(Board board, Tile tile){
+	public TileSpace handleTileSnapping(Board board, Tile tile){
 		int tileCenterX = tile.getCenterX();
 		int tileCenterY = tile.getCenterY();
 		if ((tileCenterX >= this.x) && (tileCenterX < (this.x + this.width))) {
@@ -158,15 +158,17 @@ public class TileSpace {
 					tile.setX(freeSpace.getX());
 					tile.setY(freeSpace.getY());
 					freeSpace.setOccupied(true);
+					return freeSpace;
 				} else {
 					tile.setX(this.x);
 					tile.setY(this.y);
 					this.setOccupied(true);
+					return this;
 				}
-				return true;
+				
 			} 
 		} 
-		return false;
+		return null;
 	}
 	
 	public boolean coordsInside(int eventX, int eventY){
