@@ -16,11 +16,11 @@ public class LetterTray {
 		this.size = size;
 		this.tray = tray;
 	}
-	
+
 	/*************************
 	 * Getters * 
 	 *************************/
-	
+
 	public int getX(){
 		return x;
 	}
@@ -32,7 +32,7 @@ public class LetterTray {
 	public int getSize(){
 		return size;
 	}
-	
+
 	public int getWidth(){
 		Tile tile = getTileFromTray(0);
 		this.width = tile.getWidth();
@@ -53,11 +53,11 @@ public class LetterTray {
 			tray[i].setValidity(false);
 		}
 	}
-	
+
 	/*************************
 	 * Helpers * 
 	 *************************/
-	
+
 	public void draw(Canvas canvas){
 		// iterates through all tile objects and draws them, touched tile last
 		int touchedIndex = 7;
@@ -71,10 +71,10 @@ public class LetterTray {
 		}
 		if (touchedIndex < 7){ // this is a total hack
 			this.getTileFromTray(touchedIndex).draw(canvas); // for now
-//			this.getTileFromTray(touchedIndex).drawBig(canvas); // for later
+			//			this.getTileFromTray(touchedIndex).drawBig(canvas); // for later
 		}
 	}
-	
+
 	public void handleActionDown(int eventX, int eventY){
 		// iterates through all tile objects and asks them to handle the individual action down event
 		for(int r=0; r < size; r++){
@@ -82,7 +82,7 @@ public class LetterTray {
 			tile.handleActionDown(eventX, eventY);
 		}
 	}
-	
+
 	public Tile tileTouched(){
 		// iterates through all tile objects and returns the object that is currently touched
 		for(int r=0; r < size; r++){
@@ -92,5 +92,34 @@ public class LetterTray {
 			}
 		}
 		return null;
+	}
+
+	public void ensureVowel() {
+		Tile[] tray = getTray();
+		boolean hasVowel = false;
+		for(int i=0; i<tray.length; i++){
+			String l = tray[i].getLetter();
+			if(l == "a" || l == "e" || l == "i" || l == "o" || l == "u" || l == "y"){
+				hasVowel = true;
+			}
+		}
+		if(!hasVowel){
+			Tile tile = tray[(int) Math.random()*tray.length]; // pick tile at Random
+			int whichLetter = (int) Math.random()*6;
+			switch(whichLetter){
+			case 0:
+				tile.setLetter("a");
+			case 1:
+				tile.setLetter("e");
+			case 2:
+				tile.setLetter("i");
+			case 3:
+				tile.setLetter("o");
+			case 4:
+				tile.setLetter("u");
+			case 5:
+				tile.setLetter("y");
+			}
+		}
 	}
 }

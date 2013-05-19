@@ -114,9 +114,13 @@ public class Tile {
 	public void setTouched(boolean touched){
 		this.touched = touched;
 	}
-	
+
 	public void setValidity(boolean validity) {
 		this.validity = validity;
+	}
+	
+	public void setLetter(String string) {
+		this.letter = string;		
 	}
 
 	/*************************
@@ -164,16 +168,16 @@ public class Tile {
 		this.y = resetY;
 		Log.d(TAG, "Resetting pos, index:" + index + ", x:" + resetX + " y:" + resetY);
 	}
-	
+
 	/******************************
 	 * letters helpers * 
 	 ******************************/
-	
+
 	private String randomLetter(){
 		Random rand = new Random();
 		int i = rand.nextInt(97) + 1;
 		Log.d(TAG, "Created new rand int " + i);
-//		String s = i > 0 && i < 27 ? String.valueOf((char)(i + 64)) : null; // http://stackoverflow.com/a/10813256
+		//		String s = i > 0 && i < 27 ? String.valueOf((char)(i + 64)) : null; // http://stackoverflow.com/a/10813256
 		String s = null;
 		if(i<=12){ // x12
 			s = "E";
@@ -230,7 +234,7 @@ public class Tile {
 		} 
 		return s;
 	}
-	
+
 	public int returnLetterValue(String letter){
 		HashMap<String, Integer> tileValues = new HashMap<String, Integer>();
 		tileValues.put("A", 1);

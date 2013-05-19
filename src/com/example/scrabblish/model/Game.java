@@ -73,6 +73,7 @@ public class Game {
 			tray[i] = ((Tile) createTile(i, boardWidth));
 		}
 		LetterTray letterTray = new LetterTray(boardWidth, 0, LETTER_TRAY_SIZE, tray);
+		letterTray.ensureVowel();
 		return letterTray;
 	}
 
