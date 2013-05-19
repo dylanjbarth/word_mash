@@ -99,7 +99,7 @@ public class LetterTray {
 		boolean hasVowel = false;
 		for(int i=0; i<tray.length; i++){
 			String l = tray[i].getLetter();
-			if(l == "a" || l == "e" || l == "i" || l == "o" || l == "u" || l == "y"){
+			if(l == "A" || l == "E" || l == "I" || l == "O" || l == "U" || l == "Y"){
 				hasVowel = true;
 			}
 		}
@@ -108,17 +108,17 @@ public class LetterTray {
 			int whichLetter = (int) Math.random()*6;
 			switch(whichLetter){
 			case 0:
-				tile.setLetter("a");
+				tile.setLetter("A");
 			case 1:
-				tile.setLetter("e");
+				tile.setLetter("E");
 			case 2:
-				tile.setLetter("i");
+				tile.setLetter("I");
 			case 3:
-				tile.setLetter("o");
+				tile.setLetter("O");
 			case 4:
-				tile.setLetter("u");
+				tile.setLetter("U");
 			case 5:
-				tile.setLetter("y");
+				tile.setLetter("Y");
 			}
 		}
 	}
