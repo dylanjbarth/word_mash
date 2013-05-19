@@ -73,7 +73,7 @@ public class Board {
 
 	public TileSpace getClosestAvailableTileSpace(int tileCenterX, int tileCenterY){
 		// Return the closest unoccupied tileSpace
-		Log.d(TAG, "returning closest unoccupied tileSpace");
+//		Log.d(TAG, "returning closest unoccupied tileSpace");
 		TreeMap<Integer, int[]> freeSpaces = new TreeMap<Integer, int[]>(); // { distance : {row, col} }, naturally ordered
 		TileSpace[][] tileSpaces = this.getAllTileSpaces(); 
 		// create tree map 
@@ -89,7 +89,7 @@ public class Board {
 				}
 			}
 			int[] current_leader = (int[]) freeSpaces.firstEntry().getValue();
-			Log.d(TAG, "After row:" + r + " leader is (" + current_leader[0] + ", " + current_leader[1]+")");
+//			Log.d(TAG, "After row:" + r + " leader is (" + current_leader[0] + ", " + current_leader[1]+")");
 		}
 		int[] coords = (int[]) freeSpaces.firstEntry().getValue();
 		TileSpace freedom = tileSpaces[coords[0]][coords[1]];
@@ -156,7 +156,7 @@ public class Board {
 
 	public void snapTileIntoPlace(Tile tile){
 		// snaps tile into place
-		Log.d(TAG, "attempting to snap tile into place for tile:" + tile.getIndex());
+//		Log.d(TAG, "attempting to snap tile into place for tile:" + tile.getIndex());
 		boolean snapped = false;
 		A: for(int r=0; r < Math.sqrt(size); r++){
 			for (int c=0; c < Math.sqrt(size); c++){
@@ -230,7 +230,7 @@ public class Board {
 		ArrayList<ArrayList<Tile>> validTiles = new ArrayList<ArrayList<Tile>>();
 		for(int i=0; i < words.size(); i++){
 			String word = getWord(words, i);
-			Log.d(TAG, "Retrieved word: " + word);
+			Log.d(TAG, "Retrieved string: " + word);
 			if(wordIsValid(word)){
 				Log.d(TAG, word + " is a valid word.");
 				score += calcWordScore(word);
@@ -305,7 +305,7 @@ public class Board {
 	public boolean wordIsValid(String word){
 		boolean valid = false;
 		if(wordList.contains(word.toLowerCase())){
-			Log.d(TAG, word + " is a valid word!");
+//			Log.d(TAG, word + " is a valid word!");
 			valid = true;
 		}
 		return valid;
