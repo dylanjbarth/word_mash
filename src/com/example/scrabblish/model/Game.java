@@ -256,6 +256,7 @@ public class Game {
 		if(tile != null){
 			board.snapTileIntoPlace(tile);
 			tile.setTouched(false);
+			tray.setAllTilesValidityToFalse();
 			int score = board.calculateScore();
 			menu.getComponent("scoreTimer").setScore(score);
 			// calculate score

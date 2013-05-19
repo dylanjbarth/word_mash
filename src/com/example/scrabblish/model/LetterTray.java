@@ -47,6 +47,13 @@ public class LetterTray {
 		return this.tray[index];
 	}
 
+	public void setAllTilesValidityToFalse() {
+		Tile[] tray = getTray();
+		for(int i=0; i<tray.length; i++){
+			tray[i].setValidity(false);
+		}
+	}
+	
 	/*************************
 	 * Helpers * 
 	 *************************/

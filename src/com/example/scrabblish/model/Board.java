@@ -240,7 +240,6 @@ public class Board {
 				validTiles.add(words.get(i));
 			} else {
 				Log.d(TAG, word + " is invalid. Setting tiles to false.");
-				setTilesValidity(words.get(i), false);
 			}
 		}
 		for(int i=0; i < validTiles.size(); i++){

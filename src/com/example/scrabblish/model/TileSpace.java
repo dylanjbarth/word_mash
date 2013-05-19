@@ -154,7 +154,7 @@ public class TileSpace {
 		//		Log.d(TAG, "TileCenter: (" + tileCenterX + ", " + tileCenterY + ")");
 		//		Log.d(TAG, "TileSpaceCoords: (" + this.y + ", " + this.y + ")");
 		if ((tileCenterX >= this.x) && (tileCenterX < (this.x + this.width))) {
-			if ((tileCenterY > this.y) && (tileCenterY < (this.y + this.height))) {
+			if ((tileCenterY > this.y) && (tileCenterY <= (this.y + this.height))) {
 				Log.d(TAG, "*INSIDE BOTH TESTS*");
 				Log.d(TAG, "tileSpace: " + this.row + "," + this.col);
 				Log.d(TAG, "tileSpace w: " + this.width + ",h:" + this.height);
