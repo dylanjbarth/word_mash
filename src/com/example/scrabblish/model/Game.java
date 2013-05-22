@@ -252,6 +252,11 @@ public class Game {
 				this.state = "inGame";
 			}
 			menu.resetButtonClicked("changeGameState");
+		} else if(menu.checkIfButtonClicked("newTiles")){
+			// calculate penalty for cashing in
+			// lock current tiles to board
+			// create new letter tiles
+			menu.resetButtonClicked("changeGameState");
 		}
 		Tile tile = tray.tileTouched();
 		if(tile != null){
