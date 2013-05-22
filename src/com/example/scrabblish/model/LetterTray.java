@@ -80,6 +80,24 @@ public class LetterTray {
 		tileInTrayArray = tilesInTray.toArray(tileInTrayArray);
 		return tileInTrayArray;
 	}
+	
+	public Tile[] getInvalidTiles(){
+		ArrayList<Tile> invalidTiles = new ArrayList<Tile>();
+		Tile[] tilesOnBoard = getTilesOnBoard();
+		for(int i=0; i<tilesOnBoard.length; i++){
+			Tile tile = tilesOnBoard[i];
+			if(!tile.isValid()){
+				invalidTiles.add(tile);
+			}
+		}
+		Tile[] invalidTileArray = new Tile[invalidTiles.size()];
+		invalidTileArray = invalidTiles.toArray(invalidTileArray);
+		return invalidTileArray;
+	}
+	
+//	public Tile[] getPenaltyTiles(){
+//		
+//	}
 
 	/*************************
 	 * Helpers * 
@@ -176,12 +194,9 @@ public class LetterTray {
 	}
 	
 	public void deleteInvalidTiles(){
-		Tile[] tilesOnBoard = getTilesOnBoard();
-		for(int i=0; i<tilesOnBoard.length; i++){
-			Tile tile = tilesOnBoard[i];
-			if(!tile.isValid()){
-				this.tray.remove(tile);
-			}
+		Tile[] invalidTiles = getInvalidTiles();
+		for(int i=0; i<invalidTiles.length; i++){
+			this.tray.remove(invalidTiles[i]);
 		}
 	}
 }

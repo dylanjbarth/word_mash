@@ -267,7 +267,7 @@ public class Game {
 			// lock current tiles to board
 			tray.lockTilesOnBoard(); // also sets their index to 7
 			// erase leftovers (maybe eventually also erase tiles that aren't part of valid words)
-//			tray.deleteTilesInTray(); // only deletes tiles that are currently in tray
+			tray.deleteTilesInTray(); // only deletes tiles that are currently in tray
 			tray.deleteInvalidTiles(); // only deletes tiles on board that are not part of a valid word
 			// create new letter tiles
 			addNewTiles();
