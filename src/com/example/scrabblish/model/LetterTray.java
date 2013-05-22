@@ -122,16 +122,16 @@ public class LetterTray {
 	}
 
 	public void ensureVowel() {
-		ArrayList<Tile> tray = getTray();
+		Tile[] tray = getTilesInTray();
 		boolean hasVowel = false;
-		for(int i=0; i<tray.size(); i++){
-			String l = tray.get(i).getLetter();
+		for(int i=0; i<tray.length; i++){
+			String l = tray[i].getLetter();
 			if(l == "A" || l == "E" || l == "I" || l == "O" || l == "U" || l == "Y"){
 				hasVowel = true;
 			}
 		}
 		if(!hasVowel){
-			Tile tile = tray.get((int) Math.random()*tray.size()); // pick tile at Random
+			Tile tile = tray[(int) Math.random()*tray.length]; // pick tile at Random
 			int whichLetter = (int) Math.random()*6;
 			switch(whichLetter){
 			case 0:
