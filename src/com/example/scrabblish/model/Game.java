@@ -86,6 +86,13 @@ public class Game {
 		//		Log.d(TAG, "Creating new tile with index: " + index + ", width: " + imgWidth + "height: " + imgHeight);
 		return tile;
 	}
+	
+	public void addNewTiles(){
+		int boardWidth = this.board.getWidth();
+		for(int i=0; i < LETTER_TRAY_SIZE; i++){
+			getTray().getTray().add(0, createTile(i, boardWidth)); // inserts at beginning
+		}
+	}
 
 	public GameMenu createGameMenu(){
 		// Create components
@@ -262,6 +269,7 @@ public class Game {
 			// erase leftovers (maybe eventually also erase tiles that aren't part of valid words)
 			tray.deleteTilesInTray();
 			// create new letter tiles
+			addNewTiles();
 			menu.resetButtonClicked("newTiles");
 		}
 		Tile tile = tray.tileTouched();
