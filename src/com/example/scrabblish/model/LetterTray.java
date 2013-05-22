@@ -1,6 +1,7 @@
 package com.example.scrabblish.model;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import android.graphics.Canvas;
 import android.util.Log;
@@ -88,10 +89,12 @@ public class LetterTray {
 			Tile tile = tilesOnBoard[i];
 			if(!tile.isValid()){
 				invalidTiles.add(tile);
+				Log.d(TAG, "Added to invalidTiles: " + tile.getLetter());
 			}
 		}
 		Tile[] invalidTileArray = new Tile[invalidTiles.size()];
 		invalidTileArray = invalidTiles.toArray(invalidTileArray);
+		Log.d(TAG, "Invalid tileArray length: " + invalidTileArray.length);
 		return invalidTileArray;
 	}
 	
@@ -116,17 +119,17 @@ public class LetterTray {
 
 	public void draw(Canvas canvas){
 		// iterates through all tile objects and draws them, touched tile last
-		int touchedIndex = 7;
-		for(int r=0; r < getSize(); r++){
-			Tile tile = this.getTileFromTray(r);
+		Tile touched = null;
+		for(int i=0; i<getSize(); i++){
+			Tile tile = this.tray.get(i);
 			if(!tile.isTouched()){
 				tile.draw(canvas);
 			} else {
-				touchedIndex = r; 
+				touched = tile; 
 			}
 		}
-		if (touchedIndex < 7){ // this is a total hack
-			this.getTileFromTray(touchedIndex).draw(canvas); // for now
+		if (touched != null){ 
+			touched.draw(canvas); // for now
 			//			this.getTileFromTray(touchedIndex).drawBig(canvas); // for later
 		}
 	}
@@ -209,5 +212,24 @@ public class LetterTray {
 		for(int i=0; i<invalidTiles.length; i++){
 			this.tray.remove(invalidTiles[i]);
 		}
+	}
+
+	public void shuffleTiles() {
+		Tile[] tiles = getTilesInTray();
+		Random rgen = new Random();
+//		Log.d(TAG, "before shuffling: ");
+//		for(int i=0; i<tiles.length; i++){
+//			Log.d(TAG, tiles[i].getLetter());
+//		}	
+		for(int i=0; i<tiles.length; i++){
+			int randomPosition = rgen.nextInt(tiles.length);
+			Tile toSwitch = tiles[i];
+			tiles[i] = tiles[randomPosition];
+			tiles[randomPosition] = toSwitch;
+		}	
+//		Log.d(TAG, "after shuffling: ");
+//		for(int i=0; i<tiles.length; i++){
+//			Log.d(TAG, tiles[i].getLetter());
+//		}
 	}
 }

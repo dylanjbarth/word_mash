@@ -268,10 +268,19 @@ public class Game {
 			tray.lockTilesOnBoard(); // also sets their index to 7
 			// erase leftovers (maybe eventually also erase tiles that aren't part of valid words)
 			tray.deleteTilesInTray(); // only deletes tiles that are currently in tray
+			board.setTilesSpacesTilesToNull(tray.getInvalidTiles());
 			tray.deleteInvalidTiles(); // only deletes tiles on board that are not part of a valid word
 			// create new letter tiles
 			addNewTiles();
 			menu.resetButtonClicked("newTiles");
+		} else if(menu.checkIfButtonClicked("updateTray")){
+			if(tray.getTilesInTray().length == LETTER_TRAY_SIZE){
+				Log.d(TAG, "Shuffling tiles");
+				tray.shuffleTiles();
+			}// else {
+//				tray.returnTilesToTray();
+//			}
+			menu.resetButtonClicked("updateTray");
 		}
 		Tile tile = tray.tileTouched();
 		if(tile != null){

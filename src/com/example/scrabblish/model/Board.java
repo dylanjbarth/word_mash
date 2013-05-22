@@ -214,11 +214,11 @@ public class Board {
 					Tile tile = tileSpace.getCurrentTile();
 					if(tile != null){
 						word.add(tile);
-						Log.d(TAG, "Added letter: " + tile.getLetter() + " to word");
+//						Log.d(TAG, "Added letter: " + tile.getLetter() + " to word");
 					} 
 					if(tile == null || c>=this.gridLength-1){
 						if(word.size() > 1){
-							Log.d(TAG, "Added word: " + word);
+//							Log.d(TAG, "Added word: " + word);
 							allWords.add(word);
 						}
 						word = new ArrayList<Tile>();
@@ -241,19 +241,19 @@ public class Board {
 		ArrayList<ArrayList<Tile>> validTiles = new ArrayList<ArrayList<Tile>>();
 		for(int i=0; i < words.size(); i++){
 			String word = getWord(words, i);
-			Log.d(TAG, "Retrieved string: " + word);
+//			Log.d(TAG, "Retrieved string: " + word);
 			if(wordIsValid(word)){
-				Log.d(TAG, word + " is a valid word.");
+//				Log.d(TAG, word + " is a valid word.");
 				score += calcWordScore(word);
 				validTiles.add(words.get(i));
 			} else {
-				Log.d(TAG, word + " is invalid. Setting tiles to false.");
+//				Log.d(TAG, word + " is invalid. Setting tiles to false.");
 			}
 		}
 		for(int i=0; i < validTiles.size(); i++){
 			setTilesValidity(validTiles.get(i), true);
 		}
-		Log.d(TAG, "***SCORE*** == " + score);
+//		Log.d(TAG, "***SCORE*** == " + score);
 		return score;
 	}
 
@@ -366,6 +366,25 @@ public class Board {
 				row[c] = index;
 			}
 			Log.d(TAG, "R" + r + ": " + Arrays.toString(row));
+		}
+	}
+
+	public void setTilesSpacesTilesToNull(Tile[] invalidTiles) {
+		Log.d(TAG, "*****attempting to set tileSpaces current tiles to null");
+		Log.d(TAG, "Invalid tiles length: " + invalidTiles.length);
+		for(int i=0; i<invalidTiles.length; i++){
+			Log.d(TAG, invalidTiles[i].getLetter());
+		}
+		TileSpace[][] tileSpaces = this.getAllTileSpaces();
+		for(int r=0; r < Math.sqrt(size); r++){
+			for (int c=0; c < Math.sqrt(size); c++){
+				Tile currentTile = tileSpaces[c][r].getCurrentTile();
+				Log.d(TAG, "Current tile: " + currentTile);
+				if(Arrays.asList(invalidTiles).contains(currentTile)){
+					Log.d(TAG, "Set tilespace tile to null");
+					tileSpaces[c][r].setTile(null);
+				}
+			}
 		}
 	}
 }
