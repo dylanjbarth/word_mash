@@ -178,6 +178,8 @@ public class Tile {
 	public void resetPosition(){
 		this.x = resetX;
 		this.y = resetY;
+		this.centerX = updateCenterX(resetX);
+		this.centerY = updateCenterY(resetY);
 		Log.d(TAG, "Resetting pos, index:" + index + ", x:" + resetX + " y:" + resetY);
 	}
 
