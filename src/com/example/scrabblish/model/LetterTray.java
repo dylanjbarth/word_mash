@@ -1,9 +1,10 @@
 package com.example.scrabblish.model;
 
-import com.example.scrabblish.MainView;
+import java.util.ArrayList;
 
 import android.graphics.Canvas;
-import android.view.SurfaceView;
+
+import com.example.scrabblish.MainView;
 
 public class LetterTray {
 	private int x, y, width, size;
@@ -52,6 +53,19 @@ public class LetterTray {
 		for(int i=0; i<tray.length; i++){
 			tray[i].setValidity(false);
 		}
+	}
+
+	public Tile[] getTilesInTray(){
+		Tile[] tiles = getTray();
+		ArrayList<Tile> tilesInTray = new ArrayList<Tile>();
+		for(int i=0; i<tiles.length; i++){
+			if(tiles[i].getX() == tiles[i].getResetX()){
+				tilesInTray.add(tiles[i]);
+			}
+		}
+		Tile[] tileInTrayArray = new Tile[tilesInTray.size()];
+		tileInTrayArray = tilesInTray.toArray(tileInTrayArray);
+		return tileInTrayArray;
 	}
 
 	/*************************
@@ -121,5 +135,14 @@ public class LetterTray {
 				tile.setLetter("Y");
 			}
 		}
+	}
+
+	public int calculatePenalty(){
+		int penalty = 0; 
+		Tile[] tilesInTray = getTilesInTray();
+		for(int i=0; i<tilesInTray.length; i++){
+			penalty += tilesInTray[i].getValue();
+		}
+		return penalty;
 	}
 }

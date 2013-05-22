@@ -53,6 +53,14 @@ public class Tile {
 	public int getY(){
 		return y;
 	}
+	
+	public int getResetX(){
+		return resetX;
+	}
+
+	public int getResetY(){
+		return resetY;
+	}
 
 	public int getCenterX(){
 		return centerX;
@@ -76,6 +84,10 @@ public class Tile {
 
 	public boolean isTouched(){
 		return touched;
+	}
+	
+	public int getValue(){
+		return value;
 	}
 
 	/*************************
