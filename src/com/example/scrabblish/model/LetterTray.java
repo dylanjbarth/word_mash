@@ -9,10 +9,10 @@ import com.example.scrabblish.MainView;
 
 public class LetterTray {
 	private int x, y, width, size;
-	private Tile[] tray;
+	private ArrayList<Tile> tray;
 	private static final String TAG = MainView.class.getSimpleName();
 
-	public LetterTray(int x, int y, int size, Tile[] tray){
+	public LetterTray(int x, int y, int size, ArrayList<Tile> tray){
 		this.x = x;
 		this.y = y;
 		this.size = size;
@@ -41,27 +41,27 @@ public class LetterTray {
 		return this.width;
 	}
 
-	public Tile[] getTray(){
+	public ArrayList<Tile> getTray(){
 		return this.tray;
 	}
 
 	public Tile getTileFromTray(int index){
-		return this.tray[index];
+		return this.tray.get(index);
 	}
 
 	public void setAllTilesValidityToFalse() {
-		Tile[] tray = getTray();
-		for(int i=0; i<tray.length; i++){
-			tray[i].setValidity(false);
+		ArrayList<Tile> tray = getTray();
+		for(int i=0; i<tray.size(); i++){
+			tray.get(i).setValidity(false);
 		}
 	}
 
 	public Tile[] getTilesInTray(){
-		Tile[] tiles = getTray();
+		ArrayList<Tile> tiles = getTray();
 		ArrayList<Tile> tilesInTray = new ArrayList<Tile>();
-		for(int i=0; i<tiles.length; i++){
-			if(tiles[i].getX() == tiles[i].getResetX()){
-				tilesInTray.add(tiles[i]);
+		for(int i=0; i<tiles.size(); i++){
+			if(tiles.get(i).getX() == tiles.get(i).getResetX()){
+				tilesInTray.add(tiles.get(i));
 			}
 		}
 		Tile[] tileInTrayArray = new Tile[tilesInTray.size()];
@@ -70,11 +70,11 @@ public class LetterTray {
 	}
 	
 	public Tile[] getTilesOnBoard(){
-		Tile[] tiles = getTray();
+		ArrayList<Tile> tiles = getTray();
 		ArrayList<Tile> tilesInTray = new ArrayList<Tile>();
-		for(int i=0; i<tiles.length; i++){
-			if(tiles[i].getX() != tiles[i].getResetX()){
-				tilesInTray.add(tiles[i]);
+		for(int i=0; i<tiles.size(); i++){
+			if(tiles.get(i).getX() != tiles.get(i).getResetX()){
+				tilesInTray.add(tiles.get(i));
 			}
 		}
 		Tile[] tileInTrayArray = new Tile[tilesInTray.size()];
@@ -123,16 +123,16 @@ public class LetterTray {
 	}
 
 	public void ensureVowel() {
-		Tile[] tray = getTray();
+		ArrayList<Tile> tray = getTray();
 		boolean hasVowel = false;
-		for(int i=0; i<tray.length; i++){
-			String l = tray[i].getLetter();
+		for(int i=0; i<tray.size(); i++){
+			String l = tray.get(i).getLetter();
 			if(l == "A" || l == "E" || l == "I" || l == "O" || l == "U" || l == "Y"){
 				hasVowel = true;
 			}
 		}
 		if(!hasVowel){
-			Tile tile = tray[(int) Math.random()*tray.length]; // pick tile at Random
+			Tile tile = tray.get((int) Math.random()*tray.size()); // pick tile at Random
 			int whichLetter = (int) Math.random()*6;
 			switch(whichLetter){
 			case 0:
@@ -163,8 +163,14 @@ public class LetterTray {
 	public void lockTilesOnBoard(){
 		Tile[] tilesOnBoard = getTilesOnBoard();
 		for(int i=0; i<tilesOnBoard.length; i++){
-			tilesOnBoard[i].setLocked(true);
+			Tile tile = tilesOnBoard[i];
+			tile.setLocked(true);
+			tile.setIndex(7);
 			Log.d(TAG, "Locked tile letter: " + tilesOnBoard[i].getLetter());
 		}
+	}
+	
+	public void deleteTilesInTray(){
+		
 	}
 }

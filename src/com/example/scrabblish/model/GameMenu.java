@@ -14,7 +14,8 @@ public class GameMenu {
 	private Component[] components;
 	private String state;
 	private static final String TAG = MainView.class.getSimpleName();
-
+	
+	// names: 
 
 	public GameMenu(int x, int y, int width, int height, Component[] components, String state){
 		this.x = x;

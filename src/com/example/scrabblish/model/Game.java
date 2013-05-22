@@ -68,9 +68,9 @@ public class Game {
 	public LetterTray createLetterTray(){
 		// Create tiles that make up letter tray array
 		int boardWidth = this.board.getWidth();
-		Tile[] tray = new Tile[LETTER_TRAY_SIZE];
+		ArrayList<Tile> tray = new ArrayList<Tile>();
 		for(int i=0; i < LETTER_TRAY_SIZE; i++){
-			tray[i] = ((Tile) createTile(i, boardWidth));
+			tray.add(createTile(i, boardWidth));
 		}
 		LetterTray letterTray = new LetterTray(boardWidth, 0, LETTER_TRAY_SIZE, tray);
 		letterTray.ensureVowel();
@@ -255,9 +255,10 @@ public class Game {
 		} else if(menu.checkIfButtonClicked("newTiles")){
 			// calculate penalty for cashing in
 			int penalty = tray.calculatePenalty();
-			Log.d(TAG, "Penalty for cashing in = " + penalty);
 			// lock current tiles to board
-			tray.lockTilesOnBoard();
+			tray.lockTilesOnBoard(); // also sets their index to 7
+			// erase leftovers (maybe eventually also erase tiles that aren't part of valid words)
+			tray.deleteTilesInTray();
 			// create new letter tiles
 			menu.resetButtonClicked("newTiles");
 		}

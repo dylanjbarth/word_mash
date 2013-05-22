@@ -143,6 +143,10 @@ public class Tile {
 	public void setLocked(boolean lockedStatus) {
 		this.locked = lockedStatus;		
 	}
+	
+	public void setIndex(int index) {
+		this.index = index;		
+	}
 
 	/*************************
 	 * Helpers * 
