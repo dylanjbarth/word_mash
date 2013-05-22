@@ -95,9 +95,20 @@ public class LetterTray {
 		return invalidTileArray;
 	}
 	
-//	public Tile[] getPenaltyTiles(){
-//		
-//	}
+	public Tile[] getPenaltyTiles(){
+		ArrayList<Tile> penaltyTiles = new ArrayList<Tile>();
+		Tile[] tilesInTray = getTilesInTray();
+		Tile[] invalidTiles = getInvalidTiles();
+		for(int i=0; i<tilesInTray.length; i++){
+			penaltyTiles.add(tilesInTray[i]);
+		}
+		for(int i=0; i<invalidTiles.length; i++){
+			penaltyTiles.add(invalidTiles[i]);
+		}
+		Tile[] penaltyTilesArray = new Tile[penaltyTiles.size()];
+		penaltyTilesArray = penaltyTiles.toArray(penaltyTilesArray);
+		return penaltyTilesArray;
+	}
 
 	/*************************
 	 * Helpers * 
@@ -170,9 +181,9 @@ public class LetterTray {
 
 	public int calculatePenalty(){
 		int penalty = 0; 
-		Tile[] tilesInTray = getTilesInTray();
-		for(int i=0; i<tilesInTray.length; i++){
-			penalty += tilesInTray[i].getValue();
+		Tile[] penaltyTiles = getPenaltyTiles();
+		for(int i=0; i<penaltyTiles.length; i++){
+			penalty += penaltyTiles[i].getValue();
 		}
 		return penalty;
 	}
