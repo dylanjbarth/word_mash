@@ -255,6 +255,8 @@ public class Game {
 		} else if(menu.checkIfButtonClicked("newTiles")){
 			// calculate penalty for cashing in
 			PENALTY += tray.calculatePenalty();
+			int score = board.calculateScore();
+			menu.getComponent("scoreTimer").setScore(score-PENALTY);
 			// lock current tiles to board
 			tray.lockTilesOnBoard(); // also sets their index to 7
 			// erase leftovers (maybe eventually also erase tiles that aren't part of valid words)
