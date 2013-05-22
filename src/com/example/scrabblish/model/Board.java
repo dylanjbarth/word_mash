@@ -370,18 +370,13 @@ public class Board {
 	}
 
 	public void setTilesSpacesTilesToNull(Tile[] invalidTiles) {
-		Log.d(TAG, "*****attempting to set tileSpaces current tiles to null");
-		Log.d(TAG, "Invalid tiles length: " + invalidTiles.length);
-		for(int i=0; i<invalidTiles.length; i++){
-			Log.d(TAG, invalidTiles[i].getLetter());
-		}
 		TileSpace[][] tileSpaces = this.getAllTileSpaces();
 		for(int r=0; r < Math.sqrt(size); r++){
 			for (int c=0; c < Math.sqrt(size); c++){
 				Tile currentTile = tileSpaces[c][r].getCurrentTile();
-				Log.d(TAG, "Current tile: " + currentTile);
+//				Log.d(TAG, "Current tile: " + currentTile);
 				if(Arrays.asList(invalidTiles).contains(currentTile)){
-					Log.d(TAG, "Set tilespace tile to null");
+//					Log.d(TAG, "Set tilespace tile to null");
 					tileSpaces[c][r].setTile(null);
 				}
 			}

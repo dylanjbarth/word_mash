@@ -99,6 +99,7 @@ public class Tile {
 		return validity;
 	}
 
+
 	/*************************
 	 * Setters * 
 	 *************************/
@@ -150,6 +151,12 @@ public class Tile {
 	
 	public void setIndex(int index) {
 		this.index = index;		
+	}
+	
+	public void setShuffle(int index){
+		this.resetY = index*height;
+		this.y = resetY;
+		this.centerY = updateCenterY(y);
 	}
 
 	/*************************

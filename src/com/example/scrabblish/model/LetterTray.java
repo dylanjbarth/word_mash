@@ -89,12 +89,12 @@ public class LetterTray {
 			Tile tile = tilesOnBoard[i];
 			if(!tile.isValid()){
 				invalidTiles.add(tile);
-				Log.d(TAG, "Added to invalidTiles: " + tile.getLetter());
+//				Log.d(TAG, "Added to invalidTiles: " + tile.getLetter());
 			}
 		}
 		Tile[] invalidTileArray = new Tile[invalidTiles.size()];
 		invalidTileArray = invalidTiles.toArray(invalidTileArray);
-		Log.d(TAG, "Invalid tileArray length: " + invalidTileArray.length);
+//		Log.d(TAG, "Invalid tileArray length: " + invalidTileArray.length);
 		return invalidTileArray;
 	}
 	
@@ -196,7 +196,7 @@ public class LetterTray {
 		for(int i=0; i<tilesOnBoard.length; i++){
 			Tile tile = tilesOnBoard[i];
 			tile.setLocked(true);
-			Log.d(TAG, "Locked tile letter: " + tilesOnBoard[i].getLetter());
+//			Log.d(TAG, "Locked tile letter: " + tilesOnBoard[i].getLetter());
 		}
 	}
 	
@@ -217,19 +217,15 @@ public class LetterTray {
 	public void shuffleTiles() {
 		Tile[] tiles = getTilesInTray();
 		Random rgen = new Random();
-//		Log.d(TAG, "before shuffling: ");
-//		for(int i=0; i<tiles.length; i++){
-//			Log.d(TAG, tiles[i].getLetter());
-//		}	
 		for(int i=0; i<tiles.length; i++){
 			int randomPosition = rgen.nextInt(tiles.length);
 			Tile toSwitch = tiles[i];
 			tiles[i] = tiles[randomPosition];
 			tiles[randomPosition] = toSwitch;
 		}	
-//		Log.d(TAG, "after shuffling: ");
-//		for(int i=0; i<tiles.length; i++){
-//			Log.d(TAG, tiles[i].getLetter());
-//		}
+		for(int i=0; i<tiles.length; i++){
+			tiles[i].setShuffle(i); // changes their position based on index
+		}
+		
 	}
 }
