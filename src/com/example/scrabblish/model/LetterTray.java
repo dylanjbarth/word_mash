@@ -8,14 +8,13 @@ import android.util.Log;
 import com.example.scrabblish.MainView;
 
 public class LetterTray {
-	private int x, y, width, size;
+	private int x, y, width;
 	private ArrayList<Tile> tray;
 	private static final String TAG = MainView.class.getSimpleName();
 
-	public LetterTray(int x, int y, int size, ArrayList<Tile> tray){
+	public LetterTray(int x, int y, ArrayList<Tile> tray){
 		this.x = x;
 		this.y = y;
-		this.size = size;
 		this.tray = tray;
 	}
 
@@ -32,7 +31,7 @@ public class LetterTray {
 	}
 
 	public int getSize(){
-		return size;
+		return this.tray.size();
 	}
 
 	public int getWidth(){
@@ -89,7 +88,7 @@ public class LetterTray {
 	public void draw(Canvas canvas){
 		// iterates through all tile objects and draws them, touched tile last
 		int touchedIndex = 7;
-		for(int r=0; r < size; r++){
+		for(int r=0; r < getSize(); r++){
 			Tile tile = this.getTileFromTray(r);
 			if(!tile.isTouched()){
 				tile.draw(canvas);
@@ -105,7 +104,7 @@ public class LetterTray {
 
 	public void handleActionDown(int eventX, int eventY){
 		// iterates through all tile objects and asks them to handle the individual action down event
-		for(int r=0; r < size; r++){
+		for(int r=0; r < getSize(); r++){
 			Tile tile = this.getTileFromTray(r);
 			tile.handleActionDown(eventX, eventY);
 		}
@@ -113,7 +112,7 @@ public class LetterTray {
 
 	public Tile tileTouched(){
 		// iterates through all tile objects and returns the object that is currently touched
-		for(int r=0; r < size; r++){
+		for(int r=0; r < getSize(); r++){
 			Tile tile = this.getTileFromTray(r);
 			if (tile.isTouched()){
 				return tile;
@@ -170,6 +169,9 @@ public class LetterTray {
 	}
 	
 	public void deleteTilesInTray(){
-		
+		Tile[] tiles = getTilesInTray();
+		for(int i=0; i < tiles.length; i++){
+			this.tray.remove(tiles[i]);
+		}
 	}
 }
