@@ -174,4 +174,14 @@ public class LetterTray {
 			this.tray.remove(tiles[i]);
 		}
 	}
+	
+	public void deleteInvalidTiles(){
+		Tile[] tilesOnBoard = getTilesOnBoard();
+		for(int i=0; i<tilesOnBoard.length; i++){
+			Tile tile = tilesOnBoard[i];
+			if(!tile.isValid()){
+				this.tray.remove(tile);
+			}
+		}
+	}
 }

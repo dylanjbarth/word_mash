@@ -94,6 +94,10 @@ public class Tile {
 	public boolean isLocked(){
 		return locked;
 	}
+	
+	public boolean isValid(){
+		return validity;
+	}
 
 	/*************************
 	 * Setters * 

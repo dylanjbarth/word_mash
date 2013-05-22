@@ -88,7 +88,7 @@ public class Board {
 					freeSpaces.put(distanceBetween, coords);
 				}
 			}
-			int[] current_leader = (int[]) freeSpaces.firstEntry().getValue();
+//			int[] current_leader = (int[]) freeSpaces.firstEntry().getValue();
 			//			Log.d(TAG, "After row:" + r + " leader is (" + current_leader[0] + ", " + current_leader[1]+")");
 		}
 		int[] coords = (int[]) freeSpaces.firstEntry().getValue();
