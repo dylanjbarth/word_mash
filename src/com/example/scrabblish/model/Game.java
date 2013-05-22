@@ -22,7 +22,7 @@ public class Game {
 	private Resources resources;
 	private ScheduledExecutorService timer;
 	private int width, height;
-	private int BOARD_SIZE = 7, LETTER_TRAY_SIZE = 7, COMPONENTS = 5;
+	private int BOARD_SIZE = 7, LETTER_TRAY_SIZE = 7, COMPONENTS = 5, PENALTY = 0;
 	private String state;
 	private ArrayList<String> wordList;
 	private boolean TIMER_RUNNING = false;
@@ -254,7 +254,7 @@ public class Game {
 			menu.resetButtonClicked("changeGameState");
 		} else if(menu.checkIfButtonClicked("newTiles")){
 			// calculate penalty for cashing in
-			int penalty = tray.calculatePenalty();
+			PENALTY += tray.calculatePenalty();
 			// lock current tiles to board
 			tray.lockTilesOnBoard(); // also sets their index to 7
 			// erase leftovers (maybe eventually also erase tiles that aren't part of valid words)
@@ -268,7 +268,7 @@ public class Game {
 			tile.setTouched(false);
 			tray.setAllTilesValidityToFalse();
 			int score = board.calculateScore();
-			menu.getComponent("scoreTimer").setScore(score);
+			menu.getComponent("scoreTimer").setScore(score-PENALTY);
 			// calculate score
 		}
 	}

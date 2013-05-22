@@ -165,7 +165,6 @@ public class LetterTray {
 		for(int i=0; i<tilesOnBoard.length; i++){
 			Tile tile = tilesOnBoard[i];
 			tile.setLocked(true);
-			tile.setIndex(7);
 			Log.d(TAG, "Locked tile letter: " + tilesOnBoard[i].getLetter());
 		}
 	}
