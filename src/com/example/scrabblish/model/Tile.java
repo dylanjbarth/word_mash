@@ -14,7 +14,7 @@ import com.example.scrabblish.MainView;
 public class Tile {
 	private Bitmap bitmap;
 	private int resetX, resetY, x, y, centerX, centerY, width, height, index, SCALOR = 2, value;
-	private boolean touched, validity;
+	private boolean touched, validity, locked;
 	private String letter;
 	private static final String TAG = MainView.class.getSimpleName();
 
@@ -32,6 +32,7 @@ public class Tile {
 		this.letter = randomLetter(); // generate rando 
 		this.value = returnLetterValue(letter);
 		this.validity = false;
+		this.locked = false;
 		Log.d(TAG, "letter: " + letter + ", value: " + value);
 	}
 
@@ -53,7 +54,7 @@ public class Tile {
 	public int getY(){
 		return y;
 	}
-	
+
 	public int getResetX(){
 		return resetX;
 	}
@@ -85,9 +86,13 @@ public class Tile {
 	public boolean isTouched(){
 		return touched;
 	}
-	
+
 	public int getValue(){
 		return value;
+	}
+
+	public boolean isLocked(){
+		return locked;
 	}
 
 	/*************************
@@ -130,9 +135,13 @@ public class Tile {
 	public void setValidity(boolean validity) {
 		this.validity = validity;
 	}
-	
+
 	public void setLetter(String string) {
 		this.letter = string;		
+	}
+
+	public void setLocked(boolean lockedStatus) {
+		this.locked = lockedStatus;		
 	}
 
 	/*************************
@@ -166,12 +175,13 @@ public class Tile {
 	}
 
 	public void handleActionDown(int eventX, int eventY){
-		if (((eventX >= x) && (eventX <= (x + width))) && ((eventY >= y) && (eventY <= (y + height)))) {
-			setTouched(true);
-
-			//			expandImage(); here would be where to blow up image
-		} else {
-			setTouched(false);
+		if(this.locked == false){
+			if (((eventX >= x) && (eventX <= (x + width))) && ((eventY >= y) && (eventY <= (y + height)))) {
+				setTouched(true);
+				//			expandImage(); here would be where to blow up image
+			} else {
+				setTouched(false);
+			}
 		}
 	}
 

@@ -181,8 +181,12 @@ public class Board {
 			for (int c=0; c < Math.sqrt(size); c++){
 				TileSpace tileSpace = tileSpaces[r][c];
 				if(tileSpace.coordsInside(eventX, eventY)){
-					tileSpace.setOccupied(false);
-					tileSpace.setTile(null);
+					Tile currentTile = tileSpace.getCurrentTile();
+					boolean locked = (currentTile == null) ? false : currentTile.isLocked();
+					if(!locked){
+						tileSpace.setOccupied(false);
+						tileSpace.setTile(null);
+					}
 				}
 			}
 		}

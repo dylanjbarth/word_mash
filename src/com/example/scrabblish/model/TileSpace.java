@@ -155,11 +155,11 @@ public class TileSpace {
 		//		Log.d(TAG, "TileSpaceCoords: (" + this.y + ", " + this.y + ")");
 		if ((tileCenterX >= this.x) && (tileCenterX < (this.x + this.width))) {
 			if ((tileCenterY > this.y) && (tileCenterY <= (this.y + this.height))) {
-				Log.d(TAG, "*INSIDE BOTH TESTS*");
-				Log.d(TAG, "tileSpace: " + this.row + "," + this.col);
-				Log.d(TAG, "tileSpace w: " + this.width + ",h:" + this.height);
-				Log.d(TAG, "Passed if: (tileCenterX:" + tileCenterX + " >= tileSpaceX:" + this.x + ") && (tileCenterX:" + tileCenterX + "< (tileSpaceX:"+ this.x + "tileSpaceW:" + this.width + "))");
-				Log.d(TAG, "Passed if: (tileCenterY:" + tileCenterY + " > tileSpaceY:" + this.y + ") && (tileCenterY:" + tileCenterY + "< (tileSpaceY:"+ this.y + "tileSpaceH:" + this.height + "))");
+//				Log.d(TAG, "*INSIDE BOTH TESTS*");
+//				Log.d(TAG, "tileSpace: " + this.row + "," + this.col);
+//				Log.d(TAG, "tileSpace w: " + this.width + ",h:" + this.height);
+//				Log.d(TAG, "Passed if: (tileCenterX:" + tileCenterX + " >= tileSpaceX:" + this.x + ") && (tileCenterX:" + tileCenterX + "< (tileSpaceX:"+ this.x + "tileSpaceW:" + this.width + "))");
+//				Log.d(TAG, "Passed if: (tileCenterY:" + tileCenterY + " > tileSpaceY:" + this.y + ") && (tileCenterY:" + tileCenterY + "< (tileSpaceY:"+ this.y + "tileSpaceH:" + this.height + "))");
 				if(this.occupied){
 					TileSpace freeSpace = board.getClosestAvailableTileSpace(tileCenterX, tileCenterY);
 					tile.setX(freeSpace.getX());

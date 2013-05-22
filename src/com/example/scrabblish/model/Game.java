@@ -257,8 +257,9 @@ public class Game {
 			int penalty = tray.calculatePenalty();
 			Log.d(TAG, "Penalty for cashing in = " + penalty);
 			// lock current tiles to board
+			tray.lockTilesOnBoard();
 			// create new letter tiles
-			menu.resetButtonClicked("changeGameState");
+			menu.resetButtonClicked("newTiles");
 		}
 		Tile tile = tray.tileTouched();
 		if(tile != null){

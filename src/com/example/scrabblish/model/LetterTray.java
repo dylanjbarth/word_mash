@@ -3,6 +3,7 @@ package com.example.scrabblish.model;
 import java.util.ArrayList;
 
 import android.graphics.Canvas;
+import android.util.Log;
 
 import com.example.scrabblish.MainView;
 
@@ -60,6 +61,19 @@ public class LetterTray {
 		ArrayList<Tile> tilesInTray = new ArrayList<Tile>();
 		for(int i=0; i<tiles.length; i++){
 			if(tiles[i].getX() == tiles[i].getResetX()){
+				tilesInTray.add(tiles[i]);
+			}
+		}
+		Tile[] tileInTrayArray = new Tile[tilesInTray.size()];
+		tileInTrayArray = tilesInTray.toArray(tileInTrayArray);
+		return tileInTrayArray;
+	}
+	
+	public Tile[] getTilesOnBoard(){
+		Tile[] tiles = getTray();
+		ArrayList<Tile> tilesInTray = new ArrayList<Tile>();
+		for(int i=0; i<tiles.length; i++){
+			if(tiles[i].getX() != tiles[i].getResetX()){
 				tilesInTray.add(tiles[i]);
 			}
 		}
@@ -144,5 +158,13 @@ public class LetterTray {
 			penalty += tilesInTray[i].getValue();
 		}
 		return penalty;
+	}
+	
+	public void lockTilesOnBoard(){
+		Tile[] tilesOnBoard = getTilesOnBoard();
+		for(int i=0; i<tilesOnBoard.length; i++){
+			tilesOnBoard[i].setLocked(true);
+			Log.d(TAG, "Locked tile letter: " + tilesOnBoard[i].getLetter());
+		}
 	}
 }
