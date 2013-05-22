@@ -112,6 +112,20 @@ public class LetterTray {
 		penaltyTilesArray = penaltyTiles.toArray(penaltyTilesArray);
 		return penaltyTilesArray;
 	}
+	
+	public Tile[] getUnlockedTiles(){
+		ArrayList<Tile> unlockedTiles = new ArrayList<Tile>();
+		Tile[] tilesOnBoard = getTilesOnBoard();
+		for(int i=0; i<tilesOnBoard.length; i++){
+			Tile tile = tilesOnBoard[i];
+			if(!tile.isLocked()){
+				unlockedTiles.add(tile);
+			}
+		}
+		Tile[] unlockedTilesArray = new Tile[unlockedTiles.size()];
+		unlockedTilesArray = unlockedTiles.toArray(unlockedTilesArray);
+		return unlockedTilesArray;
+	}
 
 	/*************************
 	 * Helpers * 
@@ -227,5 +241,16 @@ public class LetterTray {
 			tiles[i].setShuffle(i); // changes their position based on index
 		}
 		
+	}
+
+	public void clearTilesFromBoard() {
+		Tile[] tiles = getTilesOnBoard();
+		for(int i=0; i<tiles.length; i++){
+			Tile tile = tiles[i];
+			if(!tile.isLocked()){
+				tile.setValidity(false);
+				tile.resetPosition();
+			}
+		}
 	}
 }

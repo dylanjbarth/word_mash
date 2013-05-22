@@ -378,6 +378,7 @@ public class Board {
 				if(Arrays.asList(invalidTiles).contains(currentTile)){
 //					Log.d(TAG, "Set tilespace tile to null");
 					tileSpaces[c][r].setTile(null);
+					tileSpaces[c][r].setOccupied(false);
 				}
 			}
 		}

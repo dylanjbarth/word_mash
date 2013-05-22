@@ -277,9 +277,11 @@ public class Game {
 			if(tray.getTilesInTray().length == LETTER_TRAY_SIZE){
 				Log.d(TAG, "Shuffling tiles");
 				tray.shuffleTiles();
-			}// else {
-//				tray.returnTilesToTray();
-//			}
+			} else {
+				board.setTilesSpacesTilesToNull(tray.getUnlockedTiles());
+				tray.clearTilesFromBoard();
+				board.calculateScore();
+			}
 			menu.resetButtonClicked("updateTray");
 		}
 		Tile tile = tray.tileTouched();
