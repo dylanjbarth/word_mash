@@ -4,5 +4,7 @@
     <string name="app_name">letterScrummage</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
+    <string name="title_activity_welcome_menu">WelcomeMenu</string>
+    <string name="title_activity_help">HelpActivity</string>
 
 </resources>
