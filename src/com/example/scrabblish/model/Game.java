@@ -220,6 +220,8 @@ public class Game {
 			}
 			if(newGameClicked()){
 				this.state = "inGame";
+				tray.deleteTilesInTray();
+				addNewTiles();
 				menu.resetButtonClicked("changeGameState");
 				startGameTimer();
 			}
