@@ -126,6 +126,16 @@ public class LetterTray {
 		unlockedTilesArray = unlockedTiles.toArray(unlockedTilesArray);
 		return unlockedTilesArray;
 	}
+	
+	public String getState() {
+		String state = "";
+		if(getTilesInTray().length == 7){
+			state = "shuffle";
+		} else {
+			state = "clear";
+		}
+		return state;
+	}
 
 	/*************************
 	 * Helpers * 
@@ -253,4 +263,7 @@ public class LetterTray {
 			}
 		}
 	}
+
+	
+	
 }

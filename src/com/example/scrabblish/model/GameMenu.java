@@ -26,9 +26,9 @@ public class GameMenu {
 		this.state = state;
 	}
 
-	public void draw(Canvas canvas){
+	public void draw(Canvas canvas, String gameState, String boardState){
 		for(int i=0; i < this.components.length; i++){
-			components[i].draw(canvas);
+			components[i].draw(canvas, gameState, boardState);
 		}
 	}
 

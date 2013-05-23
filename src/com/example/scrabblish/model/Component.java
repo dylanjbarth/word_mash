@@ -34,7 +34,7 @@ public class Component {
 				"h:" + height + " w:" + width);
 	}
 
-	public void draw(Canvas canvas){
+	public void draw(Canvas canvas, String gameState, String boardState){
 		if (isTouched){
 			paint.setColor(Color.DKGRAY);
 		} else {
@@ -48,7 +48,24 @@ public class Component {
 			canvas.drawText("Time: " + String.valueOf(time) + "s", x+20, y+20, paint);
 		} else if(title=="score"){
 			canvas.drawText("Score: " + String.valueOf(score), x+100, y+20, paint);
-		} else {
+		} else if(title =="updateTray"){
+			if(boardState == "shuffle"){
+				canvas.drawText("Shuffle Tiles", x+20, y+20, paint);
+			} else {
+				canvas.drawText("Clear Tiles", x+20, y+20, paint);
+			}
+		} else if(title =="changeGameState"){
+			if(gameState == "preGame"){
+				canvas.drawText("Start New Game", x+20, y+20, paint);
+			} else if(gameState == "paused"){
+				canvas.drawText("Resume", x+20, y+20, paint);
+			} else {
+				canvas.drawText("Pause Game", x+20, y+20, paint);
+			}
+		} else if(title =="newTiles"){
+			canvas.drawText("Cash In Tiles", x+20, y+20, paint);
+		} 
+		else {
 			canvas.drawText(title, x+20, y+20, paint);
 		}
 	}

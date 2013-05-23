@@ -198,9 +198,10 @@ public class Game {
 	 *************************/
 
 	public void draw(Canvas canvas){
-		if(this.state == "preGame" || this.state == "inGame"){
+		String boardState = tray.getState();
+		if(this.state == "preGame" || this.state == "inGame" || this.state == "paused"){
 			board.draw(canvas);
-			menu.draw(canvas);
+			menu.draw(canvas, this.state, boardState);
 			tray.draw(canvas); // order matters - draw tiles last
 		} else if(this.state == "postGame"){
 //			drawPostGameScreen(canvas);
@@ -210,7 +211,7 @@ public class Game {
 
 	public void handleAction(int event, int eventX, int eventY){
 		String gameState = this.state;
-		if(gameState == "preGame"){
+		if(gameState == "preGame" || gameState == "paused"){
 			if(event == MotionEvent.ACTION_DOWN){
 				preGameActionDown(eventX, eventY);
 			} else if (event == MotionEvent.ACTION_MOVE){
@@ -282,7 +283,7 @@ public class Game {
 		if(menu.checkIfButtonClicked("changeGameState")){
 			if(TIMER_RUNNING){
 				pauseGameTimer();
-				this.state = "preGame";
+				this.state = "paused";
 			} else {
 				startGameTimer();
 				this.state = "inGame";
