@@ -9,6 +9,8 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.util.Log;
 import android.view.MotionEvent;
 
@@ -22,7 +24,7 @@ public class Game {
 	private Resources resources;
 	private ScheduledExecutorService timer;
 	private int width, height;
-	private int BOARD_SIZE = 7, LETTER_TRAY_SIZE = 7, COMPONENTS = 5, PENALTY = 0;
+	private int BOARD_SIZE = 7, LETTER_TRAY_SIZE = 7, COMPONENTS = 7, COMPONENT_ROWS = 5, PENALTY = 0;
 	private String state;
 	private ArrayList<String> wordList;
 	private boolean TIMER_RUNNING = false;
@@ -106,30 +108,50 @@ public class Game {
 
 	public Component[] createGameMenuComponents(int startX, int width){
 		Component[] components = new Component[COMPONENTS];
+		int passedWidth = width;
 		for (int i=0; i < COMPONENTS; i++){
 			String title = "";
-			int height = this.height/COMPONENTS, x = startX, y = height*i, index = i;
+			int height = this.height/COMPONENT_ROWS, x = startX, y = height*i, index = i;
 			boolean isButton = false;
 			switch(i){
 			case 0: 
 				title = "logo";
 				break;
 			case 1:
-				title = "scoreTimer";
+				title = "score";
+				width = passedWidth/2;
 				break;
 			case 2:
-				// shuffle or recall tiles
-				title = "updateTray";
-				isButton = true;
+				title = "timer";
+				x = startX+passedWidth/2;
+				y = height*1;
+				width = passedWidth/2;
 				break;
 			case 3:
-				// allows exchange of tiles
-				title = "newTiles";
+				// new game, pause, resume
+				title = "changeGameState";
+				y = height*2;
+				width = passedWidth/2;
 				isButton = true;
 				break;
 			case 4:
-				// new game, pause, resume
-				title = "changeGameState";
+				title = "help";
+				y = height*2;
+				x = startX+passedWidth/2;
+				width = passedWidth/2;
+				isButton = true;
+				break;
+			case 5:
+				// shuffle or recall tiles
+				title = "updateTray";
+				y = height*3;
+				width = passedWidth;
+				isButton = true;
+				break;
+			case 6:
+				// allows exchange of tiles
+				title = "newTiles";
+				y = height*4;
 				isButton = true;
 				break;
 			}
@@ -176,9 +198,14 @@ public class Game {
 	 *************************/
 
 	public void draw(Canvas canvas){
-		board.draw(canvas);
-		menu.draw(canvas);
-		tray.draw(canvas); // order matters - draw tiles last
+		if(this.state == "preGame" || this.state == "inGame"){
+			board.draw(canvas);
+			menu.draw(canvas);
+			tray.draw(canvas); // order matters - draw tiles last
+		} else if(this.state == "postGame"){
+//			drawPostGameScreen(canvas);
+		}
+		
 	}
 
 	public void handleAction(int event, int eventX, int eventY){
@@ -263,7 +290,7 @@ public class Game {
 			// calculate penalty for cashing in
 			PENALTY += tray.calculatePenalty();
 			int score = board.calculateScore();
-			menu.getComponent("scoreTimer").setScore(score-PENALTY);
+			menu.getComponent("score").setScore(score-PENALTY);
 			// lock current tiles to board
 			tray.lockTilesOnBoard(); // also sets their index to 7
 			// erase leftovers (maybe eventually also erase tiles that aren't part of valid words)
@@ -290,7 +317,7 @@ public class Game {
 			tile.setTouched(false);
 			tray.setAllTilesValidityToFalse();
 			int score = board.calculateScore();
-			menu.getComponent("scoreTimer").setScore(score-PENALTY);
+			menu.getComponent("score").setScore(score-PENALTY);
 			// calculate score
 		}
 	}
@@ -307,7 +334,7 @@ public class Game {
 		timer = Executors.newSingleThreadScheduledExecutor();
 		Runnable startTimer = new Runnable() {
 			public void run() {
-				Component timerComponent = menu.getComponent("scoreTimer");
+				Component timerComponent = menu.getComponent("timer");
 				timerComponent.subtractTime();
 				Log.d(TAG, "Time: " + timerComponent.getTime());
 				if(timerComponent.getTime() == 0){

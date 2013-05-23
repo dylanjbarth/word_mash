@@ -23,8 +23,10 @@ public class Component {
 		this.height = height;
 		this.isButton = isButton;
 		this.isTouched = false;
-		if(this.title == "scoreTimer"){
+		if(this.title == "score"){
 			this.score = 0;
+		}
+		if(this.title == "timer"){
 			this.time = 60; 
 		}
 		Log.d(TAG, "Initialized component:" + title + 
@@ -42,8 +44,9 @@ public class Component {
 		paint.setStrokeWidth(1);
 		canvas.drawRect(x, y, x+width, y+height, paint);
 		paint.setColor(Color.BLACK);
-		if(title=="scoreTimer"){
+		if(title=="timer"){
 			canvas.drawText("Time: " + String.valueOf(time) + "s", x+20, y+20, paint);
+		} else if(title=="score"){
 			canvas.drawText("Score: " + String.valueOf(score), x+100, y+20, paint);
 		} else {
 			canvas.drawText(title, x+20, y+20, paint);
