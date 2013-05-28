@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.os.Handler;
 import android.util.Log;
 
 import com.example.scrabblish.MainView;
@@ -116,6 +117,10 @@ public class Tile {
 		this.y = y;
 		this.centerY = updateCenterY(y);
 	}
+	
+	public void setResetY(int y){
+		this.resetY = y;
+	}
 
 	public void dragSetX(int x){
 		setX(x-width/2);
@@ -153,10 +158,26 @@ public class Tile {
 		this.index = index;		
 	}
 	
-	public void setShuffle(int index){
-		this.resetY = index*height;
-		this.y = resetY;
-		this.centerY = updateCenterY(y);
+	public void animateShuffle(int index){
+		setResetY(index*height);
+		final int animateSpeed = 70;
+		final Handler handler=new Handler();
+		final Runnable r = new Runnable()
+		{
+		    public void run() 
+		    {
+		    	int deltaY = 10;
+		    	if(y > resetY && (y-deltaY) >= resetY){
+		    		setY(y-deltaY);
+		    	} else if(y < resetY && (y+deltaY) <= resetY){
+		    		setY(y+deltaY);
+		    	} else {
+		    		setY(resetY);
+		    	} 
+		        handler.postDelayed(this, animateSpeed);
+		    }
+		};
+		handler.postDelayed(r, animateSpeed);
 	}
 
 	/*************************

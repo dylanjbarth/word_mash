@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import android.graphics.Canvas;
-import android.util.Log;
+import android.os.Handler;
 
 import com.example.scrabblish.MainView;
 
@@ -241,16 +241,15 @@ public class LetterTray {
 	public void shuffleTiles() {
 		Tile[] tiles = getTilesInTray();
 		Random rgen = new Random();
-		for(int i=0; i<tiles.length; i++){
+		for(int i=0; i<tiles.length/2; i++){
 			int randomPosition = rgen.nextInt(tiles.length);
 			Tile toSwitch = tiles[i];
 			tiles[i] = tiles[randomPosition];
 			tiles[randomPosition] = toSwitch;
 		}	
 		for(int i=0; i<tiles.length; i++){
-			tiles[i].setShuffle(i); // changes their position based on index
+			tiles[i].animateShuffle(i); // changes their position based on index
 		}
-		
 	}
 
 	public void clearTilesFromBoard() {
