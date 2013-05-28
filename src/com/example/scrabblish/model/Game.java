@@ -220,9 +220,11 @@ public class Game {
 				preGameActionUp(eventX, eventY);
 			}
 			if(newGameClicked()){
+				if(gameState != "paused"){
+					tray.deleteTilesInTray();
+					addNewTiles();	
+				}
 				this.state = "inGame";
-				tray.deleteTilesInTray();
-				addNewTiles();
 				menu.resetButtonClicked("changeGameState");
 				startGameTimer();
 			}
