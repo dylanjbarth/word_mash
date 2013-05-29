@@ -11,6 +11,8 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.util.Log;
 import android.view.MotionEvent;
 
@@ -88,7 +90,7 @@ public class Game {
 		//		Log.d(TAG, "Creating new tile with index: " + index + ", width: " + imgWidth + "height: " + imgHeight);
 		return tile;
 	}
-	
+
 	public void addNewTiles(){
 		int boardWidth = this.board.getWidth();
 		for(int i=0; i < LETTER_TRAY_SIZE; i++){
@@ -199,19 +201,21 @@ public class Game {
 
 	public void draw(Canvas canvas){
 		String boardState = tray.getState();
-		if(this.state == "preGame" || this.state == "inGame" || this.state == "paused"){
+		if(this.state == "preGame" || this.state == "inGame"){
 			board.draw(canvas);
 			menu.draw(canvas, this.state, boardState);
 			tray.draw(canvas); // order matters - draw tiles last
+		} else if (this.state == "paused"){
+			drawPauseScreen(canvas);
 		} else if(this.state == "postGame"){
-//			drawPostGameScreen(canvas);
+			//			drawPostGameScreen(canvas);
 		}
-		
+
 	}
 
 	public void handleAction(int event, int eventX, int eventY){
 		String gameState = this.state;
-		if(gameState == "preGame" || gameState == "paused"){
+		if(gameState == "preGame"){
 			if(event == MotionEvent.ACTION_DOWN){
 				preGameActionDown(eventX, eventY);
 			} else if (event == MotionEvent.ACTION_MOVE){
@@ -227,6 +231,11 @@ public class Game {
 				this.state = "inGame";
 				menu.resetButtonClicked("changeGameState");
 				startGameTimer();
+			}
+		} else if (gameState == "paused"){
+			if (event == MotionEvent.ACTION_UP){
+				startGameTimer();
+				this.state = "inGame";
 			}
 		} else if (gameState == "inGame"){
 			if(event == MotionEvent.ACTION_DOWN){
@@ -330,7 +339,27 @@ public class Game {
 	/*************************
 	 * postGame methods * 
 	 *************************/
-	
+
+	/*************************
+	 * pausedGame methods * 
+	 * @return 
+	 *************************/
+	public void drawPauseScreen(Canvas canvas){
+		Paint p = new Paint();
+		p.setColor(Color.LTGRAY);
+		int margin = 20;
+		//		canvas.drawRect(new RectF(0, 110, 100, 290), p);
+		canvas.drawRoundRect(new RectF(0+margin, 0+margin, this.width-margin, this.height-margin), 5, 5, p);
+
+		p.setColor(Color.BLACK);
+		p.setTextSize(30); 
+		canvas.drawText("Paused", this.width/2 + 50, this.height/3, p);
+		
+		p.setTextSize(20); 
+		canvas.drawText("Tap anywhere to resume", this.width/2 + 100, this.height/2, p);
+	}
+
+
 	/*************************
 	 * timer methods * 
 	 *************************/
