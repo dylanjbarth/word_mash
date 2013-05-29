@@ -14,7 +14,7 @@ import com.example.scrabblish.MainView;
 
 public class Tile {
 	private Bitmap bitmap;
-	private int resetX, resetY, x, y, centerX, centerY, width, height, index, SCALOR = 2, value;
+	private int resetX, resetY, x, y, centerX, centerY, width, height, index, SCALOR = 2, value, snapTargetX, snapTargetY;
 	private boolean touched, validity, locked;
 	private String letter;
 	private static final String TAG = MainView.class.getSimpleName();
@@ -95,7 +95,7 @@ public class Tile {
 	public boolean isLocked(){
 		return locked;
 	}
-	
+
 	public boolean isValid(){
 		return validity;
 	}
@@ -117,7 +117,7 @@ public class Tile {
 		this.y = y;
 		this.centerY = updateCenterY(y);
 	}
-	
+
 	public void setResetY(int y){
 		this.resetY = y;
 	}
@@ -153,32 +153,12 @@ public class Tile {
 	public void setLocked(boolean lockedStatus) {
 		this.locked = lockedStatus;		
 	}
-	
+
 	public void setIndex(int index) {
 		this.index = index;		
 	}
-	
-	public void animateShuffle(int index){
-		setResetY(index*height);
-		final int animateSpeed = 70;
-		final Handler handler=new Handler();
-		final Runnable r = new Runnable()
-		{
-		    public void run() 
-		    {
-		    	int deltaY = 10;
-		    	if(y > resetY && (y-deltaY) >= resetY){
-		    		setY(y-deltaY);
-		    	} else if(y < resetY && (y+deltaY) <= resetY){
-		    		setY(y+deltaY);
-		    	} else {
-		    		setY(resetY);
-		    	} 
-		        handler.postDelayed(this, animateSpeed);
-		    }
-		};
-		handler.postDelayed(r, animateSpeed);
-	}
+
+
 
 	/*************************
 	 * Helpers * 
@@ -325,6 +305,72 @@ public class Tile {
 		tileValues.put("Z", 10);
 		int value = (Integer) tileValues.get(letter);
 		return value;
+	}
+
+	public void animateShuffle(int index){
+		setResetY(index*height);
+		final int animateSpeed = 20;
+		final int deltaY = 10;
+		final Handler handler=new Handler();
+		final Runnable r = new Runnable()
+		{
+			public void run() 
+			{
+				if((y-deltaY) >= resetY){
+					setY(y-deltaY);
+				} else if((y+deltaY) <= resetY){
+					setY(y+deltaY);
+				} else {
+					setY(resetY);
+				} 
+				if(getY() != resetY){
+					handler.postDelayed(this, animateSpeed);
+				}
+				Log.d(TAG, "Shuffle thread still running...");
+			}
+		};
+		handler.postDelayed(r, animateSpeed);
+	}
+
+	public void animateSnap(int targetX, int targetY) {
+		final int animateSpeed = 20;
+		final int deltaY = 10, deltaX = 10;
+		snapTargetX = targetX;
+		snapTargetY = targetY;
+		final Handler handler=new Handler();
+		final Runnable r = new Runnable()
+		{
+			public void run() 
+			{
+				int x = getX();
+				int y = getY();
+				boolean ySet = false, xSet = false;
+				Log.d(TAG, "X:" + x + " Y:" + y);
+				// handle horizontal
+				if(x+deltaX <= snapTargetX){
+					setX(x+deltaX);
+				} else if (x-deltaX > snapTargetX){
+					setX(x-deltaX);
+				} else {
+					setX(snapTargetX);
+					xSet = true;
+				}
+				//handle vertical
+				if(y+deltaY < snapTargetY){
+					setY(y+deltaY);
+				} else if (y-deltaY > snapTargetY){
+					setY(y-deltaY);
+				} else {
+					setY(snapTargetY);
+					ySet = true;
+				}
+				if(!(xSet && ySet)){
+					handler.postDelayed(this, animateSpeed);
+				}
+			}
+		};
+		handler.postDelayed(r, animateSpeed);
+
 	}
 
 	//	public void expandImage(){
