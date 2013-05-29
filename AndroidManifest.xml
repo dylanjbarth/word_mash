@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.letterscrummage"
+    package="com.dylanbarth.wordmash"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -14,13 +14,13 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.example.letterscrummage.WelcomeMenu"
+            android:name="com.dylanbarth.wordmash.WelcomeMenu"
             android:label="@string/title_activity_welcome_menu"
             android:screenOrientation="landscape" >
             
         </activity>
         <activity
-            android:name="com.example.scrabblish.MainActivity"
+            android:name="com.dylanbarth.wordmash.MainActivity"
             android:configChanges="keyboardHidden|orientation"
             android:label="@string/app_name"
             android:screenOrientation="landscape"
@@ -32,7 +32,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.letterscrummage.HelpActivity"
+            android:name="com.dylanbarth.wordmash.activity.HelpActivityityity"
             android:label="@string/title_activity_help" >
         </activity>
     </application>
