@@ -1,6 +1,5 @@
 package com.dylanbarth.wordmash.model;
 
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -15,9 +14,9 @@ import com.dylanbarth.wordmash.MainView;
 
 public class Tile {
 	private Bitmap bitmap;
-	private int resetX, resetY, x, y, centerX, centerY, width, height, index, SCALOR = 2, value, snapTargetX, snapTargetY, yIntercept;
+	private int resetX, resetY, x, y, centerX, centerY, width, height, index, value, snapTargetX, snapTargetY, yIntercept;
 	private float slope;
-	private boolean touched, validity, locked, animating;
+	private boolean touched, validity, locked;
 	private String letter;
 	private static final String TAG = MainView.class.getSimpleName();
 
@@ -36,7 +35,6 @@ public class Tile {
 		this.value = returnLetterValue(letter);
 		this.validity = false;
 		this.locked = false;
-		this.animating = false;
 		Log.d(TAG, "letter: " + letter + ", value: " + value);
 	}
 
@@ -161,9 +159,6 @@ public class Tile {
 		this.index = index;		
 	}
 
-	public void setAnimating(boolean animating){
-		this.animating = animating;
-	}
 
 
 
@@ -211,6 +206,11 @@ public class Tile {
 	public void resetPosition(){
 		setX(resetX);
 		setY(resetY);
+	}
+
+	public void updatePosition(int x, int y){
+		setX(x);
+		setY(y);
 	}
 
 	/******************************
@@ -377,8 +377,8 @@ public class Tile {
 	}
 
 	public void animateResetPosition() {
-		final int animateSpeed = 10;
-		final int deltaY = 10;
+		final int animateSpeed = 5;
+		final int deltaY = 2;
 		snapTargetX = this.resetX;
 		snapTargetY = this.resetY;
 		slope = (float)(-snapTargetY-(-getY()))/(snapTargetX-getX());
@@ -393,8 +393,8 @@ public class Tile {
 			{	
 				float nextX = 0, nextY = 0;
 				int currentX = getX(), currentY = getY();
-//				Log.d(TAG, "snapTargetX: "+snapTargetX + ", snapTargetY: "+snapTargetY);
-//				Log.d(TAG, "currentX:" + currentX + ", currentY:" + currentY);
+				//				Log.d(TAG, "snapTargetX: "+snapTargetX + ", snapTargetY: "+snapTargetY);
+				//				Log.d(TAG, "currentX:" + currentX + ", currentY:" + currentY);
 				nextY = -(slope*(currentX+deltaY) + yIntercept);
 				if(slope==0.0){
 					nextX = currentX + deltaY;
@@ -405,8 +405,7 @@ public class Tile {
 
 				}
 				Log.d(TAG, "nextY:"+nextY+" = slope:"+slope+"*(currentX:"+currentX+"+deltaY:"+deltaY+") + yInt:" +yIntercept);
-				setX(Math.round(nextX));
-				setY(Math.round(nextY));				
+				updatePosition(Math.round(nextX), Math.round(nextY));
 				if(getX() <= snapTargetX){
 					handler.postDelayed(this, animateSpeed);
 				} else {
