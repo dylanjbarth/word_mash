@@ -3,7 +3,10 @@ package com.dylanbarth.wordmash.model;
 import java.util.HashMap;
 import java.util.Random;
 
+import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -11,17 +14,18 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.dylanbarth.wordmash.MainView;
+import com.dylanbarth.wordmash.R;
 
 public class Tile {
 	private Bitmap bitmap;
+	private Resources resources;
 	private int resetX, resetY, x, y, centerX, centerY, width, height, index, value, snapTargetX, snapTargetY, yIntercept;
 	private float slope;
 	private boolean touched, validity, locked;
 	private String letter;
 	private static final String TAG = MainView.class.getSimpleName();
 
-	public Tile(Bitmap passedBitmap, int width, int height, int index, int startX){
-		this.bitmap = scaleBitmap(passedBitmap, width, height);
+	public Tile(Resources resources, int width, int height, int index, int startX){
 		this.resetX = startX;
 		this.resetY = index*height;
 		this.x = resetX; // b/c tiles are vertical column, X is constant
@@ -35,6 +39,8 @@ public class Tile {
 		this.value = returnLetterValue(letter);
 		this.validity = false;
 		this.locked = false;
+		this.resources = resources;
+		this.bitmap = createBitmap();
 		Log.d(TAG, "letter: " + letter + ", value: " + value);
 	}
 
@@ -105,6 +111,17 @@ public class Tile {
 	/*************************
 	 * Setters * 
 	 *************************/
+	
+	public Bitmap createBitmap(){
+		String drawableName = getLetter().toLowerCase() + "_" + Integer.toString(getValue());
+		Log.d(TAG, "*****drawableName: "+ drawableName);
+		int resID = this.resources.getIdentifier(drawableName, "drawable", "com.dylanbarth.wordmash");
+		Log.d(TAG, "*** resID:" + resID);
+		Bitmap tileImage = BitmapFactory.decodeResource(this.resources, resID);
+		Bitmap scaled = scaleBitmap(tileImage, width, height);
+		return scaled;
+	}
+	
 	public void setBitmap(Bitmap bitmap){
 		this.bitmap = bitmap;
 	}

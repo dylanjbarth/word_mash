@@ -84,8 +84,7 @@ public class Game {
 		// return a tile at the appropriate space and index
 		int imgWidth = this.width/(BOARD_SIZE*2);
 		int imgHeight = this.height/BOARD_SIZE;
-		Bitmap tileImage = BitmapFactory.decodeResource(resources, R.drawable.letter_tile);
-		Tile tile = new Tile(tileImage, imgWidth, imgHeight, index, startX);
+		Tile tile = new Tile(resources, imgWidth, imgHeight, index, startX);
 		//		Log.d(TAG, "Creating new tile with index: " + index + ", width: " + imgWidth + "height: " + imgHeight);
 		return tile;
 	}
