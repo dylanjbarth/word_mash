@@ -381,10 +381,10 @@ public class Tile {
 		final int deltaY = 5;
 		snapTargetX = this.resetX;
 		snapTargetY = this.resetY;
-		slope = (float)(snapTargetY-getY())/(snapTargetX-getX());
-		Log.d(TAG, "***3: slope=" + slope);
+		slope = (float)(-snapTargetY-(-getY()))/(snapTargetX-getX());
+		Log.d(TAG, "slope:" + slope + " = (-snapTargetY:"+snapTargetY+"-(-getY():"+getY()+"))/(snapTargetX:"+snapTargetX+"-getX()"+getX()+")");
 		yIntercept = (int) (-getY() - slope*getX());
-		Log.d(TAG, "yInt: " + yIntercept);
+		Log.d(TAG, "yInt:" + yIntercept + " = -getY():"+getY()+ " - slope:" + slope + "*getX():"+getX());
 
 		final Handler handler=new Handler();
 		final Runnable r = new Runnable()
@@ -392,13 +392,13 @@ public class Tile {
 			public void run() 
 			{	
 				float nextX = 0, nextY = 0;
-				boolean ySet = false, xSet = false;
 				int currentX = getX(), currentY = getY();
-				//					Log.d(TAG, "snapTargetY: "+snapTargetY+" currentY:" + currentY);
-				//					Log.d(TAG, "snapTargetX: "+snapTargetX+" currentX:" + currentX);
-				nextY = (slope*(currentX+deltaY) + yIntercept);
-				nextX = ((currentY - yIntercept)/slope);
-				//				Log.d(TAG, "***4: nextX = " + nextX);
+//				Log.d(TAG, "snapTargetX: "+snapTargetX + ", snapTargetY: "+snapTargetY);
+//				Log.d(TAG, "currentX:" + currentX + ", currentY:" + currentY);
+				nextY = -(slope*(currentX+deltaY) + yIntercept);
+				nextX = ((-currentY - yIntercept)/slope);
+				Log.d(TAG, "nextY:"+nextY+" = slope:"+slope+"*(currentX:"+currentX+"+deltaY:"+deltaY+") + yInt:" +yIntercept);
+				Log.d(TAG, "nextX:"+nextX+" = (currentY:"+currentY+" - yInt:"+yIntercept+")/slope"+slope+")");
 				setX(Math.round(nextX));
 				setY(Math.round(nextY));				
 				if(getX() <= snapTargetX){
