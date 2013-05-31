@@ -190,14 +190,14 @@ public class Tile {
 
 	public void draw(Canvas canvas){
 		canvas.drawBitmap(bitmap, x, y, null);
-		Paint paint = new Paint();
-		if(validity == false){
-			paint.setColor(Color.BLACK);
-		} else {
-			paint.setColor(Color.RED);
-		}
-		canvas.drawText(letter, centerX, centerY, paint);
-		canvas.drawText(Integer.toString(value), centerX+12, centerY+18, paint);
+//		Paint paint = new Paint();
+//		if(validity == false){
+//			paint.setColor(Color.BLACK);
+//		} else {
+//			paint.setColor(Color.RED);
+//		}
+//		canvas.drawText(letter, centerX, centerY, paint);
+//		canvas.drawText(Integer.toString(value), centerX+12, centerY+18, paint);
 	}
 
 	public void drawBig(Canvas canvas){
