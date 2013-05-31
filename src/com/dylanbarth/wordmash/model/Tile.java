@@ -377,8 +377,8 @@ public class Tile {
 	}
 
 	public void animateResetPosition() {
-		final int animateSpeed = 20;
-		final int deltaY = 5;
+		final int animateSpeed = 10;
+		final int deltaY = 10;
 		snapTargetX = this.resetX;
 		snapTargetY = this.resetY;
 		slope = (float)(-snapTargetY-(-getY()))/(snapTargetX-getX());
@@ -396,9 +396,15 @@ public class Tile {
 //				Log.d(TAG, "snapTargetX: "+snapTargetX + ", snapTargetY: "+snapTargetY);
 //				Log.d(TAG, "currentX:" + currentX + ", currentY:" + currentY);
 				nextY = -(slope*(currentX+deltaY) + yIntercept);
-				nextX = ((-currentY - yIntercept)/slope);
+				if(slope==0.0){
+					nextX = currentX + deltaY;
+					Log.d(TAG, "nextX:" + nextX);
+				} else {
+					nextX = ((-currentY - yIntercept)/slope);
+					Log.d(TAG, "nextX:"+nextX+" = (currentY:"+currentY+" - yInt:"+yIntercept+")/slope"+slope+")");
+
+				}
 				Log.d(TAG, "nextY:"+nextY+" = slope:"+slope+"*(currentX:"+currentX+"+deltaY:"+deltaY+") + yInt:" +yIntercept);
-				Log.d(TAG, "nextX:"+nextX+" = (currentY:"+currentY+" - yInt:"+yIntercept+")/slope"+slope+")");
 				setX(Math.round(nextX));
 				setY(Math.round(nextY));				
 				if(getX() <= snapTargetX){
