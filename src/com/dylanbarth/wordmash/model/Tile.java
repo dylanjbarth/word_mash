@@ -198,7 +198,11 @@ public class Tile {
 
 	public void draw(Canvas canvas){
 		Paint paint = new Paint();
-		paint.setAlpha(235);
+		if(isValid()){
+			paint.setAlpha(255);
+		} else {
+			paint.setAlpha(225);
+		}
 		canvas.drawBitmap(bitmap, x, y, paint);
 //		Paint paint = new Paint();
 //		if(validity == false){
