@@ -20,6 +20,7 @@ public class Tile {
 	private Bitmap bitmap;
 	private Resources resources;
 	private int resetX, resetY, x, y, centerX, centerY, width, height, index, value, snapTargetX, snapTargetY, yIntercept;
+	private TileSpace currentTileSpace;
 	private float slope;
 	private boolean touched, validity, locked;
 	private String letter;
@@ -41,6 +42,7 @@ public class Tile {
 		this.locked = false;
 		this.resources = resources;
 		this.bitmap = createBitmap();
+		this.currentTileSpace = null;
 		Log.d(TAG, "letter: " + letter + ", value: " + value);
 	}
 
@@ -105,6 +107,10 @@ public class Tile {
 
 	public boolean isValid(){
 		return validity;
+	}
+	
+	public TileSpace getTileSpace(){
+		return currentTileSpace; 
 	}
 
 
@@ -176,7 +182,9 @@ public class Tile {
 		this.index = index;		
 	}
 
-
+	public void setCurrentTileSpace(TileSpace currentTileSpace){
+		this.currentTileSpace = currentTileSpace;
+	}
 
 
 	/*************************

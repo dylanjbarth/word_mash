@@ -186,6 +186,7 @@ public class Board {
 					if(!locked){
 						tileSpace.setOccupied(false);
 						tileSpace.setTile(null);
+						currentTile.setCurrentTileSpace(null);
 					}
 				}
 			}
@@ -235,8 +236,8 @@ public class Board {
 
 	public int calculateScore(){
 		int score = 0;
-		showLetters();
-		showTiles(); 
+//		showLetters();
+//		showTiles(); 
 		ArrayList<ArrayList<Tile>> words = getAllWords();
 		ArrayList<ArrayList<Tile>> validTiles = new ArrayList<ArrayList<Tile>>();
 		for(int i=0; i < words.size(); i++){
@@ -244,7 +245,7 @@ public class Board {
 //			Log.d(TAG, "Retrieved string: " + word);
 			if(wordIsValid(word)){
 //				Log.d(TAG, word + " is a valid word.");
-				score += calcWordScore(word);
+				score += calcWordScore(words.get(i));
 				validTiles.add(words.get(i));
 			} else {
 //				Log.d(TAG, word + " is invalid. Setting tiles to false.");
@@ -257,11 +258,28 @@ public class Board {
 		return score;
 	}
 
-	public int calcWordScore(String word){
+	public int calcWordScore(ArrayList<Tile> word){
 		int score = 0;
-		for(int i=0; i < word.length(); i++){
-			score += returnLetterValue(word.charAt(i));
+		int wordMultiplier = 1;
+		for(int i=0; i < word.size(); i++){
+			String tileType = word.get(i).getTileSpace().getTileType();
+			int letterValue = returnLetterValue(word.get(i).getLetter()); 
+			if(tileType == "tw_space"){
+				wordMultiplier *= 3;
+			} else if (tileType == "dw_space"){
+				wordMultiplier *= 2;
+			} else if (tileType == "tl_space"){
+				letterValue *= 3;
+			} else if (tileType == "dl_space"){
+				letterValue *= 2;
+			}
+			score += letterValue;
+			Log.d(TAG, "End of wordScoreLoop:" + i);
+			Log.d(TAG, "tileLetter:" + word.get(i).getLetter());
+			Log.d(TAG, "tileSpaceType: " + tileType);
+			
 		}
+		score *= wordMultiplier;
 		return score;
 	}
 
@@ -280,34 +298,34 @@ public class Board {
 		}
 	}
 
-	public int returnLetterValue(char c){
-		HashMap<Character, Integer> tileValues = new HashMap<Character, Integer>();
-		tileValues.put('A', 1);
-		tileValues.put('B', 3);
-		tileValues.put('C', 3);
-		tileValues.put('D', 2);
-		tileValues.put('E', 1);
-		tileValues.put('F', 4);
-		tileValues.put('G', 2);
-		tileValues.put('H', 4);
-		tileValues.put('I', 1);
-		tileValues.put('J', 8);
-		tileValues.put('K', 5);
-		tileValues.put('L', 1);
-		tileValues.put('M', 3);
-		tileValues.put('N', 1);
-		tileValues.put('O', 1);
-		tileValues.put('P', 3);
-		tileValues.put('Q', 10);
-		tileValues.put('R', 1);
-		tileValues.put('S', 1);
-		tileValues.put('T', 1);
-		tileValues.put('U', 1);
-		tileValues.put('V', 1);
-		tileValues.put('W', 4);
-		tileValues.put('X', 8);
-		tileValues.put('Y', 4);
-		tileValues.put('Z', 10);
+	public int returnLetterValue(String c){
+		HashMap<String, Integer> tileValues = new HashMap<String, Integer>();
+		tileValues.put("A", 1);
+		tileValues.put("B", 3);
+		tileValues.put("C", 3);
+		tileValues.put("D", 2);
+		tileValues.put("E", 1);
+		tileValues.put("F", 4);
+		tileValues.put("G", 2);
+		tileValues.put("H", 4);
+		tileValues.put("I", 1);
+		tileValues.put("J", 8);
+		tileValues.put("K", 5);
+		tileValues.put("L", 1);
+		tileValues.put("M", 3);
+		tileValues.put("N", 1);
+		tileValues.put("O", 1);
+		tileValues.put("P", 3);
+		tileValues.put("Q", 10);
+		tileValues.put("R", 1);
+		tileValues.put("S", 1);
+		tileValues.put("T", 1);
+		tileValues.put("U", 1);
+		tileValues.put("V", 1);
+		tileValues.put("W", 4);
+		tileValues.put("X", 8);
+		tileValues.put("Y", 4);
+		tileValues.put("Z", 10);
 		int value = (Integer) tileValues.get(c);
 		return value;
 	}

@@ -11,17 +11,17 @@ public class TileSpace {
 	private Tile tile;
 	private int row, col, x, y, centerX, centerY, width, height;
 	private boolean occupied;
-	private int multiplier;
+	private String tileType;
 	private static final String TAG = MainView.class.getSimpleName();
 
-	public TileSpace(Bitmap passedBitmap, int row, int col, int width, int height){
+	public TileSpace(Bitmap passedBitmap, int row, int col, int width, int height, String tileType){
 		this.bitmap = scaleBitmap(passedBitmap, width, height);
 		this.row = row;
 		this.col = col;
 		this.width = width;
 		this.height = height;
 		this.occupied = false;
-		this.multiplier = 1;
+		this.tileType = tileType;
 		this.x = positionTileX(row, width);
 		this.y = positionTileY(col, height);
 		this.centerX = x+width/2;
@@ -64,8 +64,8 @@ public class TileSpace {
 		return occupied;
 	}
 
-	public int getMultiplier(){
-		return multiplier;
+	public String getTileType(){
+		return tileType;
 	}
 
 	public int[] getCoords(){
@@ -116,10 +116,6 @@ public class TileSpace {
 		this.occupied = occupied;
 	}
 
-	public void setMultiplier(int multiplier){
-		this.multiplier = multiplier;
-	}
-
 	public void setTile(Tile tile){
 		this.tile = tile;
 	}
@@ -157,12 +153,14 @@ public class TileSpace {
 					TileSpace freeSpace = board.getClosestAvailableTileSpace(tileCenterX, tileCenterY);
 					Log.d(TAG, "Calling animation");
 					tile.animateSnap(freeSpace.getX(), freeSpace.getY());
+					tile.setCurrentTileSpace(this);
 					freeSpace.setOccupied(true);
 					Log.d(TAG, "Returning freeSpace.");
 					return freeSpace;
 				} else {
 					tile.setX(this.x);
 					tile.setY(this.y);
+					tile.setCurrentTileSpace(this);
 					this.setOccupied(true);
 					Log.d(TAG, "Returning tileSpace.");
 					return this;

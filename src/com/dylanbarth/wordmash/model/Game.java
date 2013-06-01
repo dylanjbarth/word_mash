@@ -63,8 +63,8 @@ public class Game {
 				Bitmap tileSpaceImage;
 				String tileName = getTileType(r, c);
 				int resID = this.resources.getIdentifier(tileName, "drawable", "com.dylanbarth.wordmash");
-				tileSpaceImage = BitmapFactory.decodeResource(resources, resID);	
-				TileSpace tile = new TileSpace(tileSpaceImage, r, c, imgWidth, imgHeight);
+				tileSpaceImage = BitmapFactory.decodeResource(resources, resID);
+				TileSpace tile = new TileSpace(tileSpaceImage, r, c, imgWidth, imgHeight, tileName);
 				tileSpaces[r][c] = tile;
 			}
 		}
