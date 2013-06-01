@@ -265,8 +265,9 @@ public class Board {
 		int score = 0;
 		int wordMultiplier = 1;
 		for(int i=0; i < word.size(); i++){
-			String tileType = word.get(i).getTileSpace().getTileType();
-			int letterValue = returnLetterValue(word.get(i).getLetter()); 
+			Tile tile = word.get(i);
+			String tileType = tile.getTileSpace().getTileType();
+			int letterValue = returnLetterValue(tile.getLetter()); 
 			if(tileType == "tw_space"){
 				wordMultiplier *= 3;
 			} else if (tileType == "dw_space"){
@@ -275,6 +276,9 @@ public class Board {
 				letterValue *= 3;
 			} else if (tileType == "dl_space"){
 				letterValue *= 2;
+			}
+			if(tileType != "tile_space"){
+				tile.getTileSpace().animateMultiplier(tileType);
 			}
 			score += letterValue;
 			Log.d(TAG, "End of wordScoreLoop:" + i);
