@@ -197,7 +197,9 @@ public class Tile {
 	}
 
 	public void draw(Canvas canvas){
-		canvas.drawBitmap(bitmap, x, y, null);
+		Paint paint = new Paint();
+		paint.setAlpha(235);
+		canvas.drawBitmap(bitmap, x, y, paint);
 //		Paint paint = new Paint();
 //		if(validity == false){
 //			paint.setColor(Color.BLACK);

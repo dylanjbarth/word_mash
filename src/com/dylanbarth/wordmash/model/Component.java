@@ -3,6 +3,7 @@ package com.dylanbarth.wordmash.model;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.util.Log;
 
 import com.dylanbarth.wordmash.MainView;
@@ -35,6 +36,9 @@ public class Component {
 	}
 
 	public void draw(Canvas canvas, String gameState, String boardState){
+		paint.setAntiAlias(true);
+		paint.setTypeface(Typeface.SERIF);
+		paint.setTextSize(20);
 		if (isTouched){
 			paint.setColor(Color.DKGRAY);
 		} else {
@@ -47,7 +51,8 @@ public class Component {
 		if(title=="timer"){
 			canvas.drawText("Time: " + String.valueOf(time) + "s", x+20, y+20, paint);
 		} else if(title=="score"){
-			canvas.drawText("Score: " + String.valueOf(score), x+100, y+20, paint);
+			
+			canvas.drawText("Score: " + String.valueOf(score), x+20, y+20, paint);
 		} else if(title =="updateTray"){
 			if(boardState == "shuffle"){
 				canvas.drawText("Shuffle Tiles", x+20, y+20, paint);

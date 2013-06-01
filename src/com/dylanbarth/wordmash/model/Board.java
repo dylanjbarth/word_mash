@@ -182,11 +182,14 @@ public class Board {
 				TileSpace tileSpace = tileSpaces[r][c];
 				if(tileSpace.coordsInside(eventX, eventY)){
 					Tile currentTile = tileSpace.getCurrentTile();
-					boolean locked = (currentTile == null) ? false : currentTile.isLocked();
+					boolean locked = false;
+					if(currentTile != null){
+						currentTile.setCurrentTileSpace(null);
+						locked = currentTile.isLocked();
+					} 
 					if(!locked){
 						tileSpace.setOccupied(false);
 						tileSpace.setTile(null);
-						currentTile.setCurrentTileSpace(null);
 					}
 				}
 			}
@@ -236,8 +239,8 @@ public class Board {
 
 	public int calculateScore(){
 		int score = 0;
-//		showLetters();
-//		showTiles(); 
+		showLetters();
+		showTiles(); 
 		ArrayList<ArrayList<Tile>> words = getAllWords();
 		ArrayList<ArrayList<Tile>> validTiles = new ArrayList<ArrayList<Tile>>();
 		for(int i=0; i < words.size(); i++){
