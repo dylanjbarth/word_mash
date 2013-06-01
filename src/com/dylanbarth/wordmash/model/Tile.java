@@ -394,8 +394,8 @@ public class Tile {
 	}
 
 	public void animateResetPosition() {
-		final int animateSpeed = 5;
-		final int deltaY = 2;
+		final int animateSpeed = 3;
+		final int deltaY = 3;
 		snapTargetX = this.resetX;
 		snapTargetY = this.resetY;
 		slope = (float)(-snapTargetY-(-getY()))/(snapTargetX-getX());

@@ -60,12 +60,29 @@ public class Game {
 		int imgHeight = this.height/size;
 		for(int c=0; c < size; c++){
 			for (int r=0; r < size; r++){
-				Bitmap tileSpaceImage = BitmapFactory.decodeResource(resources, R.drawable.tile_space);
+				Bitmap tileSpaceImage;
+				String tileName = getTileType(r, c);
+				int resID = this.resources.getIdentifier(tileName, "drawable", "com.dylanbarth.wordmash");
+				tileSpaceImage = BitmapFactory.decodeResource(resources, resID);	
 				TileSpace tile = new TileSpace(tileSpaceImage, r, c, imgWidth, imgHeight);
 				tileSpaces[r][c] = tile;
 			}
 		}
 		return tileSpaces;
+	}
+	
+	public String getTileType(int r, int c){
+		String tileType = "tile_space";
+		if(c==1 && r==0 || c==5 && r==0 || c==0 && r==1 || c==6 && r==1 || c==0 && r==5 || c==6 && r==5 || c==1 && r==6 || c==5 && r==6){
+			tileType = "tw_space";
+		} else if(c==3 && r==2 || c==2 && r==3 || c==3 && r==4 || c==4 && r==3){
+			tileType = "dw_space";
+		} else if(c==3 && r==0 || c==0 && r==3 || c==6 && r==3 || c==3 && r==6){
+			tileType = "tl_space";
+		} else if(c==2 && r==1 || c==4 && r==1 || c==1 && r==2 || c==5 && r==2 || c==1 && r==4 || c==5 && r==4 || c==2 && r==5 || c==4 && r==5){
+			tileType = "dl_space";
+		}
+		return tileType;
 	}
 
 	public LetterTray createLetterTray(){
