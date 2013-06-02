@@ -13,9 +13,9 @@ import com.dylanbarth.wordmash.MainView;
 public class TileSpace {
 	private Bitmap bitmap;
 	private Tile tile;
-	private int row, col, x, y, centerX, centerY, width, height, penaltyY;
-	private boolean occupied, multiplierAnimation;
-	private String tileType, animationType;
+	private int row, col, x, y, centerX, centerY, width, height;
+	private boolean occupied;
+	private String tileType;
 	private static final String TAG = MainView.class.getSimpleName();
 
 	public TileSpace(Bitmap passedBitmap, int row, int col, int width, int height, String tileType){
@@ -31,9 +31,6 @@ public class TileSpace {
 		this.centerX = x+width/2;
 		this.centerY = y+height/2;
 		this.tile = null;
-		this.penaltyY = this.y;
-		this.animationType = "tile_space";
-		this.multiplierAnimation = false;
 	}
 
 	/*************************
@@ -87,10 +84,6 @@ public class TileSpace {
 			return null;
 		}
 	}
-	
-	public int getPenaltyY(){
-		return this.penaltyY;
-	}
 
 	/*************************
 	 * Setters * 
@@ -130,14 +123,6 @@ public class TileSpace {
 	public void setTile(Tile tile){
 		this.tile = tile;
 	}
-	
-	public void setMultiplierAnimation(boolean bool){
-		this.multiplierAnimation = bool;
-	}
-	
-	public void setPenaltyY(int y){
-		this.penaltyY = y;
-	}
 
 	/*************************
 	 * Helpers * 
@@ -161,24 +146,6 @@ public class TileSpace {
 
 	public void draw(Canvas canvas){
 		canvas.drawBitmap(bitmap, x, y, null);
-		if(this.multiplierAnimation){
-			Paint paint = new Paint();
-			paint.setAntiAlias(true);
-			paint.setTypeface(Typeface.SANS_SERIF);
-			paint.setTextSize(10);
-			paint.setColor(Color.GREEN);
-			String multiplier = "";
-			if(this.tileType=="tw_space"){
-				multiplier = "Triple Word!!";
-			} else if(this.tileType=="dw_space"){
-				multiplier = "Double Word!";
-			} else if(this.tileType=="tl_space"){
-				multiplier = "3x!";
-			} else if(this.tileType=="dl_space"){
-				multiplier = "2x!";
-			}
-			canvas.drawText(multiplier, x, penaltyY, paint);
-		}
 	}
 
 	public TileSpace handleTileSnapping(Board board, Tile tile){
@@ -214,28 +181,5 @@ public class TileSpace {
 			} 
 		}
 		return false;
-	}
-
-	public void animateMultiplier(String tileType) {
-		final int animateSpeed = 20;
-		final int deltaY = 1;
-		final int threadRevolutions = 50;
-		final Handler handler=new Handler();
-		final Runnable r = new Runnable()
-		{
-			public void run() 
-			{	
-				setMultiplierAnimation(true);
-				for(int i=0; i<threadRevolutions; i++){
-					Log.d(TAG, "Animating score! PenaltyY:"+getPenaltyY());
-					setPenaltyY(getPenaltyY()-deltaY);
-					android.os.SystemClock.sleep(10);
-				}
-				setPenaltyY(getY());
-				setMultiplierAnimation(false);
-			}
-		};
-		handler.postDelayed(r, animateSpeed);
-		
 	}
 }

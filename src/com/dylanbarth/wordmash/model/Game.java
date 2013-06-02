@@ -28,6 +28,7 @@ public class Game {
 	private int BOARD_SIZE = 7, LETTER_TRAY_SIZE = 7, COMPONENTS = 7, COMPONENT_ROWS = 5, PENALTY = 0;
 	private String state;
 	private ArrayList<String> wordList;
+	private ArrayList<Animation> animations;
 	private boolean TIMER_RUNNING = false;
 
 	private static final String TAG = MainView.class.getSimpleName();
@@ -40,6 +41,7 @@ public class Game {
 		this.tray = createLetterTray();
 		this.menu = createGameMenu();
 		this.state = "preGame";
+		this.animations = new ArrayList<Animation>();
 	}
 
 	/*************************
@@ -220,6 +222,9 @@ public class Game {
 			board.draw(canvas);
 			menu.draw(canvas, this.state, boardState);
 			tray.draw(canvas); // order matters - draw tiles last
+			for(int i=0; i<animations.size(); i++){
+				animations.get(i).draw(canvas);
+			}
 		} else if (this.state == "paused"){
 			drawPauseScreen(canvas);
 		} else if(this.state == "postGame"){
@@ -345,6 +350,7 @@ public class Game {
 			tile.setTouched(false);
 			tray.setAllTilesValidityToFalse();
 			int score = board.calculateScore();
+			this.animations.addAll(board.getAnimations());
 			menu.getComponent("score").setScore(score-PENALTY);
 			// calculate score
 		}

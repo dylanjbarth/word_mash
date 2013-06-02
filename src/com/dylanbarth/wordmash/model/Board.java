@@ -19,7 +19,8 @@ public class Board {
 	private int x, y, size, width, height, gridLength;
 	private TileSpace[][] tileSpaces;
 	private static final String TAG = MainView.class.getSimpleName();
-	private ArrayList<String> wordList;
+	private ArrayList<String> masterWordList, oldWords;
+	private ArrayList<Animation> animations;
 
 	public Board(int x, int y, int size, TileSpace[][] tileSpaces, ArrayList<String> wordList){
 		this.x = x;
@@ -28,7 +29,9 @@ public class Board {
 		this.gridLength = (int) Math.sqrt(size);
 		this.tileSpaces = tileSpaces; // organized by [col][row] somehow :(
 		this.width = boardWidth();
-		this.wordList = wordList;
+		this.masterWordList = wordList;
+		this.oldWords = new ArrayList<String>();
+		this.animations = new ArrayList<Animation>();
 		//		this.height = boardHeight(); // for some reason this is skewing board... not important for now.
 	}
 
@@ -54,6 +57,10 @@ public class Board {
 
 	public int getSize(){
 		return size;
+	}
+	
+	public ArrayList<Animation> getAnimations(){
+		return animations;
 	}
 
 	public TileSpace getTileSpace(int row, int col){
@@ -198,7 +205,7 @@ public class Board {
 
 	public ArrayList<ArrayList<Tile>> getAllWords(){
 		// goes through each row and column, adding every sequence greater than 2 to a string array
-		ArrayList<ArrayList<Tile>> allWords = new ArrayList<ArrayList<Tile>>();
+		ArrayList<ArrayList<Tile>> currentWords = new ArrayList<ArrayList<Tile>>();
 		// first loop horizontal, second is vertical
 		for(int t=0; t < 2; t++){
 			if(t==0){
@@ -223,28 +230,44 @@ public class Board {
 					if(tile == null || c>=this.gridLength-1){
 						if(word.size() > 1){
 //							Log.d(TAG, "Added word: " + word);
-							allWords.add(word);
+							currentWords.add(word);
 						}
 						word = new ArrayList<Tile>();
 					}
 				}
 			}
 			Log.d(TAG, "t=" + t + ", words=");
-			for(int i=0; i<allWords.size(); i++){
-				Log.d(TAG, getWord(allWords, i));
-			}
 		}
-		return allWords;
+		createAnimations(currentWords);
+		return currentWords;
+	}
+	
+	public void createAnimations(ArrayList<ArrayList<Tile>> currentWords){
+		ArrayList<String> currentWordStrings = new ArrayList<String>();
+		for(int i=0; i<currentWords.size(); i++){
+			ArrayList<Tile> tileWord = currentWords.get(i);
+			String word = getWord(tileWord);
+			currentWordStrings.add(word);
+			if(!oldWords.contains(word)){
+				for(int j=0; j<tileWord.size(); j++){
+					Animation animation = new Animation(tileWord.get(j).getTileSpace());
+					this.animations.add(animation);
+				}
+			}
+			Log.d(TAG, word);
+		}
+		oldWords = currentWordStrings;
 	}
 
 	public int calculateScore(){
+		this.animations = new ArrayList<Animation>();
 		int score = 0;
 		showLetters();
 		showTiles(); 
 		ArrayList<ArrayList<Tile>> words = getAllWords();
 		ArrayList<ArrayList<Tile>> validTiles = new ArrayList<ArrayList<Tile>>();
 		for(int i=0; i < words.size(); i++){
-			String word = getWord(words, i);
+			String word = getWord(words.get(i));
 //			Log.d(TAG, "Retrieved string: " + word);
 			if(wordIsValid(word)){
 //				Log.d(TAG, word + " is a valid word.");
@@ -277,21 +300,19 @@ public class Board {
 			} else if (tileType == "dl_space"){
 				letterValue *= 2;
 			}
-			if(tileType != "tile_space"){
-				tile.getTileSpace().animateMultiplier(tileType);
-			}
 			score += letterValue;
-			Log.d(TAG, "End of wordScoreLoop:" + i);
-			Log.d(TAG, "tileLetter:" + word.get(i).getLetter());
-			Log.d(TAG, "tileSpaceType: " + tileType);
+//			Log.d(TAG, "End of wordScoreLoop:" + i);
+//			Log.d(TAG, "tileLetter:" + word.get(i).getLetter());
+//			Log.d(TAG, "tileSpaceType: " + tileType);
 			
 		}
 		score *= wordMultiplier;
 		return score;
 	}
+	
+	
 
-	public String getWord(ArrayList<ArrayList<Tile>> words, int index){
-		ArrayList<Tile> word = words.get(index);
+	public String getWord(ArrayList<Tile> word){
 		String text = "";
 		for(int i=0; i < word.size(); i++){
 			text += word.get(i).getLetter();
@@ -339,7 +360,7 @@ public class Board {
 
 	public boolean wordIsValid(String word){
 		boolean valid = false;
-		if(wordList.contains(word.toLowerCase())){
+		if(masterWordList.contains(word.toLowerCase())){
 			//			Log.d(TAG, word + " is a valid word!");
 			valid = true;
 		}
