@@ -346,6 +346,7 @@ public class Game {
 		}
 		Tile tile = tray.tileTouched();
 		if(tile != null){
+			this.animations.clear();
 			board.snapTileIntoPlace(tile);
 			tile.setTouched(false);
 			tray.setAllTilesValidityToFalse();

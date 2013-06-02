@@ -4,30 +4,44 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Typeface;
-import android.os.Handler;
 import android.util.Log;
 
 import com.dylanbarth.wordmash.MainView;
 
 public class Animation {
 	private int x, y, targetY, deltaY = 1;
-	private String tileType;
+	private String tileType, multiplier;
 	private static final String TAG = MainView.class.getSimpleName();
+	private Paint paint;
 
 	public Animation(TileSpace tileSpace){
 		this.x = tileSpace.getX();
 		this.y = tileSpace.getY();
-		this.targetY = y+deltaY;
+		this.targetY = y-deltaY*20;
 		this.tileType = tileSpace.getTileType();
+		this.multiplier = getMultiplier();
+		this.paint = createPaint();
 	}
 	
 	public void draw(Canvas canvas){
+		if(this.y > targetY && this.tileType != "tile_space"){
+			Log.d(TAG, "multipler:"+multiplier);
+			Log.d(TAG, "paint:" + paint);
+			canvas.drawText(multiplier, x, y, paint);
+			this.y -= deltaY;
+		}
+	}
+	
+	public Paint createPaint(){
 		Paint paint = new Paint();
 		paint.setAntiAlias(true);
 		paint.setTypeface(Typeface.SANS_SERIF);
 		paint.setTextSize(10);
 		paint.setColor(Color.GREEN);
-		String multiplier = "";
+		return paint;
+	}
+	
+	public String getMultiplier(){
 		if(this.tileType=="tw_space"){
 			multiplier = "TW!";
 		} else if(this.tileType=="dw_space"){
@@ -37,8 +51,7 @@ public class Animation {
 		} else if(this.tileType=="dl_space"){
 			multiplier = "DL!";
 		}
-		canvas.drawText(multiplier, x, y, paint);
-		this.y -= deltaY;
+		return multiplier;
 	}
 	
 //	public void animateMultiplier(String tileType) {
