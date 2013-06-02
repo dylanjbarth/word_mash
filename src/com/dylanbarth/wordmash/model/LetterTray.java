@@ -11,12 +11,14 @@ import com.dylanbarth.wordmash.MainView;
 public class LetterTray {
 	private int x, y, width;
 	private ArrayList<Tile> tray;
+	private ArrayList<PenaltyAnimation> penaltyAnimations;
 	private static final String TAG = MainView.class.getSimpleName();
 
 	public LetterTray(int x, int y, ArrayList<Tile> tray){
 		this.x = x;
 		this.y = y;
 		this.tray = tray;
+		this.penaltyAnimations = new ArrayList<PenaltyAnimation>();
 	}
 
 	/*************************
@@ -39,6 +41,10 @@ public class LetterTray {
 		Tile tile = getTileFromTray(0);
 		this.width = tile.getWidth();
 		return this.width;
+	}
+	
+	public ArrayList<PenaltyAnimation> getPenaltyAnimations(){
+		return penaltyAnimations;
 	}
 
 	public ArrayList<Tile> getTray(){
@@ -99,6 +105,7 @@ public class LetterTray {
 	}
 	
 	public Tile[] getPenaltyTiles(){
+		this.penaltyAnimations.clear();
 		ArrayList<Tile> penaltyTiles = new ArrayList<Tile>();
 		Tile[] tilesInTray = getTilesInTray();
 		Tile[] invalidTiles = getInvalidTiles();
@@ -107,6 +114,10 @@ public class LetterTray {
 		}
 		for(int i=0; i<invalidTiles.length; i++){
 			penaltyTiles.add(invalidTiles[i]);
+		}
+		for(int i=0; i<penaltyTiles.size(); i++){
+			PenaltyAnimation animation = new PenaltyAnimation(penaltyTiles.get(i));
+			this.penaltyAnimations.add(animation);
 		}
 		Tile[] penaltyTilesArray = new Tile[penaltyTiles.size()];
 		penaltyTilesArray = penaltyTiles.toArray(penaltyTilesArray);

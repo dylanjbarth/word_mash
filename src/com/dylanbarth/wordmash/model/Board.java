@@ -20,7 +20,7 @@ public class Board {
 	private TileSpace[][] tileSpaces;
 	private static final String TAG = MainView.class.getSimpleName();
 	private ArrayList<String> masterWordList, oldWords;
-	private ArrayList<Animation> animations;
+	private ArrayList<ScoreAnimation> scoreAnimations;
 
 	public Board(int x, int y, int size, TileSpace[][] tileSpaces, ArrayList<String> wordList){
 		this.x = x;
@@ -31,7 +31,7 @@ public class Board {
 		this.width = boardWidth();
 		this.masterWordList = wordList;
 		this.oldWords = new ArrayList<String>();
-		this.animations = new ArrayList<Animation>();
+		this.scoreAnimations = new ArrayList<ScoreAnimation>();
 		//		this.height = boardHeight(); // for some reason this is skewing board... not important for now.
 	}
 
@@ -59,8 +59,8 @@ public class Board {
 		return size;
 	}
 	
-	public ArrayList<Animation> getAnimations(){
-		return animations;
+	public ArrayList<ScoreAnimation> getScoreAnimations(){
+		return scoreAnimations;
 	}
 
 	public TileSpace getTileSpace(int row, int col){
@@ -238,7 +238,6 @@ public class Board {
 			}
 			Log.d(TAG, "t=" + t + ", words=");
 		}
-		createAnimations(currentWords);
 		return currentWords;
 	}
 	
@@ -250,8 +249,8 @@ public class Board {
 			currentWordStrings.add(word);
 			if(!oldWords.contains(word)){
 				for(int j=0; j<tileWord.size(); j++){
-					Animation animation = new Animation(tileWord.get(j).getTileSpace());
-					this.animations.add(animation);
+					ScoreAnimation animation = new ScoreAnimation(tileWord.get(j).getTileSpace());
+					this.scoreAnimations.add(animation);
 				}
 			}
 			Log.d(TAG, word);
@@ -260,23 +259,25 @@ public class Board {
 	}
 
 	public int calculateScore(){
-		this.animations = new ArrayList<Animation>();
+		this.scoreAnimations = new ArrayList<ScoreAnimation>();
 		int score = 0;
 		showLetters();
 		showTiles(); 
 		ArrayList<ArrayList<Tile>> words = getAllWords();
 		ArrayList<ArrayList<Tile>> validTiles = new ArrayList<ArrayList<Tile>>();
 		for(int i=0; i < words.size(); i++){
-			String word = getWord(words.get(i));
+			ArrayList<Tile> wordAsTiles = words.get(i);
+			String word = getWord(wordAsTiles);
 //			Log.d(TAG, "Retrieved string: " + word);
 			if(wordIsValid(word)){
 //				Log.d(TAG, word + " is a valid word.");
-				score += calcWordScore(words.get(i));
-				validTiles.add(words.get(i));
+				score += calcWordScore(wordAsTiles);
+				validTiles.add(wordAsTiles);
 			} else {
 //				Log.d(TAG, word + " is invalid. Setting tiles to false.");
 			}
 		}
+		createAnimations(validTiles);
 		for(int i=0; i < validTiles.size(); i++){
 			setTilesValidity(validTiles.get(i), true);
 		}

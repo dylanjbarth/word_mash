@@ -8,16 +8,16 @@ import android.util.Log;
 
 import com.dylanbarth.wordmash.MainView;
 
-public class Animation {
+public class ScoreAnimation {
 	private int x, y, targetY, deltaY = 1;
 	private String tileType, multiplier;
 	private static final String TAG = MainView.class.getSimpleName();
 	private Paint paint;
 
-	public Animation(TileSpace tileSpace){
+	public ScoreAnimation(TileSpace tileSpace){
 		this.x = tileSpace.getX();
 		this.y = tileSpace.getY();
-		this.targetY = y-deltaY*20;
+		this.targetY = y-deltaY*30;
 		this.tileType = tileSpace.getTileType();
 		this.multiplier = getMultiplier();
 		this.paint = createPaint();
@@ -36,7 +36,7 @@ public class Animation {
 		Paint paint = new Paint();
 		paint.setAntiAlias(true);
 		paint.setTypeface(Typeface.SANS_SERIF);
-		paint.setTextSize(10);
+		paint.setTextSize(30);
 		paint.setColor(Color.GREEN);
 		return paint;
 	}

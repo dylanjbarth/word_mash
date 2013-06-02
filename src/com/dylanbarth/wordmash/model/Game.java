@@ -28,7 +28,8 @@ public class Game {
 	private int BOARD_SIZE = 7, LETTER_TRAY_SIZE = 7, COMPONENTS = 7, COMPONENT_ROWS = 5, PENALTY = 0;
 	private String state;
 	private ArrayList<String> wordList;
-	private ArrayList<Animation> animations;
+	private ArrayList<ScoreAnimation> scoreAnimations;
+	private ArrayList<PenaltyAnimation> penaltyAnimations;
 	private boolean TIMER_RUNNING = false;
 
 	private static final String TAG = MainView.class.getSimpleName();
@@ -41,7 +42,8 @@ public class Game {
 		this.tray = createLetterTray();
 		this.menu = createGameMenu();
 		this.state = "preGame";
-		this.animations = new ArrayList<Animation>();
+		this.scoreAnimations = new ArrayList<ScoreAnimation>();
+		this.penaltyAnimations = new ArrayList<PenaltyAnimation>();
 	}
 
 	/*************************
@@ -222,8 +224,11 @@ public class Game {
 			board.draw(canvas);
 			menu.draw(canvas, this.state, boardState);
 			tray.draw(canvas); // order matters - draw tiles last
-			for(int i=0; i<animations.size(); i++){
-				animations.get(i).draw(canvas);
+			for(int i=0; i<scoreAnimations.size(); i++){
+				scoreAnimations.get(i).draw(canvas);
+			}
+			for(int i=0; i<penaltyAnimations.size(); i++){
+				penaltyAnimations.get(i).draw(canvas);
 			}
 		} else if (this.state == "paused"){
 			drawPauseScreen(canvas);
@@ -322,6 +327,7 @@ public class Game {
 			menu.resetButtonClicked("changeGameState");
 		} else if(menu.checkIfButtonClicked("newTiles")){
 			// calculate penalty for cashing in
+			this.penaltyAnimations.addAll(tray.getPenaltyAnimations());
 			PENALTY += tray.calculatePenalty();
 			int score = board.calculateScore();
 			menu.getComponent("score").setScore(score-PENALTY);
@@ -334,6 +340,7 @@ public class Game {
 			// create new letter tiles
 			addNewTiles();
 			menu.resetButtonClicked("newTiles");
+//			this.penaltyAnimations.clear();
 		} else if(menu.checkIfButtonClicked("updateTray")){
 			if(tray.getTilesInTray().length == LETTER_TRAY_SIZE){
 				tray.shuffleTiles();
@@ -346,12 +353,12 @@ public class Game {
 		}
 		Tile tile = tray.tileTouched();
 		if(tile != null){
-			this.animations.clear();
+			this.scoreAnimations.clear();
 			board.snapTileIntoPlace(tile);
 			tile.setTouched(false);
 			tray.setAllTilesValidityToFalse();
 			int score = board.calculateScore();
-			this.animations.addAll(board.getAnimations());
+			this.scoreAnimations.addAll(board.getScoreAnimations());
 			menu.getComponent("score").setScore(score-PENALTY);
 			// calculate score
 		}
