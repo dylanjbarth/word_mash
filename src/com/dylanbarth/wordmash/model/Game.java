@@ -327,8 +327,8 @@ public class Game {
 			menu.resetButtonClicked("changeGameState");
 		} else if(menu.checkIfButtonClicked("newTiles")){
 			// calculate penalty for cashing in
-			this.penaltyAnimations.addAll(tray.getPenaltyAnimations());
 			PENALTY += tray.calculatePenalty();
+			this.penaltyAnimations.addAll(tray.getPenaltyAnimations());
 			int score = board.calculateScore();
 			menu.getComponent("score").setScore(score-PENALTY);
 			// lock current tiles to board
