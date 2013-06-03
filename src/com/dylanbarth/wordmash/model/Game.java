@@ -132,6 +132,7 @@ public class Game {
 		int passedWidth = width;
 		for (int i=0; i < COMPONENTS; i++){
 			String title = "";
+			ArrayList<Bitmap> componentImages = new ArrayList<Bitmap>(); 
 			int height = this.height/COMPONENT_ROWS, x = startX, y = height*i, index = i;
 			boolean isButton = false;
 			switch(i){
@@ -149,7 +150,7 @@ public class Game {
 				width = passedWidth/2;
 				break;
 			case 3:
-				// new game, pause, resume
+				// new game, pause
 				title = "changeGameState";
 				y = height*2;
 				width = passedWidth/2;
@@ -176,7 +177,20 @@ public class Game {
 				isButton = true;
 				break;
 			}
-			Component component = new Component(title, index, x, y, width, height, isButton);
+			if(title == "changeGameState"){
+				componentImages.add(BitmapFactory.decodeResource(resources, R.drawable.new_game));
+				componentImages.add(BitmapFactory.decodeResource(resources, R.drawable.pause));
+			} else if(title == "updateTray"){
+				componentImages.add(BitmapFactory.decodeResource(resources, R.drawable.clear));
+				componentImages.add(BitmapFactory.decodeResource(resources, R.drawable.shuffle));
+			} else if(title == "newTiles" || title == "logo"){
+				componentImages.add(BitmapFactory.decodeResource(resources, R.drawable.clear)); //TEMPORARY
+			} else {
+				int resID = this.resources.getIdentifier(title, "drawable", "com.dylanbarth.wordmash");
+				componentImages.add(BitmapFactory.decodeResource(resources, resID));
+			}
+			Log.d(TAG, "*** Attempting to create " + title);
+			Component component = new Component(title, index, x, y, width, height, isButton, componentImages);
 			components[i] = component;
 		}
 		return components;
@@ -327,6 +341,7 @@ public class Game {
 			menu.resetButtonClicked("changeGameState");
 		} else if(menu.checkIfButtonClicked("newTiles")){
 			// calculate penalty for cashing in
+			this.penaltyAnimations.clear();
 			PENALTY += tray.calculatePenalty();
 			this.penaltyAnimations.addAll(tray.getPenaltyAnimations());
 			int score = board.calculateScore();
@@ -340,7 +355,6 @@ public class Game {
 			// create new letter tiles
 			addNewTiles();
 			menu.resetButtonClicked("newTiles");
-//			this.penaltyAnimations.clear();
 		} else if(menu.checkIfButtonClicked("updateTray")){
 			if(tray.getTilesInTray().length == LETTER_TRAY_SIZE){
 				tray.shuffleTiles();

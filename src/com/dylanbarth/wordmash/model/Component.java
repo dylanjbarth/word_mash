@@ -1,5 +1,8 @@
 package com.dylanbarth.wordmash.model;
 
+import java.util.ArrayList;
+
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -13,9 +16,10 @@ public class Component {
 	private String title, displayTitle;
 	private boolean isButton, isTouched, clicked;
 	private Paint paint = new Paint();
+	private ArrayList<Bitmap> images;
 	private static final String TAG = MainView.class.getSimpleName();
 
-	public Component(String title, int index, int x, int y, int width, int height, boolean isButton){
+	public Component(String title, int index, int x, int y, int width, int height, boolean isButton, ArrayList<Bitmap> images){
 		this.title = title;
 		this.index = index;
 		this.x = x;
@@ -24,6 +28,12 @@ public class Component {
 		this.height = height;
 		this.isButton = isButton;
 		this.isTouched = false;
+		ArrayList<Bitmap> scaledImages = new ArrayList<Bitmap>();
+		Log.d(TAG, "***** " + title);
+		for(int i=0; i<images.size(); i++){
+			scaledImages.add(Bitmap.createScaledBitmap(images.get(i), this.width, this.height, true));
+		}
+		this.images = scaledImages;
 		if(this.title == "score"){
 			this.score = 0;
 		}
@@ -50,29 +60,37 @@ public class Component {
 		paint.setColor(Color.BLACK);
 		if(title=="timer"){
 			canvas.drawText("Time: " + String.valueOf(time) + "s", x+20, y+20, paint);
+			canvas.drawBitmap(this.images.get(0), this.x, this.y, paint);
 		} else if(title=="score"){
-			
 			canvas.drawText("Score: " + String.valueOf(score), x+20, y+20, paint);
+			canvas.drawBitmap(this.images.get(0), this.x, this.y, paint);
 		} else if(title =="updateTray"){
 			if(boardState == "shuffle"){
 				canvas.drawText("Shuffle Tiles", x+20, y+20, paint);
+				canvas.drawBitmap(this.images.get(1), this.x, this.y, paint);
 			} else {
 				canvas.drawText("Clear Tiles", x+20, y+20, paint);
+				canvas.drawBitmap(this.images.get(0), this.x, this.y, paint);
 			}
 		} else if(title =="changeGameState"){
 			if(gameState == "preGame"){
 				canvas.drawText("Start New Game", x+20, y+20, paint);
+				canvas.drawBitmap(this.images.get(0), this.x, this.y, paint);
 			} else if(gameState == "paused"){
 				canvas.drawText("Resume", x+20, y+20, paint);
 			} else {
 				canvas.drawText("Pause Game", x+20, y+20, paint);
+				canvas.drawBitmap(this.images.get(1), this.x, this.y, paint);
 			}
 		} else if(title =="newTiles"){
 			canvas.drawText("Cash In Tiles", x+20, y+20, paint);
+			canvas.drawBitmap(this.images.get(0), this.x, this.y, paint);
 		} 
 		else {
 			canvas.drawText(title, x+20, y+20, paint);
 		}
+		
+		
 	}
 
 	/*************************
