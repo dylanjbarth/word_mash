@@ -27,20 +27,19 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 
 	private MainThread thread;
 	private Game game;
-	private Resources gameResources;
 	private int screenWidth;
 	private int screenHeight;
 
 	public MainView(Context context){
 		super(context);
 		getHolder().addCallback(this);
-		gameResources = context.getResources();
+		Resources gameResources = context.getResources();
 		DisplayMetrics metrics = gameResources.getDisplayMetrics();
 		screenWidth = metrics.widthPixels;
 		screenHeight = metrics.heightPixels;
 		Log.d(TAG, screenWidth + " " + screenHeight);
 		ArrayList<String> wordList = createWordList(context.getAssets());
-		game = new Game(screenWidth, screenHeight, gameResources, wordList);
+		game = new Game(screenWidth, screenHeight, context, wordList);
 		thread = new MainThread(getHolder(), this);
 		setFocusable(true);
 	}

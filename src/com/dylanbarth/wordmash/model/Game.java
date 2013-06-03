@@ -5,6 +5,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -12,6 +13,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.util.Log;
 import android.view.MotionEvent;
 
@@ -22,6 +25,7 @@ public class Game {
 	private Board board;
 	private LetterTray tray;
 	private GameMenu menu;
+	private Context context;
 	private Resources resources;
 	private ScheduledExecutorService timer;
 	private int width, height;
@@ -30,12 +34,15 @@ public class Game {
 	private ArrayList<String> wordList;
 	private ArrayList<ScoreAnimation> scoreAnimations;
 	private ArrayList<PenaltyAnimation> penaltyAnimations;
+	private SoundPool sounds;
+	private int timerTickFX, chaChingFX, wordCreatedFX, shuffleFX, newGameStartedFX;
 	private boolean TIMER_RUNNING = false;
 
 	private static final String TAG = MainView.class.getSimpleName();
 
-	public Game(int screenW, int screenH, Resources resources, ArrayList<String> wordList){
-		this.resources = resources;
+	public Game(int screenW, int screenH, Context context, ArrayList<String> wordList){
+		this.context = context;
+		this.resources = context.getResources();
 		this.width = screenW;
 		this.height = screenH;
 		this.board = createBoard(0, 0, BOARD_SIZE*BOARD_SIZE, wordList);
@@ -44,6 +51,7 @@ public class Game {
 		this.state = "preGame";
 		this.scoreAnimations = new ArrayList<ScoreAnimation>();
 		this.penaltyAnimations = new ArrayList<PenaltyAnimation>();
+		this.sounds = getSoundEffects();
 	}
 
 	/*************************
@@ -205,6 +213,16 @@ public class Game {
 
 	public GameMenu getMenu() {
 		return menu;
+	}
+	
+	public SoundPool getSoundEffects(){
+		SoundPool sounds = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
+		// private int timerTickFX, chaChingFX, wordCreatedFX, shuffleFX, newGameStartedFX;
+		
+		timerTickFX = sounds.load(context, R.raw.shorttick, 0);
+		chaChingFX = sounds.load(context, R.raw.chaching, 0);
+		return sounds;
+		
 	}
 
 	/*************************
@@ -407,6 +425,7 @@ public class Game {
 			public void run() {
 				Component timerComponent = menu.getComponent("timer");
 				timerComponent.subtractTime();
+				sounds.play(timerTickFX, 1f, 1f, 1, 0, 1f);
 				Log.d(TAG, "Time: " + timerComponent.getTime());
 				if(timerComponent.getTime() == 0){
 					timer.shutdown();
