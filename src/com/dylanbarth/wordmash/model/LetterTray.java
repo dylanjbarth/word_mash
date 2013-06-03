@@ -3,21 +3,25 @@ package com.dylanbarth.wordmash.model;
 import java.util.ArrayList;
 import java.util.Random;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.os.Handler;
 
 import com.dylanbarth.wordmash.MainView;
 
 public class LetterTray {
-	private int x, y, width;
+	private int x, y, width, height;
 	private ArrayList<Tile> tray;
 	private ArrayList<PenaltyAnimation> penaltyAnimations;
+	private Bitmap background;
 	private static final String TAG = MainView.class.getSimpleName();
 
-	public LetterTray(int x, int y, ArrayList<Tile> tray){
+	public LetterTray(int x, int y, ArrayList<Tile> tray, Bitmap background){
 		this.x = x;
 		this.y = y;
 		this.tray = tray;
+		this.width = getWidth();
+		this.height = getHeight();
+		this.background = Bitmap.createScaledBitmap(background, getWidth(), getHeight(), true);
 		this.penaltyAnimations = new ArrayList<PenaltyAnimation>();
 	}
 
@@ -41,6 +45,12 @@ public class LetterTray {
 		Tile tile = getTileFromTray(0);
 		this.width = tile.getWidth();
 		return this.width;
+	}
+	
+	public int getHeight(){
+		Tile tile = getTileFromTray(0);
+		this.height = tile.getHeight()*getTilesInTray().length;
+		return this.height;
 	}
 	
 	public ArrayList<PenaltyAnimation> getPenaltyAnimations(){
@@ -153,6 +163,7 @@ public class LetterTray {
 	 *************************/
 
 	public void draw(Canvas canvas){
+		canvas.drawBitmap(background, x, y, null);
 		// iterates through all tile objects and draws them, touched tile last
 		Tile touched = null;
 		for(int i=0; i<getSize(); i++){

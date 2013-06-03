@@ -96,7 +96,8 @@ public class Game {
 		for(int i=0; i < LETTER_TRAY_SIZE; i++){
 			tray.add(createTile(i, boardWidth));
 		}
-		LetterTray letterTray = new LetterTray(boardWidth, 0, tray);
+		Bitmap backgroundImage = BitmapFactory.decodeResource(resources, R.drawable.tray);
+		LetterTray letterTray = new LetterTray(boardWidth, 0, tray, backgroundImage);
 		letterTray.ensureVowel();
 		return letterTray;
 	}

@@ -45,13 +45,14 @@ public final class R {
         public static final int tile_space=0x7f02001f;
         public static final int timer=0x7f020020;
         public static final int tl_space=0x7f020021;
-        public static final int tw_space=0x7f020022;
-        public static final int u_1=0x7f020023;
-        public static final int v_3=0x7f020024;
-        public static final int w_4=0x7f020025;
-        public static final int x_8=0x7f020026;
-        public static final int y_4=0x7f020027;
-        public static final int z_10=0x7f020028;
+        public static final int tray=0x7f020022;
+        public static final int tw_space=0x7f020023;
+        public static final int u_1=0x7f020024;
+        public static final int v_3=0x7f020025;
+        public static final int w_4=0x7f020026;
+        public static final int x_8=0x7f020027;
+        public static final int y_4=0x7f020028;
+        public static final int z_10=0x7f020029;
     }
     public static final class id {
         public static final int back=0x7f070001;
