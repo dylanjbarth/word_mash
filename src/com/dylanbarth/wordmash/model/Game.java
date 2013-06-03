@@ -124,7 +124,8 @@ public class Game {
 		int x = this.board.boardWidth()+this.tray.getWidth();
 		int y = 0;
 		Component[] gameMenuComponents = createGameMenuComponents(x, gameMenuWidth);
-		GameMenu gameMenu = new GameMenu(x, y, gameMenuWidth, this.height, gameMenuComponents, this.state);
+		Bitmap menuBg = BitmapFactory.decodeResource(resources, R.drawable.menu_texture);
+		GameMenu gameMenu = new GameMenu(x, y, gameMenuWidth, this.height, gameMenuComponents, this.state, menuBg);
 		return gameMenu;
 	}
 

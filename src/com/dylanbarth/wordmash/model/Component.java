@@ -46,17 +46,17 @@ public class Component {
 	}
 
 	public void draw(Canvas canvas, String gameState, String boardState){
-		paint.setAntiAlias(true);
-		paint.setTypeface(Typeface.SERIF);
-		paint.setTextSize(20);
 		if (isTouched){
 			paint.setColor(Color.DKGRAY);
+			paint.setAlpha(100);
 		} else {
 			paint.setColor(Color.LTGRAY);
+			paint.setAlpha(50);
 		}
-
+		
 		paint.setStrokeWidth(1);
 		canvas.drawRect(x, y, x+width, y+height, paint);
+		paint.setAlpha(255);
 		paint.setTextSize(40);
 		paint.setAntiAlias(true);
 		paint.setTypeface(Typeface.SANS_SERIF);
@@ -81,11 +81,10 @@ public class Component {
 				canvas.drawBitmap(this.images.get(1), this.x, this.y, paint);
 			}
 		} else if(title =="newTiles"){
-			canvas.drawText("Cash In Tiles", x+20, y+20, paint);
 			canvas.drawBitmap(this.images.get(0), this.x, this.y, paint);
 		} 
 		else {
-			canvas.drawText(title, x+20, y+20, paint);
+//			canvas.drawText(title, x+20, y+20, paint);
 		}
 		
 		

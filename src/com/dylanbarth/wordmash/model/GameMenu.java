@@ -1,11 +1,9 @@
 package com.dylanbarth.wordmash.model;
 
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.util.Log;
 
 import com.dylanbarth.wordmash.MainView;
 
@@ -13,20 +11,23 @@ public class GameMenu {
 	private int x, y, width, height;
 	private Component[] components;
 	private String state;
+	private Bitmap background;
 	private static final String TAG = MainView.class.getSimpleName();
 	
 	// names: 
 
-	public GameMenu(int x, int y, int width, int height, Component[] components, String state){
+	public GameMenu(int x, int y, int width, int height, Component[] components, String state, Bitmap background){
 		this.x = x;
 		this.y = y;
 		this.components = components;
 		this.width = width;
 		this.height = height;
 		this.state = state;
+		this.background = Bitmap.createScaledBitmap(background, this.width, this.height, true);
 	}
 
 	public void draw(Canvas canvas, String gameState, String boardState){
+		canvas.drawBitmap(this.background, this.x, this.y, null);
 		for(int i=0; i < this.components.length; i++){
 			components[i].draw(canvas, gameState, boardState);
 		}
