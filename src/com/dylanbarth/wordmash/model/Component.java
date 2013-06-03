@@ -57,29 +57,27 @@ public class Component {
 
 		paint.setStrokeWidth(1);
 		canvas.drawRect(x, y, x+width, y+height, paint);
-		paint.setColor(Color.BLACK);
+		paint.setTextSize(40);
+		paint.setAntiAlias(true);
+		paint.setTypeface(Typeface.SANS_SERIF);
 		if(title=="timer"){
-			canvas.drawText("Time: " + String.valueOf(time) + "s", x+20, y+20, paint);
+			paint.setARGB(255, 204, 0, 0);
 			canvas.drawBitmap(this.images.get(0), this.x, this.y, paint);
+			canvas.drawText(String.valueOf(time) + "s", this.x + this.width/2, this.y+(this.height/3)*2, paint);
 		} else if(title=="score"){
-			canvas.drawText("Score: " + String.valueOf(score), x+20, y+20, paint);
+			paint.setARGB(255, 102, 178, 255);
 			canvas.drawBitmap(this.images.get(0), this.x, this.y, paint);
+			canvas.drawText(String.valueOf(score), this.x + this.width/2, this.y+(this.height/3)*2, paint);
 		} else if(title =="updateTray"){
 			if(boardState == "shuffle"){
-				canvas.drawText("Shuffle Tiles", x+20, y+20, paint);
 				canvas.drawBitmap(this.images.get(1), this.x, this.y, paint);
 			} else {
-				canvas.drawText("Clear Tiles", x+20, y+20, paint);
 				canvas.drawBitmap(this.images.get(0), this.x, this.y, paint);
 			}
 		} else if(title =="changeGameState"){
 			if(gameState == "preGame"){
-				canvas.drawText("Start New Game", x+20, y+20, paint);
 				canvas.drawBitmap(this.images.get(0), this.x, this.y, paint);
-			} else if(gameState == "paused"){
-				canvas.drawText("Resume", x+20, y+20, paint);
 			} else {
-				canvas.drawText("Pause Game", x+20, y+20, paint);
 				canvas.drawBitmap(this.images.get(1), this.x, this.y, paint);
 			}
 		} else if(title =="newTiles"){
