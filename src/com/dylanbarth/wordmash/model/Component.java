@@ -63,7 +63,7 @@ public class Component {
 		if(title=="timer"){
 			paint.setARGB(255, 204, 0, 0);
 			canvas.drawBitmap(this.images.get(0), this.x, this.y, paint);
-			canvas.drawText(String.valueOf(time) + "s", this.x + this.width/2, this.y+(this.height/3)*2, paint);
+			canvas.drawText(String.valueOf(time) + "s", this.x + this.width/3, this.y+(this.height/3)*2, paint);
 		} else if(title=="score"){
 			paint.setARGB(255, 102, 178, 255);
 			canvas.drawBitmap(this.images.get(0), this.x, this.y, paint);
