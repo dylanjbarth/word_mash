@@ -25,7 +25,7 @@ public class Game {
 	private Resources resources;
 	private ScheduledExecutorService timer;
 	private int width, height;
-	private int BOARD_SIZE = 7, LETTER_TRAY_SIZE = 7, COMPONENTS = 7, COMPONENT_ROWS = 5, PENALTY = 0;
+	private int BOARD_SIZE = 7, LETTER_TRAY_SIZE = 7, COMPONENTS = 6, COMPONENT_ROWS = 5, PENALTY = 0;
 	private String state;
 	private ArrayList<String> wordList;
 	private ArrayList<ScoreAnimation> scoreAnimations;
@@ -153,24 +153,17 @@ public class Game {
 				// new game, pause
 				title = "changeGameState";
 				y = height*2;
-				width = passedWidth/2;
+				width = passedWidth;
 				isButton = true;
 				break;
 			case 4:
-				title = "help";
-				y = height*2;
-				x = startX+passedWidth/2;
-				width = passedWidth/2;
-				isButton = true;
-				break;
-			case 5:
 				// shuffle or recall tiles
 				title = "updateTray";
 				y = height*3;
 				width = passedWidth;
 				isButton = true;
 				break;
-			case 6:
+			case 5:
 				// allows exchange of tiles
 				title = "newTiles";
 				y = height*4;
