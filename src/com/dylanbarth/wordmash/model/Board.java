@@ -3,6 +3,7 @@ package com.dylanbarth.wordmash.model;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.TreeMap;
 
 import android.annotation.SuppressLint;
@@ -361,8 +362,10 @@ public class Board {
 
 	public boolean wordIsValid(String word){
 		boolean valid = false;
-		if(masterWordList.contains(word.toLowerCase())){
-			//			Log.d(TAG, word + " is a valid word!");
+		String loweredWord = word.toLowerCase(Locale.US);
+		Log.d(TAG, "*** lower case word for validity check: " + loweredWord);
+		if(masterWordList.contains(loweredWord)){
+			Log.d(TAG, word + " is a valid word!");
 			valid = true;
 		}
 		return valid;

@@ -45,6 +45,7 @@ public class Game {
 		this.resources = context.getResources();
 		this.width = screenW;
 		this.height = screenH;
+		this.wordList = wordList;
 		restartGame();
 	}
 
