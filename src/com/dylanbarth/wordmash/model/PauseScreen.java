@@ -8,20 +8,163 @@ import android.graphics.RectF;
 
 public class PauseScreen {
 	private int width, height;
-	private Bitmap background, pauseIcon, resumeIcon, restartIcon;
+	private ResumeButton resumeButton;
+	private RestartButton restartButton;
+	private Bitmap background, pauseIcon, resumeIcon;
 	
 	public PauseScreen(int width, int height, Bitmap background, Bitmap pauseIcon, Bitmap resumeIcon, Bitmap restartIcon){
 		this.width = width;
 		this.height = height;
 		this.background = background;
 		this.pauseIcon = pauseIcon;
-		this.resumeIcon = resumeIcon;
-		this.restartIcon = restartIcon;
+		this.resumeButton = new ResumeButton(resumeIcon, 2*this.width/3-resumeIcon.getWidth()/2, 2*this.height/3);
+		this.restartButton = new RestartButton(restartIcon, this.width/3-restartIcon.getWidth()/2, 2*this.height/3);
+	}
+	
+	public ResumeButton getResumeButton(){
+		return this.resumeButton;
+	}
+	
+	public RestartButton getRestartButton(){
+		return this.restartButton;
 	}
 	
 	public class ResumeButton{
-		public ResumeButton(Bitmap resumeIcon, int left, int top, int right, int bottom){
-			
+		private Bitmap icon;
+		private int imageX, imageY, left, right, top, bottom, margin=20;
+		public ResumeButton(Bitmap resumeIcon, int x, int y){
+			this.icon = resumeIcon; 
+			this.imageX = x;
+			this.imageY = y;
+			this.left = imageX-margin;
+			this.top = imageY-margin;
+			this.right = left+resumeIcon.getWidth()+margin;
+			this.bottom = top+icon.getHeight()+margin;
+		}
+		public Bitmap getIcon() {
+			return icon;
+		}
+		public int getImageX() {
+			return imageX;
+		}
+		public int getImageY() {
+			return imageY;
+		}
+		public int getLeft() {
+			return left;
+		}
+		public int getRight() {
+			return right;
+		}
+		public int getTop() {
+			return top;
+		}
+		public int getBottom() {
+			return bottom;
+		}
+		public int getMargin() {
+			return margin;
+		}
+		public void setIcon(Bitmap icon) {
+			this.icon = icon;
+		}
+		public void setImageX(int imageX) {
+			this.imageX = imageX;
+		}
+		public void setImageY(int imageY) {
+			this.imageY = imageY;
+		}
+		public void setLeft(int left) {
+			this.left = left;
+		}
+		public void setRight(int right) {
+			this.right = right;
+		}
+		public void setTop(int top) {
+			this.top = top;
+		}
+		public void setBottom(int bottom) {
+			this.bottom = bottom;
+		}
+		public void setMargin(int margin) {
+			this.margin = margin;
+		}
+		
+		public boolean coordsInside(int x, int y){
+			boolean inside = false;
+			if(this.left <= x && this.right >= x && this.top <= y && this.bottom >= y){
+				inside = true;
+			}
+			return inside;
+		}
+	}
+	
+	public class RestartButton{
+		private Bitmap icon;
+		private int imageX, imageY, left, right, top, bottom, margin=20;
+		public RestartButton(Bitmap restartIcon, int x, int y){
+			this.icon = restartIcon; 
+			this.imageX = x;
+			this.imageY = y;
+			this.left = imageX-margin;
+			this.top = imageY-margin;
+			this.right = left+restartIcon.getWidth()+margin;
+			this.bottom = top+icon.getHeight()+margin;
+		}
+		public Bitmap getIcon() {
+			return icon;
+		}
+		public int getImageX() {
+			return imageX;
+		}
+		public int getImageY() {
+			return imageY;
+		}
+		public int getLeft() {
+			return left;
+		}
+		public int getRight() {
+			return right;
+		}
+		public int getTop() {
+			return top;
+		}
+		public int getBottom() {
+			return bottom;
+		}
+		public int getMargin() {
+			return margin;
+		}
+		public void setIcon(Bitmap icon) {
+			this.icon = icon;
+		}
+		public void setImageX(int imageX) {
+			this.imageX = imageX;
+		}
+		public void setImageY(int imageY) {
+			this.imageY = imageY;
+		}
+		public void setLeft(int left) {
+			this.left = left;
+		}
+		public void setRight(int right) {
+			this.right = right;
+		}
+		public void setTop(int top) {
+			this.top = top;
+		}
+		public void setBottom(int bottom) {
+			this.bottom = bottom;
+		}
+		public void setMargin(int margin) {
+			this.margin = margin;
+		}
+		public boolean coordsInside(int x, int y){
+			boolean inside = false;
+			if(this.left <= x && this.right >= x && this.top <= y && this.bottom >= y){
+				inside = true;
+			}
+			return inside;
 		}
 	}
 	
@@ -38,12 +181,13 @@ public class PauseScreen {
 		p.setARGB(100, 64, 64, 64);
 		
 		int pauseIconX = this.width/2-pauseIcon.getWidth()/2, pauseIconY = this.height/3;
-		canvas.drawBitmap(pauseIcon, pauseIconX, pauseIconY, p);
+		canvas.drawBitmap(pauseIcon, pauseIconX, pauseIconY, null);
 		
-		canvas.drawBitmap(resumeIcon, 2*this.width/3-resumeIcon.getWidth()/2, 2*this.height/3, p);
-		canvas.drawRoundRect(new RectF(pauseIconX-margin, pauseIconY-margin, pauseIconX+pauseIcon.getWidth()+margin, pauseIconY+pauseIcon.getHeight()+margin), 10, 10, p);
+		canvas.drawBitmap(resumeButton.getIcon(), resumeButton.getImageX(), resumeButton.getImageY(), null);
+		canvas.drawRoundRect(new RectF(resumeButton.getLeft(), resumeButton.getTop(), resumeButton.getRight(), resumeButton.getBottom()), 10, 10, p);
 
-		canvas.drawBitmap(restartIcon, this.width/3-restartIcon.getWidth()/2, 2*this.height/3, p);
+		canvas.drawBitmap(restartButton.getIcon(), restartButton.getImageX(), restartButton.getImageY(), null);
+		canvas.drawRoundRect(new RectF(restartButton.getLeft(), restartButton.getTop(), restartButton.getRight(), restartButton.getBottom()), 10, 10, p);
 	}
 
 }

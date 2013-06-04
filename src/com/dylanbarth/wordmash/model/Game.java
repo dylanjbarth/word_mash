@@ -309,8 +309,12 @@ public class Game {
 			}
 		} else if (gameState == "paused"){
 			if (event == MotionEvent.ACTION_UP){
-				startGameTimer();
-				this.state = "inGame";
+				if(pauseScreen.getRestartButton().coordsInside(eventX, eventY)){
+					restartGame();
+				} else if(pauseScreen.getResumeButton().coordsInside(eventX, eventY)){
+					startGameTimer();
+					this.state = "inGame";
+				}
 			}
 		} else if (gameState == "inGame"){
 			if(event == MotionEvent.ACTION_DOWN){
