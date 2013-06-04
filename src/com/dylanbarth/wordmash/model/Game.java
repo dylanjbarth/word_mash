@@ -10,9 +10,6 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.RectF;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.util.Log;
@@ -20,6 +17,8 @@ import android.view.MotionEvent;
 
 import com.dylanbarth.wordmash.MainView;
 import com.dylanbarth.wordmash.R;
+import com.dylanbarth.wordmash.model.PauseScreen.RestartButton;
+import com.dylanbarth.wordmash.model.PauseScreen.ResumeButton;
 
 public class Game {
 	private Board board;
@@ -46,14 +45,7 @@ public class Game {
 		this.resources = context.getResources();
 		this.width = screenW;
 		this.height = screenH;
-		this.board = createBoard(0, 0, BOARD_SIZE*BOARD_SIZE, wordList);
-		this.tray = createLetterTray();
-		this.menu = createGameMenu();
-		this.state = "preGame";
-		this.scoreAnimations = new ArrayList<ScoreAnimation>();
-		this.penaltyAnimations = new ArrayList<PenaltyAnimation>();
-		this.sounds = getSoundEffects();
-		this.pauseScreen = createPauseScreen();
+		restartGame();
 	}
 
 	/*************************
@@ -308,12 +300,28 @@ public class Game {
 				startGameTimer();
 			}
 		} else if (gameState == "paused"){
-			if (event == MotionEvent.ACTION_UP){
-				if(pauseScreen.getRestartButton().coordsInside(eventX, eventY)){
+			RestartButton restartButton = pauseScreen.getRestartButton();
+			ResumeButton resumeButton = pauseScreen.getResumeButton();
+			if (event == MotionEvent.ACTION_DOWN){
+				if(restartButton.coordsInside(eventX, eventY)){
+					restartButton.setTouched(true);
+				} else if(resumeButton.coordsInside(eventX, eventY)){
+					resumeButton.setTouched(true);
+				}
+			} else if (event == MotionEvent.ACTION_MOVE){
+				if(!restartButton.coordsInside(eventX, eventY) && restartButton.isTouched()){
+					restartButton.setTouched(false);
+				} else if(!resumeButton.coordsInside(eventX, eventY) && resumeButton.isTouched()){
+					resumeButton.setTouched(false);
+				}
+			} else if (event == MotionEvent.ACTION_UP){
+				if(restartButton.isTouched() && restartButton.coordsInside(eventX, eventY)){
 					restartGame();
-				} else if(pauseScreen.getResumeButton().coordsInside(eventX, eventY)){
+					restartButton.setTouched(false);
+				} else if(resumeButton.isTouched() && resumeButton.coordsInside(eventX, eventY)){
 					startGameTimer();
 					this.state = "inGame";
+					resumeButton.setTouched(false);
 				}
 			}
 		} else if (gameState == "inGame"){
@@ -431,13 +439,15 @@ public class Game {
 	 *************************/
 
 	public void restartGame(){
-		Log.d(TAG, "Supposedly resetting");
+		// TODO: Play loading animation!
 		this.board = createBoard(0, 0, BOARD_SIZE*BOARD_SIZE, wordList);
 		this.tray = createLetterTray();
 		this.menu = createGameMenu();
 		this.state = "preGame";
 		this.scoreAnimations = new ArrayList<ScoreAnimation>();
 		this.penaltyAnimations = new ArrayList<PenaltyAnimation>();
+		this.sounds = getSoundEffects();
+		this.pauseScreen = createPauseScreen();
 	}
 
 
