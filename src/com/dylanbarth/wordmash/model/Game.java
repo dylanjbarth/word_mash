@@ -357,6 +357,7 @@ public class Game {
 			this.penaltyAnimations.clear();
 			PENALTY += tray.calculatePenalty();
 			this.penaltyAnimations.addAll(tray.getPenaltyAnimations());
+			sounds.play(chaChingFX, 1f, 1f, 1, 0, 1f);
 			int score = board.calculateScore();
 			menu.getComponent("score").setScore(score-PENALTY);
 			// lock current tiles to board
