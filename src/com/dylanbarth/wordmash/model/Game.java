@@ -263,6 +263,9 @@ public class Game {
 
 	public void draw(Canvas canvas){
 		String boardState = tray.getState();
+		if(newGameClicked() || menu.checkIfButtonClicked("newTiles")){
+			boardState = "shuffle";
+		}
 		if(this.state == "preGame" || this.state == "inGame"){
 			board.draw(canvas);
 			menu.draw(canvas, this.state, boardState);

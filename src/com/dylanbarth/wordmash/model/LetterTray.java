@@ -150,7 +150,8 @@ public class LetterTray {
 	
 	public String getState() {
 		String state = "";
-		if(getTilesInTray().length == 7){
+		Tile[] tiles = getTilesInTray();
+		if(tiles.length == 7){
 			state = "shuffle";
 		} else {
 			state = "clear";
