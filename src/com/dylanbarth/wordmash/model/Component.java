@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.util.Log;
 
@@ -46,16 +47,18 @@ public class Component {
 	}
 
 	public void draw(Canvas canvas, String gameState, String boardState){
+		paint.setARGB(0, 51, 153, 255);
 		if (isTouched){
-			paint.setColor(Color.DKGRAY);
-			paint.setAlpha(100);
+			paint.setAlpha(200);
 		} else {
-			paint.setColor(Color.LTGRAY);
-			paint.setAlpha(50);
+			paint.setAlpha(100);
 		}
-		
+
 		paint.setStrokeWidth(1);
-		canvas.drawRect(x, y, x+width, y+height, paint);
+		if(title != "score" && title != "timer" && title != "logo"){
+			int margin = 15;
+			canvas.drawRoundRect(new RectF(x, y+margin, x+width, y+height-margin), 15, 15, paint);	
+		}
 		paint.setAlpha(255);
 		paint.setTextSize(40);
 		paint.setAntiAlias(true);
@@ -84,10 +87,10 @@ public class Component {
 			canvas.drawBitmap(this.images.get(0), this.x, this.y, paint);
 		} 
 		else {
-//			canvas.drawText(title, x+20, y+20, paint);
+			//			canvas.drawText(title, x+20, y+20, paint);
 		}
-		
-		
+
+
 	}
 
 	/*************************
