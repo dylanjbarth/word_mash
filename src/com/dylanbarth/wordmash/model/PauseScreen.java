@@ -19,6 +19,12 @@ public class PauseScreen {
 		this.restartIcon = restartIcon;
 	}
 	
+	public class ResumeButton{
+		public ResumeButton(Bitmap resumeIcon, int left, int top, int right, int bottom){
+			
+		}
+	}
+	
 	public void draw(Canvas canvas){
 		Paint p = new Paint();
 		p.setARGB(180, 204, 0, 0);
