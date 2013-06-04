@@ -35,7 +35,7 @@ public class Game {
 	private ArrayList<ScoreAnimation> scoreAnimations;
 	private ArrayList<PenaltyAnimation> penaltyAnimations;
 	private SoundPool sounds;
-	private int timerTickFX, chaChingFX, tileDownFX, shuffleFX, newGameStartedFX;
+	private int timerTickFX, chaChingFX, tileDownFX, shuffleFX, newGameStartedFX, cashInFX;
 	private boolean TIMER_RUNNING = false;
 
 	private static final String TAG = MainView.class.getSimpleName();
@@ -186,7 +186,9 @@ public class Game {
 			} else if(title == "updateTray"){
 				componentImages.add(BitmapFactory.decodeResource(resources, R.drawable.clear));
 				componentImages.add(BitmapFactory.decodeResource(resources, R.drawable.shuffle));
-			} else if(title == "newTiles" || title == "logo"){
+			} else if(title == "newTiles"){
+				componentImages.add(BitmapFactory.decodeResource(resources, R.drawable.cashin));
+			} else if(title == "logo"){
 				componentImages.add(BitmapFactory.decodeResource(resources, R.drawable.clear)); //TEMPORARY
 			} else {
 				int resID = this.resources.getIdentifier(title, "drawable", "com.dylanbarth.wordmash");
@@ -223,6 +225,7 @@ public class Game {
 		chaChingFX = sounds.load(context, R.raw.chaching, 0);
 		tileDownFX = sounds.load(context, R.raw.tile_place, 0);
 		shuffleFX = sounds.load(context, R.raw.shuffle, 0);
+		cashInFX = sounds.load(context, R.raw.cashin, 0);
 		return sounds;
 
 	}
@@ -359,7 +362,7 @@ public class Game {
 			this.penaltyAnimations.clear();
 			PENALTY += tray.calculatePenalty();
 			this.penaltyAnimations.addAll(tray.getPenaltyAnimations());
-			sounds.play(chaChingFX, 1f, 1f, 1, 0, 1f);
+			sounds.play(cashInFX, 1f, 1f, 1, 0, 1f);
 			int score = board.calculateScore();
 			menu.getComponent("score").setScore(score-PENALTY);
 			// lock current tiles to board
@@ -386,6 +389,7 @@ public class Game {
 		if(tile != null){
 			this.scoreAnimations.clear();
 			board.snapTileIntoPlace(tile);
+//			sounds.play(tileDownFX, 1f, 1f, 1, 0, 1f);
 			tile.setTouched(false);
 			tray.setAllTilesValidityToFalse();
 			int score = board.calculateScore();

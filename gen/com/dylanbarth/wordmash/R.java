@@ -73,10 +73,11 @@ public final class R {
         public static final int activity_welcome_menu=0x7f070002;
     }
     public static final class raw {
-        public static final int chaching=0x7f040000;
-        public static final int shorttick=0x7f040001;
-        public static final int shuffle=0x7f040002;
-        public static final int tile_place=0x7f040003;
+        public static final int cashin=0x7f040000;
+        public static final int chaching=0x7f040001;
+        public static final int shorttick=0x7f040002;
+        public static final int shuffle=0x7f040003;
+        public static final int tile_place=0x7f040004;
     }
     public static final class string {
         public static final int app_name=0x7f050000;
