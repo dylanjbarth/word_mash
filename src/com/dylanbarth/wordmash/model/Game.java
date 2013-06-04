@@ -183,8 +183,6 @@ public class Game {
 				componentImages.add(BitmapFactory.decodeResource(resources, R.drawable.shuffle));
 			} else if(title == "newTiles"){
 				componentImages.add(BitmapFactory.decodeResource(resources, R.drawable.cashin));
-			} else if(title == "logo"){
-				componentImages.add(BitmapFactory.decodeResource(resources, R.drawable.clear)); //TEMPORARY
 			} else {
 				int resID = this.resources.getIdentifier(title, "drawable", "com.dylanbarth.wordmash");
 				componentImages.add(BitmapFactory.decodeResource(resources, resID));

@@ -83,12 +83,9 @@ public class Component {
 			} else {
 				canvas.drawBitmap(this.images.get(1), this.x, this.y, paint);
 			}
-		} else if(title =="newTiles"){
+		} else {
 			canvas.drawBitmap(this.images.get(0), this.x, this.y, paint);
 		} 
-		else {
-			//			canvas.drawText(title, x+20, y+20, paint);
-		}
 
 
 	}
