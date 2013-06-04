@@ -3,7 +3,6 @@ package com.dylanbarth.wordmash.model;
 import java.util.HashMap;
 import java.util.Random;
 
-import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,7 +13,6 @@ import android.os.Handler;
 import android.util.Log;
 
 import com.dylanbarth.wordmash.MainView;
-import com.dylanbarth.wordmash.R;
 
 public class Tile {
 	private Bitmap bitmap;
@@ -198,29 +196,16 @@ public class Tile {
 
 	public void draw(Canvas canvas){
 		Paint paint = new Paint();
+		int margin = bitmap.getWidth()/9;
+		int left = x+margin, top = y+margin, right = x+bitmap.getWidth()-margin, bottom = y+bitmap.getHeight()-margin;
 		if(isValid()){
-			paint.setAlpha(255);
+			paint.setColor(Color.YELLOW);
+			canvas.drawRect(left, top, right, bottom, paint);
 		} else {
-			paint.setAlpha(225);
+//			paint.setColor(Color.DKGRAY);
+//			canvas.drawRect(left, top, right, bottom, paint);
 		}
 		canvas.drawBitmap(bitmap, x, y, paint);
-//		Paint paint = new Paint();
-//		if(validity == false){
-//			paint.setColor(Color.BLACK);
-//		} else {
-//			paint.setColor(Color.RED);
-//		}
-//		canvas.drawText(letter, centerX, centerY, paint);
-//		canvas.drawText(Integer.toString(value), centerX+12, centerY+18, paint);
-	}
-
-	public void drawBig(Canvas canvas){
-		int SCALOR = 2;
-		int newWidth = width*SCALOR;
-		int newHeight = height*SCALOR;
-		int newX = x - (newWidth)/2;
-		int newY = y - (newHeight)/2;
-		canvas.drawBitmap(scaleBitmap(bitmap, newWidth, newHeight), newX, newY, null);
 	}
 
 	public void handleActionDown(int eventX, int eventY){
