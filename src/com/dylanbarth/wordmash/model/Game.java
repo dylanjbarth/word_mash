@@ -35,7 +35,7 @@ public class Game {
 	private ArrayList<ScoreAnimation> scoreAnimations;
 	private ArrayList<PenaltyAnimation> penaltyAnimations;
 	private SoundPool sounds;
-	private int timerTickFX, chaChingFX, wordCreatedFX, shuffleFX, newGameStartedFX;
+	private int timerTickFX, chaChingFX, tileDownFX, shuffleFX, newGameStartedFX;
 	private boolean TIMER_RUNNING = false;
 
 	private static final String TAG = MainView.class.getSimpleName();
@@ -82,7 +82,7 @@ public class Game {
 		}
 		return tileSpaces;
 	}
-	
+
 	public String getTileType(int r, int c){
 		String tileType = "tile_space";
 		if(c==1 && r==0 || c==5 && r==0 || c==0 && r==1 || c==6 && r==1 || c==0 && r==5 || c==6 && r==5 || c==1 && r==6 || c==5 && r==6){
@@ -214,15 +214,17 @@ public class Game {
 	public GameMenu getMenu() {
 		return menu;
 	}
-	
+
 	public SoundPool getSoundEffects(){
 		SoundPool sounds = new SoundPool(10, AudioManager.STREAM_MUSIC, 0);
 		// private int timerTickFX, chaChingFX, wordCreatedFX, shuffleFX, newGameStartedFX;
-		
+
 		timerTickFX = sounds.load(context, R.raw.shorttick, 0);
 		chaChingFX = sounds.load(context, R.raw.chaching, 0);
+		tileDownFX = sounds.load(context, R.raw.tile_place, 0);
+		shuffleFX = sounds.load(context, R.raw.shuffle, 0);
 		return sounds;
-		
+
 	}
 
 	/*************************
@@ -372,6 +374,7 @@ public class Game {
 		} else if(menu.checkIfButtonClicked("updateTray")){
 			if(tray.getTilesInTray().length == LETTER_TRAY_SIZE){
 				tray.shuffleTiles();
+				sounds.play(shuffleFX, 1f, 1f, 1, 0, 1f);
 			} else {
 				board.setTilesSpacesTilesToNull(tray.getUnlockedTiles());
 				tray.clearTilesFromBoard();
@@ -387,6 +390,9 @@ public class Game {
 			tray.setAllTilesValidityToFalse();
 			int score = board.calculateScore();
 			this.scoreAnimations.addAll(board.getScoreAnimations());
+			if(this.scoreAnimations.size() > 0){
+				sounds.play(chaChingFX, 1f, 1f, 1, 0, 1f);
+			}
 			menu.getComponent("score").setScore(score-PENALTY);
 			// calculate score
 		}
@@ -410,7 +416,7 @@ public class Game {
 		p.setColor(Color.BLACK);
 		p.setTextSize(30); 
 		canvas.drawText("Paused", this.width/2 + 50, this.height/3, p);
-		
+
 		p.setTextSize(20); 
 		canvas.drawText("Tap anywhere to resume", this.width/2 + 100, this.height/2, p);
 	}
