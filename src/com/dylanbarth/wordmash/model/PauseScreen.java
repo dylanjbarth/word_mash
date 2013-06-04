@@ -10,13 +10,14 @@ public class PauseScreen {
 	private int width, height;
 	private ResumeButton resumeButton;
 	private RestartButton restartButton;
-	private Bitmap background, pauseIcon, resumeIcon;
+	private Bitmap background, pauseIcon, resumeIcon, logo;
 
-	public PauseScreen(int width, int height, Bitmap background, Bitmap pauseIcon, Bitmap resumeIcon, Bitmap restartIcon){
+	public PauseScreen(int width, int height, Bitmap background, Bitmap pauseIcon, Bitmap resumeIcon, Bitmap restartIcon, Bitmap logo){
 		this.width = width;
 		this.height = height;
 		this.background = background;
 		this.pauseIcon = pauseIcon;
+		this.logo = logo;
 		this.resumeButton = new ResumeButton(resumeIcon, 2*this.width/3-resumeIcon.getWidth()/2, 2*this.height/3);
 		this.restartButton = new RestartButton(restartIcon, this.width/3-restartIcon.getWidth()/2, 2*this.height/3);
 	}
@@ -117,7 +118,7 @@ public class PauseScreen {
 			this.imageY = y;
 			this.left = imageX-margin;
 			this.top = imageY-margin;
-			this.right = left+restartIcon.getWidth()+margin;
+			this.right = left+icon.getWidth()+margin;
 			this.bottom = top+icon.getHeight()+margin;
 			this.touched = false;
 		}
@@ -185,29 +186,29 @@ public class PauseScreen {
 	}
 
 	public void draw(Canvas canvas){
-		int margin = 20;
-
 		Paint p = new Paint();
-		p.setARGB(180, 204, 0, 0);
+		p.setARGB(120, 204, 229, 255);
 		canvas.drawBitmap(background, 0, 0, p);
 		canvas.drawRect(new RectF(0, 0, this.width, this.height), p);
 		//			canvas.drawRoundRect(new RectF(0+margin, 0+margin, this.width-margin, this.height-margin), 5, 5, p);
 
 		Paint pResume = new Paint();
 		if(resumeButton.isTouched()){
-			pResume.setARGB(200, 64, 64, 64);
-		} else {
 			pResume.setARGB(100, 64, 64, 64);
+		} else {
+			pResume.setARGB(50, 64, 64, 64);
 		}
 		Paint pRestart = new Paint();
 		if(restartButton.isTouched()){
-			pRestart.setARGB(200, 64, 64, 64);
-		} else {
 			pRestart.setARGB(100, 64, 64, 64);
+		} else {
+			pRestart.setARGB(50, 64, 64, 64);
 		}
 
+		int logoX = this.width/2-logo.getWidth()/2, logoY = this.height/9;
+		canvas.drawBitmap(logo, logoX, logoY, null);
 
-		int pauseIconX = this.width/2-pauseIcon.getWidth()/2, pauseIconY = this.height/3;
+		int pauseIconX = this.width/2-pauseIcon.getWidth()/2, pauseIconY = 3*this.height/7;
 		canvas.drawBitmap(pauseIcon, pauseIconX, pauseIconY, null);
 
 		canvas.drawBitmap(resumeButton.getIcon(), resumeButton.getImageX(), resumeButton.getImageY(), null);

@@ -207,7 +207,10 @@ public class Game {
 		Bitmap restartIcon = BitmapFactory.decodeResource(resources, R.drawable.restart);
 		restartIcon = Bitmap.createScaledBitmap(restartIcon, this.width/4, this.height/6, true);
 		
-		PauseScreen pausey = new PauseScreen(this.width, this.height, background, pauseIcon, resumeIcon, restartIcon);
+		Bitmap logo = BitmapFactory.decodeResource(resources, R.drawable.logo);
+		logo = Bitmap.createScaledBitmap(logo, this.width/2, this.height/3, true);
+		
+		PauseScreen pausey = new PauseScreen(this.width, this.height, background, pauseIcon, resumeIcon, restartIcon, logo);
 		return pausey;
 	}
 	/*************************
