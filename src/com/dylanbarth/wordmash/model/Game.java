@@ -409,15 +409,29 @@ public class Game {
 	 *************************/
 	public void drawPauseScreen(Canvas canvas){
 		Paint p = new Paint();
-		p.setColor(Color.LTGRAY);
+		p.setARGB(180, 204, 0, 0);
 		int margin = 20;
 		//		canvas.drawRect(new RectF(0, 110, 100, 290), p);
-		canvas.drawRoundRect(new RectF(0+margin, 0+margin, this.width-margin, this.height-margin), 5, 5, p);
+		Bitmap background = BitmapFactory.decodeResource(resources, R.drawable.background);
+		background = Bitmap.createScaledBitmap(background, this.width, this.height, true);
+		canvas.drawBitmap(background, 0, 0, p);
+		canvas.drawRect(new RectF(0, 0, this.width, this.height), p);
+//		canvas.drawRoundRect(new RectF(0+margin, 0+margin, this.width-margin, this.height-margin), 5, 5, p);
 
 		p.setColor(Color.BLACK);
 		p.setTextSize(30); 
-		canvas.drawText("Paused", this.width/2 + 50, this.height/3, p);
+		Bitmap pauseIcon = BitmapFactory.decodeResource(resources, R.drawable.paused);
+		pauseIcon = Bitmap.createScaledBitmap(pauseIcon, this.width/4, this.height/6, true);
+		canvas.drawBitmap(pauseIcon, this.width/2-pauseIcon.getWidth()/2, this.height/3, p);
 
+		Bitmap resumeIcon = BitmapFactory.decodeResource(resources, R.drawable.resume);
+		resumeIcon = Bitmap.createScaledBitmap(resumeIcon, this.width/4, this.height/6, true);
+		canvas.drawBitmap(resumeIcon, 2*this.width/3-resumeIcon.getWidth()/2, 2*this.height/3, p);
+		
+		Bitmap restartIcon = BitmapFactory.decodeResource(resources, R.drawable.restart);
+		restartIcon = Bitmap.createScaledBitmap(restartIcon, this.width/4, this.height/6, true);
+		canvas.drawBitmap(restartIcon, this.width/3-restartIcon.getWidth()/2, 2*this.height/3, p);
+		
 		p.setTextSize(20); 
 		canvas.drawText("Tap anywhere to resume", this.width/2 + 100, this.height/2, p);
 	}
