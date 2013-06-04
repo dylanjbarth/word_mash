@@ -352,10 +352,7 @@ public class Game {
 			if(TIMER_RUNNING){
 				pauseGameTimer();
 				this.state = "paused";
-			} else {
-				startGameTimer();
-				this.state = "inGame";
-			}
+			} 
 			menu.resetButtonClicked("changeGameState");
 		} else if(menu.checkIfButtonClicked("newTiles")){
 			// calculate penalty for cashing in
@@ -423,6 +420,16 @@ public class Game {
 
 		p.setTextSize(20); 
 		canvas.drawText("Tap anywhere to resume", this.width/2 + 100, this.height/2, p);
+	}
+	
+	public void restartGame(){
+		Log.d(TAG, "Supposedly resetting");
+		this.board = createBoard(0, 0, BOARD_SIZE*BOARD_SIZE, wordList);
+		this.tray = createLetterTray();
+		this.menu = createGameMenu();
+		this.state = "preGame";
+		this.scoreAnimations = new ArrayList<ScoreAnimation>();
+		this.penaltyAnimations = new ArrayList<PenaltyAnimation>();
 	}
 
 
