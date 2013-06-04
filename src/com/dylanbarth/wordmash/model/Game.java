@@ -25,6 +25,7 @@ public class Game {
 	private LetterTray tray;
 	private GameMenu menu;
 	private PauseScreen pauseScreen;
+	private PostGameScreen postScreen;
 	private Context context;
 	private Resources resources;
 	private ScheduledExecutorService timer;
@@ -197,21 +198,35 @@ public class Game {
 	public PauseScreen createPauseScreen(){
 		Bitmap background = BitmapFactory.decodeResource(resources, R.drawable.background);
 		background = Bitmap.createScaledBitmap(background, this.width, this.height, true);
-		
+
 		Bitmap pauseIcon = BitmapFactory.decodeResource(resources, R.drawable.paused);
 		pauseIcon = Bitmap.createScaledBitmap(pauseIcon, this.width/4, this.height/6, true);
 
 		Bitmap resumeIcon = BitmapFactory.decodeResource(resources, R.drawable.resume);
 		resumeIcon = Bitmap.createScaledBitmap(resumeIcon, this.width/4, this.height/6, true);
-		
+
 		Bitmap restartIcon = BitmapFactory.decodeResource(resources, R.drawable.restart);
 		restartIcon = Bitmap.createScaledBitmap(restartIcon, this.width/4, this.height/6, true);
-		
+
 		Bitmap logo = BitmapFactory.decodeResource(resources, R.drawable.logo);
 		logo = Bitmap.createScaledBitmap(logo, this.width/2, this.height/3, true);
-		
+
 		PauseScreen pausey = new PauseScreen(this.width, this.height, background, pauseIcon, resumeIcon, restartIcon, logo);
 		return pausey;
+	}
+
+	public PostGameScreen createPostGameScreen(){
+		Bitmap background = BitmapFactory.decodeResource(resources, R.drawable.background);
+		background = Bitmap.createScaledBitmap(background, this.width, this.height, true);
+
+		Bitmap restartIcon = BitmapFactory.decodeResource(resources, R.drawable.restart);
+		restartIcon = Bitmap.createScaledBitmap(restartIcon, this.width/4, this.height/6, true);
+
+		Bitmap logo = BitmapFactory.decodeResource(resources, R.drawable.logo);
+		logo = Bitmap.createScaledBitmap(logo, this.width/2, this.height/3, true);
+
+		PostGameScreen postScreen = new PostGameScreen(board.calculateScore(), this.width, this.height, background, restartIcon, logo);
+		return postScreen;
 	}
 	/*************************
 	 * Getters * 
@@ -280,7 +295,13 @@ public class Game {
 		} else if (this.state == "paused"){
 			pauseScreen.draw(canvas);
 		} else if(this.state == "postGame"){
-			//			drawPostGameScreen(canvas);
+			postScreen = createPostGameScreen();
+			try{
+				postScreen.draw(canvas);	
+			} catch(Exception e){
+				// nothing
+			}
+
 		}
 
 	}
@@ -338,7 +359,21 @@ public class Game {
 				inGameActionUp(eventX, eventY);
 			}
 		} else if (gameState == "postGame"){
-
+			com.dylanbarth.wordmash.model.PostGameScreen.RestartButton restartButton = postScreen.getRestartButton();
+			if (event == MotionEvent.ACTION_DOWN){
+				if(restartButton.coordsInside(eventX, eventY)){
+					restartButton.setTouched(true);
+				} 
+			} else if (event == MotionEvent.ACTION_MOVE){
+				if(!restartButton.coordsInside(eventX, eventY) && restartButton.isTouched()){
+					restartButton.setTouched(false);
+				} 
+			} else if (event == MotionEvent.ACTION_UP){
+				if(restartButton.isTouched() && restartButton.coordsInside(eventX, eventY)){
+					restartGame();
+					restartButton.setTouched(false);
+				} 
+			}
 		}
 	}
 
