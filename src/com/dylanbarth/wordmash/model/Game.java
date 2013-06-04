@@ -25,6 +25,7 @@ public class Game {
 	private Board board;
 	private LetterTray tray;
 	private GameMenu menu;
+	private PauseScreen pauseScreen;
 	private Context context;
 	private Resources resources;
 	private ScheduledExecutorService timer;
@@ -52,6 +53,7 @@ public class Game {
 		this.scoreAnimations = new ArrayList<ScoreAnimation>();
 		this.penaltyAnimations = new ArrayList<PenaltyAnimation>();
 		this.sounds = getSoundEffects();
+		this.pauseScreen = createPauseScreen();
 	}
 
 	/*************************
@@ -201,6 +203,22 @@ public class Game {
 		return components;
 	}
 
+	public PauseScreen createPauseScreen(){
+		Bitmap background = BitmapFactory.decodeResource(resources, R.drawable.background);
+		background = Bitmap.createScaledBitmap(background, this.width, this.height, true);
+		
+		Bitmap pauseIcon = BitmapFactory.decodeResource(resources, R.drawable.paused);
+		pauseIcon = Bitmap.createScaledBitmap(pauseIcon, this.width/4, this.height/6, true);
+
+		Bitmap resumeIcon = BitmapFactory.decodeResource(resources, R.drawable.resume);
+		resumeIcon = Bitmap.createScaledBitmap(resumeIcon, this.width/4, this.height/6, true);
+		
+		Bitmap restartIcon = BitmapFactory.decodeResource(resources, R.drawable.restart);
+		restartIcon = Bitmap.createScaledBitmap(restartIcon, this.width/4, this.height/6, true);
+		
+		PauseScreen pausey = new PauseScreen(this.width, this.height, background, pauseIcon, resumeIcon, restartIcon);
+		return pausey;
+	}
 	/*************************
 	 * Getters * 
 	 *************************/
@@ -263,7 +281,7 @@ public class Game {
 				penaltyAnimations.get(i).draw(canvas);
 			}
 		} else if (this.state == "paused"){
-			drawPauseScreen(canvas);
+			pauseScreen.draw(canvas);
 		} else if(this.state == "postGame"){
 			//			drawPostGameScreen(canvas);
 		}
@@ -386,7 +404,7 @@ public class Game {
 		if(tile != null){
 			this.scoreAnimations.clear();
 			board.snapTileIntoPlace(tile);
-//			sounds.play(tileDownFX, 1f, 1f, 1, 0, 1f);
+			//			sounds.play(tileDownFX, 1f, 1f, 1, 0, 1f);
 			tile.setTouched(false);
 			tray.setAllTilesValidityToFalse();
 			int score = board.calculateScore();
@@ -407,35 +425,7 @@ public class Game {
 	 * pausedGame methods * 
 	 * @return 
 	 *************************/
-	public void drawPauseScreen(Canvas canvas){
-		Paint p = new Paint();
-		p.setARGB(180, 204, 0, 0);
-		int margin = 20;
-		//		canvas.drawRect(new RectF(0, 110, 100, 290), p);
-		Bitmap background = BitmapFactory.decodeResource(resources, R.drawable.background);
-		background = Bitmap.createScaledBitmap(background, this.width, this.height, true);
-		canvas.drawBitmap(background, 0, 0, p);
-		canvas.drawRect(new RectF(0, 0, this.width, this.height), p);
-//		canvas.drawRoundRect(new RectF(0+margin, 0+margin, this.width-margin, this.height-margin), 5, 5, p);
 
-		p.setColor(Color.BLACK);
-		p.setTextSize(30); 
-		Bitmap pauseIcon = BitmapFactory.decodeResource(resources, R.drawable.paused);
-		pauseIcon = Bitmap.createScaledBitmap(pauseIcon, this.width/4, this.height/6, true);
-		canvas.drawBitmap(pauseIcon, this.width/2-pauseIcon.getWidth()/2, this.height/3, p);
-
-		Bitmap resumeIcon = BitmapFactory.decodeResource(resources, R.drawable.resume);
-		resumeIcon = Bitmap.createScaledBitmap(resumeIcon, this.width/4, this.height/6, true);
-		canvas.drawBitmap(resumeIcon, 2*this.width/3-resumeIcon.getWidth()/2, 2*this.height/3, p);
-		
-		Bitmap restartIcon = BitmapFactory.decodeResource(resources, R.drawable.restart);
-		restartIcon = Bitmap.createScaledBitmap(restartIcon, this.width/4, this.height/6, true);
-		canvas.drawBitmap(restartIcon, this.width/3-restartIcon.getWidth()/2, 2*this.height/3, p);
-		
-		p.setTextSize(20); 
-		canvas.drawText("Tap anywhere to resume", this.width/2 + 100, this.height/2, p);
-	}
-	
 	public void restartGame(){
 		Log.d(TAG, "Supposedly resetting");
 		this.board = createBoard(0, 0, BOARD_SIZE*BOARD_SIZE, wordList);
