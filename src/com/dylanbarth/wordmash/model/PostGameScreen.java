@@ -2,16 +2,14 @@ package com.dylanbarth.wordmash.model;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Paint.Align;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 
 public class PostGameScreen {
 	private int width, height, score;
 	private RestartButton restartButton;
-	private Bitmap background, pauseIcon, resumeIcon, logo;
+	private Bitmap background, logo;
 
 	public PostGameScreen(int score, int width, int height, Bitmap background, Bitmap restartIcon, Bitmap logo){
 		this.width = width;
@@ -119,7 +117,6 @@ public class PostGameScreen {
 		canvas.drawRect(new RectF(0, 0, this.width, this.height), p);
 		//			canvas.drawRoundRect(new RectF(0+margin, 0+margin, this.width-margin, this.height-margin), 5, 5, p);
 
-		Paint pResume = new Paint();
 		Paint pRestart = new Paint();
 		if(restartButton.isTouched()){
 			pRestart.setARGB(100, 64, 64, 64);

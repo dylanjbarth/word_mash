@@ -10,19 +10,17 @@ import com.dylanbarth.wordmash.MainView;
 public class GameMenu {
 	private int x, y, width, height;
 	private Component[] components;
-	private String state;
 	private Bitmap background;
 	private static final String TAG = MainView.class.getSimpleName();
 	
 	// names: 
 
-	public GameMenu(int x, int y, int width, int height, Component[] components, String state, Bitmap background){
+	public GameMenu(int x, int y, int width, int height, Component[] components, Bitmap background){
 		this.x = x;
 		this.y = y;
 		this.components = components;
 		this.width = width;
 		this.height = height;
-		this.state = state;
 		this.background = Bitmap.createScaledBitmap(background, this.width, this.height, true);
 	}
 

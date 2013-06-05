@@ -15,7 +15,7 @@ import android.util.Log;
 import com.dylanbarth.wordmash.MainView;
 
 
-@SuppressLint("NewApi")
+@SuppressLint({ "NewApi", "DefaultLocale" })
 public class Board {
 	private int x, y, size, width, height, gridLength;
 	private TileSpace[][] tileSpaces;
@@ -363,7 +363,6 @@ public class Board {
 	public boolean wordIsValid(String word){
 		boolean valid = false;
 		String loweredWord = word.toLowerCase(Locale.US);
-		Log.d(TAG, "*** lower case word for validity check: " + loweredWord);
 		if(masterWordList.contains(loweredWord)){
 			Log.d(TAG, word + " is a valid word!");
 			valid = true;

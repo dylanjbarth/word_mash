@@ -2,7 +2,6 @@ package com.dylanbarth.wordmash.model;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 
@@ -10,7 +9,7 @@ public class PauseScreen {
 	private int width, height;
 	private ResumeButton resumeButton;
 	private RestartButton restartButton;
-	private Bitmap background, pauseIcon, resumeIcon, logo;
+	private Bitmap background, pauseIcon, logo;
 
 	public PauseScreen(int width, int height, Bitmap background, Bitmap pauseIcon, Bitmap resumeIcon, Bitmap restartIcon, Bitmap logo){
 		this.width = width;

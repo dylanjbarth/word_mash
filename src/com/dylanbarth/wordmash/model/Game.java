@@ -36,7 +36,7 @@ public class Game {
 	private ArrayList<ScoreAnimation> scoreAnimations;
 	private ArrayList<PenaltyAnimation> penaltyAnimations;
 	private SoundPool sounds;
-	private int timerTickFX, chaChingFX, tileDownFX, shuffleFX, newGameStartedFX, cashInFX;
+	private int timerTickFX, chaChingFX, shuffleFX, cashInFX;
 	private boolean TIMER_RUNNING = false;
 
 	private static final String TAG = MainView.class.getSimpleName();
@@ -129,7 +129,7 @@ public class Game {
 		int y = 0;
 		Component[] gameMenuComponents = createGameMenuComponents(x, gameMenuWidth);
 		Bitmap menuBg = BitmapFactory.decodeResource(resources, R.drawable.menu_texture);
-		GameMenu gameMenu = new GameMenu(x, y, gameMenuWidth, this.height, gameMenuComponents, this.state, menuBg);
+		GameMenu gameMenu = new GameMenu(x, y, gameMenuWidth, this.height, gameMenuComponents, menuBg);
 		return gameMenu;
 	}
 
@@ -139,7 +139,7 @@ public class Game {
 		for (int i=0; i < COMPONENTS; i++){
 			String title = "";
 			ArrayList<Bitmap> componentImages = new ArrayList<Bitmap>(); 
-			int height = this.height/COMPONENT_ROWS, x = startX, y = height*i, index = i;
+			int height = this.height/COMPONENT_ROWS, x = startX, y = height*i;
 			boolean isButton = false;
 			switch(i){
 			case 0: 
@@ -250,7 +250,7 @@ public class Game {
 
 		timerTickFX = sounds.load(context, R.raw.shorttick, 0);
 		chaChingFX = sounds.load(context, R.raw.chaching, 0);
-		tileDownFX = sounds.load(context, R.raw.tile_place, 0);
+//		tileDownFX = sounds.load(context, R.raw.tile_place, 0);
 		shuffleFX = sounds.load(context, R.raw.shuffle, 0);
 		cashInFX = sounds.load(context, R.raw.cashin, 0);
 		return sounds;

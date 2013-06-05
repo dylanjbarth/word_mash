@@ -2,10 +2,6 @@ package com.dylanbarth.wordmash.model;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Typeface;
-import android.os.Handler;
 import android.util.Log;
 
 import com.dylanbarth.wordmash.MainView;
