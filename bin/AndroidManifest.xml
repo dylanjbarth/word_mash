@@ -12,10 +12,11 @@
         android:allowBackup="true"
         android:icon="@drawable/icon"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppBackground">
+        
         <activity
             android:name="com.dylanbarth.wordmash.activity.WelcomeMenu"
-            android:label="@string/title_activity_welcome_menu"
+            android:label="@string/app_name"
             android:screenOrientation="landscape" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,10 +30,10 @@
             android:screenOrientation="landscape"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" >
         </activity>
-        <activity
+       <!--  <activity
             android:name="com.dylanbarth.wordmash.activity.HelpActivity"
             android:label="@string/title_activity_help" >
-        </activity>
+        </activity> -->
     </application>
 
 </manifest>

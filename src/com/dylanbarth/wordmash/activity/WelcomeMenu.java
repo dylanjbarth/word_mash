@@ -2,10 +2,12 @@ package com.dylanbarth.wordmash.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 
 import com.dylanbarth.wordmash.MainActivity;
 import com.dylanbarth.wordmash.R;
@@ -17,10 +19,12 @@ public class WelcomeMenu extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_welcome_menu);
+		View layout = findViewById(R.id.rel_layout);
+		layout.setBackgroundColor(Color.argb(100, 2014,209,255));
 		startGame = (Button) findViewById(R.id.new_game);
-	    helpButton = (Button) findViewById(R.id.help);
+//	    helpButton = (Button) findViewById(R.id.help);
 	    startGame.setOnClickListener(startNewGame);
-	    helpButton.setOnClickListener(startHelp);
+//	    helpButton.setOnClickListener(startHelp);
 	}
 
 	@Override
@@ -39,13 +43,13 @@ public class WelcomeMenu extends Activity {
 		}
 	};
 	
-	View.OnClickListener startHelp = new View.OnClickListener() {
-		@Override
-		public void onClick(View v) {
-			Intent myIntent = new Intent(WelcomeMenu.this, HelpActivity.class);
-			WelcomeMenu.this.startActivity(myIntent);
-		}
-	};
+//	View.OnClickListener startHelp = new View.OnClickListener() {
+//		@Override
+//		public void onClick(View v) {
+//			Intent myIntent = new Intent(WelcomeMenu.this, HelpActivity.class);
+//			WelcomeMenu.this.startActivity(myIntent);
+//		}
+//	};
 	
 	
 

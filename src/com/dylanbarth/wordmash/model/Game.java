@@ -488,7 +488,7 @@ public class Game {
 		this.penaltyAnimations = new ArrayList<PenaltyAnimation>();
 		this.sounds = getSoundEffects();
 		this.pauseScreen = createPauseScreen();
-		postScreen = createPostGameScreen();
+		this.postScreen = createPostGameScreen();
 	}
 
 
