@@ -7,19 +7,18 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
-import android.widget.RelativeLayout;
 
 import com.dylanbarth.wordmash.MainActivity;
 import com.dylanbarth.wordmash.R;
 
 public class WelcomeMenu extends Activity {
 	
-	Button startGame, helpButton;
+	Button startGame;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_welcome_menu);
-		View layout = findViewById(R.id.rel_layout);
+		View layout = (View) findViewById(R.id.rel_layout);
 		layout.setBackgroundColor(Color.argb(100, 2014,209,255));
 		startGame = (Button) findViewById(R.id.new_game);
 //	    helpButton = (Button) findViewById(R.id.help);

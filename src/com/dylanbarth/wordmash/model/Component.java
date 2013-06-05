@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.Typeface;
@@ -13,16 +12,15 @@ import android.util.Log;
 import com.dylanbarth.wordmash.MainView;
 
 public class Component {
-	private int x, y, width, height, index, score, time;
-	private String title, displayTitle;
+	private int x, y, width, height, score, time;
+	private String title;
 	private boolean isButton, isTouched, clicked;
 	private Paint paint = new Paint();
 	private ArrayList<Bitmap> images;
 	private static final String TAG = MainView.class.getSimpleName();
 
-	public Component(String title, int index, int x, int y, int width, int height, boolean isButton, ArrayList<Bitmap> images){
+	public Component(String title, int x, int y, int width, int height, boolean isButton, ArrayList<Bitmap> images){
 		this.title = title;
-		this.index = index;
 		this.x = x;
 		this.y = y;
 		this.width = width;
@@ -39,7 +37,7 @@ public class Component {
 			this.score = 0;
 		}
 		if(this.title == "timer"){
-			this.time = 10; 
+			this.time = 60; 
 		}
 		Log.d(TAG, "Initialized component:" + title + 
 				"coords: (" + x + ", " + y + "), " +

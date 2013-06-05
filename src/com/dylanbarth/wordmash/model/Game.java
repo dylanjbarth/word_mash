@@ -189,7 +189,7 @@ public class Game {
 				componentImages.add(BitmapFactory.decodeResource(resources, resID));
 			}
 			Log.d(TAG, "*** Attempting to create " + title);
-			Component component = new Component(title, index, x, y, width, height, isButton, componentImages);
+			Component component = new Component(title, x, y, width, height, isButton, componentImages);
 			components[i] = component;
 		}
 		return components;
