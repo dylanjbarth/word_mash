@@ -25,6 +25,10 @@ public class PostGameScreen {
 	public RestartButton getRestartButton(){
 		return this.restartButton;
 	}
+	
+	public void updateScore(int score){
+		this.score = score;
+	}
 
 	
 	public class RestartButton{

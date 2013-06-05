@@ -39,7 +39,7 @@ public class Component {
 			this.score = 0;
 		}
 		if(this.title == "timer"){
-			this.time = 60; 
+			this.time = 10; 
 		}
 		Log.d(TAG, "Initialized component:" + title + 
 				"coords: (" + x + ", " + y + "), " +

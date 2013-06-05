@@ -295,7 +295,7 @@ public class Game {
 		} else if (this.state == "paused"){
 			pauseScreen.draw(canvas);
 		} else if(this.state == "postGame"){
-			postScreen = createPostGameScreen();
+			postScreen.updateScore(board.calculateScore());
 			try{
 				postScreen.draw(canvas);	
 			} catch(Exception e){
@@ -356,7 +356,7 @@ public class Game {
 			} else if (event == MotionEvent.ACTION_MOVE){
 				inGameActionMove(eventX, eventY);
 			} else if (event == MotionEvent.ACTION_UP){
-				inGameActionUp(eventX, eventY);
+				inGameActionUp(eventX, eventY); 
 			}
 		} else if (gameState == "postGame"){
 			com.dylanbarth.wordmash.model.PostGameScreen.RestartButton restartButton = postScreen.getRestartButton();
@@ -488,6 +488,7 @@ public class Game {
 		this.penaltyAnimations = new ArrayList<PenaltyAnimation>();
 		this.sounds = getSoundEffects();
 		this.pauseScreen = createPauseScreen();
+		postScreen = createPostGameScreen();
 	}
 
 
