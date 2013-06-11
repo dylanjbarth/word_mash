@@ -65,6 +65,10 @@ public class MainView extends SurfaceView implements SurfaceHolder.Callback {
 			}
 		}
 	}
+	
+	public Game getGame(){
+		return game;
+	}
 
 	/*************************
 	 * Game logic * 

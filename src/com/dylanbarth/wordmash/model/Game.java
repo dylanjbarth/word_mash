@@ -256,6 +256,10 @@ public class Game {
 		return sounds;
 
 	}
+	
+	public String getState(){
+		return this.state;
+	}
 
 	/*************************
 	 * Setters * 
@@ -420,8 +424,7 @@ public class Game {
 		menu.handleActionUp(eventX, eventY);
 		if(menu.checkIfButtonClicked("changeGameState")){
 			if(TIMER_RUNNING){
-				pauseGameTimer();
-				this.state = "paused";
+				pauseGame();
 			} 
 			menu.resetButtonClicked("changeGameState");
 		} else if(menu.checkIfButtonClicked("newTiles")){
@@ -489,6 +492,11 @@ public class Game {
 		this.sounds = getSoundEffects();
 		this.pauseScreen = createPauseScreen();
 		this.postScreen = createPostGameScreen();
+	}
+	
+	public void pauseGame(){
+		pauseGameTimer();
+		this.state = "paused";
 	}
 
 
